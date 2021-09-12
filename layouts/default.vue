@@ -1,7 +1,7 @@
 <template>
   <div class="w-full  h-full fixed" :style="cssProps" >
     <div class="w-full h-full bg-gray-300 bg-opacity-50 fixed overflow-scroll">
-        <TheHeader class="mx-auto md:w-336 w-11/12 h-16 md:mt-14 mt-10 bg-white shadow-lg"/>
+        <TheHeader :isindex="isindex"  :class="isindex ? 'md:px-16 mx-auto md:w-336 w-11/12 h-20 md:mt-14 mt-10 bg-white shadow-lg' : 'xl:px-16 md:px-4 min-w-max w-full h-20 bg-white shadow-lg fixed'"/>
         <Nuxt />
     </div>
   </div>
@@ -16,6 +16,11 @@
         }
       };
     },
+    computed: {
+    isindex() {
+      return this.$route.name === 'index';
+    }
+  }
   }
 </script>
 <style>

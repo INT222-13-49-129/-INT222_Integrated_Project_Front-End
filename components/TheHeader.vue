@@ -1,28 +1,37 @@
 <template>
-  <div class="">
-    <div class="flex py-6 md:px-16 px-4 font-semibold text-3xl text-salmon">
-        <i class="material-icons text-4xl mr-2 -mt-0.5 md:hidden">
-            menu
-            </i>
-        <NuxtLink to="/" >
-            CFAN
-        </NuxtLink>
-        <div class="flex-grow "></div>
-        <NuxtLink to="/" class="md:block hidden mx-10 hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100" >
-            Home
-        </NuxtLink>
-        <NuxtLink to="/" class="md:block hidden mx-10 hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100" >
-            Food menu
-        </NuxtLink>
-        <NuxtLink to="/" class="md:block hidden mx-10 hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100">
-            New food
-        </NuxtLink>
-        <NuxtLink to="/" class="md:block hidden mx-10 hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100">
-            About us
-        </NuxtLink>
-        <NuxtLink to="/" class="material-icons text-4xl -mt-1 hover:text-tomato ">
-            person_outline
-        </NuxtLink>
+    <div>
+        <div class="flex py-6 px-4 font-semibold text-3xl text-salmon">
+            <i class="material-icons text-4xl mr-2 -mt-0.5 md:hidden">menu</i>
+            <NuxtLink to="/" :class="isindex ? 'md:mr-10' : 'md:mr-4'">CFAN</NuxtLink>
+            <div class="flex-grow"></div>
+            <NuxtLink
+                to="/"
+                :class="isindex ? 'md:mx-10' : 'xl:mx-10 md:mx-4'"
+                class="flex-shrink-0 md:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
+            >Home</NuxtLink>
+            <NuxtLink
+                to="/foodmenu"
+                :class="isindex ? 'md:mx-10' : 'xl:mx-10 md:mx-4'"
+                class="flex-shrink-0 md:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
+            >Food menu</NuxtLink>
+            <NuxtLink
+                to="/"
+                :class="isindex ? 'md:mx-10' : 'xl:mx-10 md:mx-4'"
+                class="flex-shrink-0 md:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
+            >New food</NuxtLink>
+            <NuxtLink
+                to="/"
+                :class="isindex ? 'md:mx-10' : 'xl:mx-10 md:mx-4'"
+                class="flex-shrink-0 md:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
+            >About us</NuxtLink>
+            <NuxtLink to="/" class="material-icons text-4xl -mt-1 hover:text-tomato">person_outline</NuxtLink>
+        </div>
     </div>
-  </div>
 </template>
+<script>
+export default {
+    props: {
+        isindex: Boolean
+    },
+}
+</script>

@@ -11,7 +11,7 @@
      </div>
    </div>
    <div class="flex md:flex-row flex-col justify-center w-3/4 mx-auto md:gap-x-10 gap-y-8 mt-6 md:mt-0 text-white text-lg">
-      <nuxt-link class="transition duration-300 ease-in-out transform hover:scale-110 group bg-lightsalmon hover:bg-salmon hover:shadow-md px-5 py-2 rounded-full flex justify-center" to="/">ค้นหาแคลอรี่ของอาหาร 
+      <nuxt-link class="transition duration-300 ease-in-out transform hover:scale-110 group bg-lightsalmon hover:bg-salmon hover:shadow-md px-5 py-2 rounded-full flex justify-center" to="/foodmenu">ค้นหาแคลอรี่ของอาหาร 
       <i class="material-icons text-xl ml-3">
         search
       </i></nuxt-link>
