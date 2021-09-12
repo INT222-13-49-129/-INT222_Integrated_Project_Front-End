@@ -6,7 +6,8 @@ module.exports = {
       colors:{
         salmon: '#d9795f',
         lightsalmon: '#df9C7b',
-        tomato: '#f08080'
+        tomato: '#f08080',
+        lightorange:'#eb9775',
        },
       spacing: {
         '128': '32rem',
