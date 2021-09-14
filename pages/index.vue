@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto md:w-336 w-11/12 h-auto pb-10 mb-10  bg-gradient-to-b  from-white to-gray-200 shadow-lg">
+  <div class="mx-auto md:w-336 w-11/12 h-auto pb-10 bg-gradient-to-b  from-white to-gray-200 shadow-lg">
    <div class="flex md:flex-row flex-col-reverse md:px-32 justify-center">
      <div class="md:w-1/3 w-11/12 flex flex-col justify-center md:pl-14 md:pr-0 px-6">
         <div class="text-salmon md:text-7xl text-5xl" >คำนวณ<br>
