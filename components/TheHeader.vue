@@ -23,8 +23,8 @@
                 to="/"
                 :class="isindex ? 'md:mx-10' : 'xl:mx-10 md:mx-4'"
                 class="flex-shrink-0 md:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
-            >ABOUT US</NuxtLink>
-            <NuxtLink to="/" class="material-icons text-4xl -mt-1 hover:text-tomato">person_outline</NuxtLink>
+            >AฺBOUT US</NuxtLink>
+            <NuxtLink to="/signin" class="material-icons text-4xl -mt-1 hover:text-tomato">person_outline</NuxtLink>
         </div>
     </div>
 </template>
