@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full  h-full fixed bg-gradient-to-br from-white via-lightsalmon to-salmon">
+  <div class="w-full  h-full fixed bg-gradient-to-br from-yellow-100 via-lightsalmon to-salmon">
     <div class="w-full  h-full fixed" :style="cssProps">
     <Nuxt />
     </div>
