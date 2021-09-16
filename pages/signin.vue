@@ -5,6 +5,6 @@
 </template>
 <script>
   export default {
-       layout: 'signinup'
+       layout: 'signinbg'
   }
 </script>
