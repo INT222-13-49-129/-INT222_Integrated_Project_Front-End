@@ -7,7 +7,7 @@
         >
             <div class="flex md:flex-row flex-col md:gap-x-96">
                 <div class="text-white font-normal pt-6 md:ml-32 flex-shrink-0">
-                    <div class="md:text-4xl text-3xl md:text-right text-center">ปริมาณแคลอรี่ในอาหาร</div>
+                    <div class="md:text-4xl text-2xl md:text-right text-center">ปริมาณแคลอรี่ในอาหาร</div>
                     <div class="text-xl md:text-right text-center">หุ่นสวย ด้วยตัวเรา</div>
                 </div>
                 <div class="md:w-1/4 px-3 pb-3">

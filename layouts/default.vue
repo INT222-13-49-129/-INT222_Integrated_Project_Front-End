@@ -23,9 +23,3 @@
   }
   }
 </script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
-html {
-/* font-family: 'Kanit', sans-serif; */
-}
-</style>
