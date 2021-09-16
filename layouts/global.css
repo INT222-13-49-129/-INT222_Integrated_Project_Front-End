@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "Ekkamai";
+    src: local("Ekkamai"),
+     url(~assets/fonts/EkkamaiNew-3weights/EkkamaiNew-Bold.ttf) format("truetype");
+}
+
+html {
+    font-family: "Ekkamai";
+}
