@@ -3,13 +3,13 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
-      colors:{
+      colors: {
         salmon: '#d9795f',
         lightsalmon: '#df9C7b',
         brightsalmon: '#fcc090',
         tomato: '#f08080',
-        lightorange:'#eb9775',
-       },
+        lightorange: '#eb9775',
+      },
       spacing: {
         '128': '32rem',
         '144': '36rem',
@@ -30,28 +30,43 @@ module.exports = {
       },
       animation: {
         bouncex: 'bouncex 1s infinite',
+        bouncexl: 'bouncexl 1s infinite'
       },
-      keyframes:{
-        bouncex : {
-          '100%' : {
+      keyframes: {
+        bouncex: {
+          '100%': {
             transform: 'translateX(-25%)',
             animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
           },
-          '50%' : {
+          '50%': {
             transform: 'translateX(25%)',
             animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
           },
-          '0%' : {
+          '0%': {
             transform: 'translateX(-25%)',
             animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
           },
+        },
+        bouncexl: {
+          '100%': {
+            transform: 'translateX(25%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateX(-25%)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+          '0%': {
+            transform: 'translateX(25%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
         }
-      },
+      }
     },
   },
   variants: {
     extend: {
-      animation: ['hover','group-hover'],
+      animation: ['hover', 'group-hover'],
     }
   },
   plugins: [],
