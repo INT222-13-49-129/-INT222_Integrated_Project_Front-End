@@ -4,7 +4,7 @@ export default {
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'cfan-int222',
+    title: 'CFAN INT222 Integrated Project',
     htmlAttrs: {
       lang: 'en'
     },
@@ -15,7 +15,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/logo.svg' },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/icon?family=Material+Icons",

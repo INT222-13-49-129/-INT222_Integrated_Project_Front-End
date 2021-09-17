@@ -6,6 +6,7 @@ module.exports = {
       colors:{
         salmon: '#d9795f',
         lightsalmon: '#df9C7b',
+        brightsalmon: '#fcc090',
         tomato: '#f08080',
         lightorange:'#eb9775',
        },
