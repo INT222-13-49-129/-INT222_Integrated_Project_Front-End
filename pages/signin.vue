@@ -48,7 +48,7 @@
             </div>
             <div class="flex flex-row-reverse justify-between mt-1">
               <span
-                class="text-gray-400 text-xs font-thin underline cursor-pointer"
+                class="text-gray-400 text-sm font-thin underline cursor-pointer"
               >Forget password?</span>
               <span v-if="false" class="text-red-600 text-xs font-thin">*password ไม่ถูกต้อง</span>
             </div>
@@ -60,7 +60,7 @@
         </form>
         <div class="md:mt-8 md:mb-6 mt-6 md:text-base text-sm">
           Don't have an account yet?
-          <NuxtLink to="/" class="underline text-lightorange">Sign up.</NuxtLink>
+          <NuxtLink to="/signup" class="underline text-lightorange">Sign up.</NuxtLink>
         </div>
       </div>
     </div>
