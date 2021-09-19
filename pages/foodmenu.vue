@@ -1,6 +1,6 @@
 <template>
     <div
-        class="md:w-336 w-11/12 mt-16 mx-auto pt-6  md:pt-0 h-screen bg-white shadow-lg justify-center"
+        class="md:w-336 w-11/12 mt-16 mx-auto pt-6 mb-6 md:pt-0 bg-white shadow-lg "
     >
         <div
             class="bgimge object-cover md:w-full py-2 md:h-28 mx-6 md:mx-0 rounded-3xl md:rounded-none"
@@ -30,8 +30,33 @@
                 </div>
             </div>
         </div>
+        <div class="flex w-full h-144">
+            <div class="w-1/6 h-full bg-gray-200 flex flex-col py-10 px-8 text-3xl gap-y-8 text-salmon">
+            <div>
+                <p>General</p>
+                <div>
+                    <div>Catagory</div>
+                    <div v-for="t in foodtypeArray"></div>
+                </div>
+                
+            </div>
+            <div>Favorites</div>
+            <div>My foods</div>
+            </div>
+            <div></div>
+        </div>
     </div>
 </template>
+<script>
+export default {
+  layout: 'signinbg',
+  data() {
+    return {
+      foodtypeArray: []
+    };
+  },
+}
+</script>
 <style>
 .bgimge {
     background-image: url("../assets/img/bgfoodmenu.svg");
