@@ -1,10 +1,12 @@
-FROM node:latest as build-stage
-WORKDIR /app
-COPY package*.json ./
+FROM node:14.16-alpine3.10 as step01
+WORKDIR /frontend/src
+COPY ./package.json /frontend/src/package.json
 RUN npm install
-COPY ./ .
-RUN npm run build
+COPY . /frontend/src
+RUN npm run generate
 
-FROM nginx as production-stage
-COPY --from=build-stage /app/build /usr/share/nginx/html
-EXPOSE 80
+FROM nginx:alpine as prod
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+WORKDIR /usr/share/nginx/html
+COPY --from=step01 /frontend/src/dist .
+expose 80
