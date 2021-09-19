@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center item-center w-full h-full text-gray-600">
+  <div class="flex flex-col item-center w-full h-full text-gray-600 overflow-scroll">
     <div class="absolute md:top-5 top-3 left-5">
       <i
         class="material-icons md:text-5xl text-4xl text-gray-400 opacity-50 md:hover:animate-bouncexl cursor-pointer"
@@ -9,7 +9,7 @@
       >keyboard_backspace</i>
     </div>
     <div
-      class="mx-auto md:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
+      class="mx-auto my-auto md:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
     >
       <div>
         <p class="md:text-4xl text-2xl font-bold text-lightorange md:pt-20 pt-10 pb-3">Sign in</p>
@@ -17,7 +17,7 @@
           Sign in to access your account
           <br />Email Address
         </p>
-        <form>
+        <form @submit.prevent="">
           <div class="mt-8 mx-10 md:mx-44 text-left text-sm md:text-base">
             <label class="mb-1" for="email">Email Address</label>
             <br />

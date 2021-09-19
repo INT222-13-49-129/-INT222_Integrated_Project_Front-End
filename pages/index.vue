@@ -19,7 +19,7 @@
       <i class="material-icons text-xl ml-3">
         add
       </i></nuxt-link>
-      <nuxt-link class="transition duration-300 ease-in-out transform hover:scale-110 group bg-lightsalmon hover:bg-salmon hover:shadow-md px-5 py-2 rounded-full flex justify-center" to="/">สมัครสมาชิก
+      <nuxt-link class="transition duration-300 ease-in-out transform hover:scale-110 group bg-lightsalmon hover:bg-salmon hover:shadow-md px-5 py-2 rounded-full flex justify-center" to="/signup">สมัครสมาชิก
       <i class="material-icons text-xl ml-3 group-hover:animate-bouncex">
         east
       </i></nuxt-link>
