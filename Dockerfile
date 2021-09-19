@@ -1,4 +1,4 @@
-FROM node:14.16-alpine3.10 AS dependencies
+FROM node:14.16-alpine3.10 as dependencies
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 COPY package*.json ./
