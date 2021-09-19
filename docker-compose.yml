@@ -1,0 +1,17 @@
+version: "3"
+services:
+  frontend:
+    build: .
+    image: frontend
+    build:
+       context: .
+    container_name: frontend
+    networks:
+       docker_network:
+          ipv4_address: 172.22.0.2
+networks:
+  default:
+    external:
+       name: docker_network
+  docker_network:
+    external: true
