@@ -8,7 +8,7 @@ services:
     container_name: frontend
     networks:
        docker_network:
-          ipv4_address: 172.22.0.2
+          ipv4_address: 172.20.0.2
 networks:
   default:
     external:
