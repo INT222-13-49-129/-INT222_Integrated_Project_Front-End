@@ -36,7 +36,7 @@
                 <p>General</p>
                 <div>
                     <div>Catagory</div>
-                    <div v-for="t in foodtypeArray"></div>
+                    <div v-for="t in foodtypeArray" :key="t"></div>
                 </div>
                 
             </div>
