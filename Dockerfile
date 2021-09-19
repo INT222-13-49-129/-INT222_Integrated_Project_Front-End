@@ -9,5 +9,5 @@ RUN npm run build
 FROM nginx:alpine as step02
 WORKDIR /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d
-COPY --from=step01 /usr/app/dist ./
+COPY --from=step01 /usr/app/dist .
 EXPOSE 80
