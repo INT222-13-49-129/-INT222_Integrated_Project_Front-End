@@ -49,7 +49,6 @@
 </template>
 <script>
 export default {
-  layout: 'signinbg',
   data() {
     return {
       foodtypeArray: []
