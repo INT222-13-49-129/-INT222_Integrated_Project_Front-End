@@ -7,7 +7,7 @@ services:
        context: .
     container_name: frontend
     networks:
-       docker_network:
+       allnetwork:
           ipv4_address: 172.20.0.2
     ports:
       - "8080:80"
@@ -15,5 +15,5 @@ networks:
   default:
     external:
        name: allnetwork
-  docker_network:
+  allnetwork:
     external: true
