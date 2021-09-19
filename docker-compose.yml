@@ -12,6 +12,6 @@ services:
 networks:
   default:
     external:
-       name: docker_network
+       name: allnetwork
   docker_network:
     external: true
