@@ -9,6 +9,8 @@ services:
     networks:
        docker_network:
           ipv4_address: 172.20.0.2
+    ports:
+      - "8080:80"
 networks:
   default:
     external:
