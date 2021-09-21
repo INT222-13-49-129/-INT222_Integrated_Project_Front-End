@@ -51,6 +51,7 @@
                 required
                 placeholder="your password"
                 :type="showpass ? 'password' : 'text'"
+                @keyup.enter="submitFrom()"
                 @keyup="validate.from ? '' : validateFrom()"
               />
               <br />
@@ -117,12 +118,10 @@ export default {
           const response = await this.$auth.loginWith('local', {
             data: formData
           })
-          console.log(response)
           if (response.data.success) {
             this.$router.replace('/user')
           }
         } catch (err) {
-          console.log(err);
           this.validate.from = false
           this.login.password = ''
           const status = err.response?.data?.status
