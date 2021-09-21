@@ -17,18 +17,24 @@
           Sign in to access your account
           <br />Email Address
         </p>
-        <form @submit.prevent="">
+        <form @submit.prevent="submitFrom()">
           <div class="mt-8 mx-10 md:mx-44 text-left text-sm md:text-base">
             <label class="mb-1" for="email">Email Address</label>
             <br />
             <input
               id="email"
+              v-model="login.email"
               type="email"
+              required
               class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
               placeholder="you@company.com"
+              @keyup="validate.from ? '' : validateFrom()"
             />
             <br />
-            <span v-if="false" class="text-red-600 text-xs font-thin">*เคยมีผู้ใช้ email นี้แล้ว</span>
+            <span
+              v-if="!validate.email && !validate.from"
+              class="text-red-600 text-xs font-thin"
+            >*{{ validatetext.email }}</span>
           </div>
           <div class="mt-4 mx-10 md:mx-44 text-left text-sm md:text-base">
             <label class="mb-1" for="password">Password</label>
@@ -40,9 +46,12 @@
               >{{ showpass ? 'visibility' : 'visibility_off' }}</span>
               <input
                 id="password"
+                v-model="login.password"
                 class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+                required
                 placeholder="your password"
                 :type="showpass ? 'password' : 'text'"
+                @keyup="validate.from ? '' : validateFrom()"
               />
               <br />
             </div>
@@ -50,7 +59,10 @@
               <span
                 class="text-gray-400 text-sm font-thin underline cursor-pointer"
               >Forget password?</span>
-              <span v-if="false" class="text-red-600 text-xs font-thin">*password ไม่ถูกต้อง</span>
+              <span
+                v-if="!validate.password && !validate.from"
+                class="text-red-600 text-xs font-thin"
+              >*{{ validatetext.password }}</span>
             </div>
           </div>
           <button
@@ -71,14 +83,94 @@ export default {
   layout: 'signinbg',
   data() {
     return {
-      showpass: true
+      showpass: true,
+      login: {
+        email: '',
+        password: ''
+      },
+      validate: {
+        email: false,
+        password: false,
+        from: true,
+      },
+      validatetext: {
+        email: '',
+        password: ''
+      }
     };
   },
   methods: {
-    hasHistory(){
-      return window.history.length > 2 
-    }
-  },
-}
+    hasHistory() {
+      return window.history.length > 2
+    },
+    async submitFrom() {
+      this.validateFrom()
+      if (this.validate.from) {
+        const jsonPro = JSON.stringify(this.login)
+        const blob = new Blob([jsonPro], {
+          type: 'application/json'
+        })
+        const formData = new FormData()
+        formData.append('login', blob)
 
+        try {
+          const response = await this.$auth.loginWith('local', {
+            data: formData
+          })
+          console.log(response)
+          if (response.data.success) {
+            this.$router.replace('/user')
+          }
+        } catch (err) {
+          console.log(err);
+          this.validate.from = false
+          this.login.password = ''
+          const status = err.response?.data?.status
+          if (status === 2004) {
+            this.validatetext.email = 'ไม่พบ Email นี้ในระบบ'
+            this.validate.email = false
+          }
+          if (status === 2005) {
+            this.validatetext.password = 'Password ไม่ถูกต้อง'
+            this.validate.password = false
+          }
+          if (status === 2012) {
+            this.validatetext.email = 'Email นี้อยู่ระหว่างการยืนยัน'
+            this.validate.email = false
+          }
+        }
+      }
+    },
+    validateFrom() {
+      if (this.login.email === '') {
+        this.validatetext.email = 'กรุณาใส่ Email '
+        this.validate.email = false
+      } else if (!this.validateEmail(this.login.email)) {
+        this.validatetext.email = 'กรุณาใส่ Email ให้ถูกต้อง'
+        this.validate.email = false
+      } else {
+        this.validate.email = true
+      }
+
+      if (this.login.password === '') {
+        this.validatetext.password = 'กรุณาใส่ Password'
+        this.validate.password = false
+      } else if (this.login.password.length < 6) {
+        this.validatetext.password = 'Password ต้องยาวกว่า 6 ตัวอักษร'
+        this.validate.password = false
+      } else {
+        this.validate.password = true
+      }
+
+      this.validate.from = true
+      Object.values(this.validate).forEach(v => {
+        this.validate.from = v && this.validate.from
+      });
+    },
+    validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+  }
+}
 </script>
