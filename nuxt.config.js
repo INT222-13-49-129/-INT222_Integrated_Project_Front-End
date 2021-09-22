@@ -4,9 +4,9 @@ export default {
   env: {
     config: config
   },
-  // server: {
-  //   port: 5000 // default: 3000
-  // },
+  server: {
+    port: 5000 // default: 3000
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'CFAN INT222 Integrated Project',
