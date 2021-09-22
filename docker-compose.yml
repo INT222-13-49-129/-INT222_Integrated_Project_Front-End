@@ -10,9 +10,17 @@ services:
        allnetwork:
           ipv4_address: 172.20.0.2
     ports:
-      - "80:80"
+      - "5000:5000"
     command:
       "npm run start"
+  nginx:
+    image: nginx:1.19
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - frontend
 networks:
   default:
     external:
