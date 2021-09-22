@@ -5,7 +5,7 @@ COPY ./package.json /frontend/src/package.json
 RUN npm install
 COPY . /frontend/src
 RUN npm run build
-CMD [ "npm", "run", "start" ]
+ENV HOST 0.0.0.0
 
 FROM nginx:alpine as prod
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
