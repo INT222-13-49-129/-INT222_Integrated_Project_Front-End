@@ -18,29 +18,37 @@
             Create an account to enjoy all the services
             <br />without any ads for free!
           </p>
-          <form @submit.prevent="">
+          <form @submit.prevent="submitFrom()">
             <div class="md:mt-8 mt-4 mx-10 md:mx-44 text-left text-xs md:text-base">
               <input
                 id="email"
+                v-model="regis.email"
                 type="email"
                 required
                 class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                 placeholder="Email Address"
+                @keyup="validate.from ? '' : validateFrom()"
               />
               <br />
               <span
-                v-if="!true"
+                v-if="!validate.email && !validate.from"
                 class="text-red-600 text-xs font-thin"
-              >* เคยมีการลงทะเบียนกับอีเมลนี้แล้ว</span>
+              >*{{ validatetext.email }}</span>
             </div>
             <div class="md:mt-3 mt-1 mx-10 md:mx-44 text-left text-xs md:text-base">
               <input
                 id="username"
+                v-model="regis.username"
+                required
                 class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                 placeholder="Username"
+                @keyup="validate.from ? '' : validateFrom()"
               />
               <br />
-              <span v-if="!true" class="text-red-600 text-xs font-thin">* มีผู้ใช้ชื่อนี้แล้ว</span>
+              <span
+                v-if="!validate.username && !validate.from"
+                class="text-red-600 text-xs font-thin"
+              >*{{ validatetext.username }}</span>
             </div>
             <div class="flex flex-row">
               <div
@@ -48,11 +56,17 @@
               >
                 <input
                   id="firstname"
+                  v-model="regis.firstname"
+                  required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="Firstname"
+                  @keyup="validate.from ? '' : validateFrom()"
                 />
                 <br />
-                <span v-if="!true" class="text-red-600 text-xs font-thin">* มีผู้ใช้ชื่อนี้แล้ว</span>
+                <span
+                  v-if="!validate.firstname && !validate.from"
+                  class="text-red-600 text-xs font-thin"
+                >*{{ validatetext.firstname }}</span>
               </div>
               <div class="flex-shrink md:w-10 w-3">
                 <!-- This item will shrink -->
@@ -61,12 +75,18 @@
                 class="flex-grow w-1/2 md:mt-3 mt-1 mr-10 md:mr-44 text-left text-xs md:text-base"
               >
                 <input
-                  id="surname"
+                  id="lastname"
+                  v-model="regis.lastname"
+                  required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="Surname"
+                  @keyup="validate.from ? '' : validateFrom()"
                 />
                 <br />
-                <span v-if="!true" class="text-red-600 text-xs font-thin">* มีผู้ใช้ชื่อนี้แล้ว</span>
+                <span
+                  v-if="!validate.lastname && !validate.from"
+                  class="text-red-600 text-xs font-thin"
+                >*{{ validatetext.lastname }}</span>
               </div>
             </div>
             <div class="md:mt-3 mt-1 mx-10 md:mx-44 text-left text-xs md:text-base">
@@ -77,15 +97,18 @@
                 >{{ showpass ? 'visibility' : 'visibility_off' }}</span>
                 <input
                   id="password"
+                  v-model="regis.password"
+                  required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="Password"
                   :type="showpass ? 'password' : 'text'"
+                  @keyup="validate.from ? '' : validateFrom()"
                 />
                 <br />
                 <span
-                  v-if="!true"
+                  v-if="!validate.password && !validate.from"
                   class="text-red-600 text-xs font-thin"
-                >* รหัสผ่านยังไม่มีอักขระพิเศษ</span>
+                >*{{ validatetext.password }}</span>
               </div>
             </div>
             <div class="md:mt-3 mt-1 mx-10 md:mx-44 text-left text-xs md:text-base">
@@ -95,13 +118,19 @@
                   @click="showpass = !showpass"
                 >{{ showpass ? 'visibility' : 'visibility_off' }}</span>
                 <input
-                  id="password"
+                  id="recheckpass"
+                  v-model="recheckpass"
+                  required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="Again Password"
                   :type="showpass ? 'password' : 'text'"
+                  @keyup="validate.from ? '' : validateFrom()"
                 />
               </div>
-              <span v-if="!true" class="text-red-600 text-xs font-thin">* รหัสผ่านไม่เหมือนเดิม</span>
+              <span
+                v-if="!validate.recheckpass && !validate.from"
+                class="text-red-600 text-xs font-thin"
+              >*{{ validatetext.recheckpass }}</span>
             </div>
             <div class="flex flex-row">
               <div
@@ -109,13 +138,19 @@
               >
                 <select
                   id="gender"
+                  v-model="regis.gender"
+                  required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  @change="validate.from ? '' : validateFrom()"
                 >
                   <option value disabled selected>เพศ</option>
                   <option value="M">ชาย</option>
                   <option value="F">หญิง</option>
                 </select>
-                <span v-if="!true" class="text-red-600 text-xs font-thin text-left">* กรุณาเลือกเพศ</span>
+                <span
+                  v-if="!validate.gender && !validate.from"
+                  class="text-red-600 text-xs font-thin text-left"
+                >*{{ validatetext.gender }}</span>
               </div>
               <div class="flex-shrink md:w-10 w-3">
                 <!-- This item will shrink -->
@@ -124,15 +159,19 @@
                 class="flex-grow w-1/2 md:mt-3 mt-1 mr-10 md:mr-44 text-left text-xs md:text-base"
               >
                 <input
-                  id="birthday"
+                  id="doB"
+                  v-model="regis.doB"
                   type="date"
-                  value="2000-01-01"
-                  min="1899-01-01"
+                  required
                   :max="currentDate()"
                   class="rounded-md border-2 border-gray-100 text-gray-400 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="dd-mm-yyyy"
+                  @change="validate.from ? '' : validateFrom()"
                 />
-                <span v-if="!true" class="text-red-600 text-xs font-thin">* วันนี้ยังมาไม่ถึง</span>
+                <span
+                  v-if="!validate.doB && !validate.from"
+                  class="text-red-600 text-xs font-thin"
+                >*{{ validatetext.doB }}</span>
               </div>
             </div>
 
@@ -141,16 +180,23 @@
                 class="flex-grow w-1/2 md:mt-3 mt-1 ml-10 md:ml-44 text-left text-xs md:text-base"
               >
                 <input
-                  id="gender"
+                  id="weight"
+                  v-model="regis.weight"
                   type="number"
-                  min="0"
+                  min="0.01"
+                  max="999.99"
                   step="any"
+                  required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="น้ำหนัก (กก.)"
+                  @keyup="validate.from ? '' : validateFrom()"
                 />
                 <div class="flex flex-row-reverse justify-between mt-1 px-1">
                   <span class="md:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
-                  <span v-if="!true" class="text-red-600 text-xs font-thin mt-1">* วันนี้ยังมาไม่ถึง</span>
+                  <span
+                    v-if="!validate.weight && !validate.from"
+                    class="text-red-600 text-xs font-thin mt-1"
+                  >*{{ validatetext.weight }}</span>
                 </div>
               </div>
               <div class="flex-shrink md:w-10 w-3"></div>
@@ -158,16 +204,23 @@
                 class="flex-grow w-1/2 md:mt-3 mt-1 mr-10 md:mr-44 text-left text-xs md:text-base"
               >
                 <input
-                  id="birthday"
+                  id="height"
+                  v-model="regis.height"
                   type="number"
-                  min="0"
+                  min="0.01"
+                  max="999.99"
                   step="any"
+                  required
                   class="rounded-md border-2 border-gray-100 text-gray-400 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="ส่วนสูง (ซม.)"
+                  @keyup="validate.from ? '' : validateFrom()"
                 />
                 <div class="flex flex-row-reverse justify-between mt-1 px-1">
                   <span class="md:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
-                  <span v-if="!true" class="text-red-600 text-xs font-thin mt-1">* วันนี้ยังมาไม่ถึง</span>
+                  <span
+                    v-if="!validate.height && !validate.from"
+                    class="text-red-600 text-xs font-thin mt-1"
+                  >*{{ validatetext.height }}</span>
                 </div>
               </div>
             </div>
@@ -184,9 +237,47 @@
 <script>
 export default {
   layout: 'signinbg',
+  middleware: ['notloggedin'],
   data() {
     return {
-      showpass: true
+      showpass: true,
+      recheckpass: '',
+      regis: {
+        username: '',
+        email: '',
+        password: '',
+        firstname: '',
+        lastname: '',
+        doB: '2000-01-01',
+        gender: '',
+        weight: '',
+        height: ''
+      },
+      validate: {
+        username: false,
+        email: false,
+        password: false,
+        recheckpass: false,
+        firstname: false,
+        lastname: false,
+        doB: false,
+        gender: false,
+        weight: false,
+        height: false,
+        from: true,
+      },
+      validatetext: {
+        username: '',
+        email: '',
+        password: '',
+        recheckpass: '',
+        firstname: '',
+        lastname: '',
+        doB: '',
+        gender: '',
+        weight: '',
+        height: ''
+      }
     };
   },
   methods: {
@@ -209,6 +300,119 @@ export default {
 
       const date = yyyy + '-' + mm + '-' + dd;
       return date;
+    }, 
+    submitFrom() {
+      this.regis.weight = parseFloat(this.regis.weight).toFixed(2)
+      this.regis.height = parseFloat(this.regis.height).toFixed(2)
+      this.validateFrom()
+      console.log(this.regis);
+    },
+    validateFrom() {
+      if (this.regis.email === '') {
+        this.validatetext.email = 'กรุณาใส่ Email '
+        this.validate.email = false
+      } else if (!this.validateEmail(this.regis.email)) {
+        this.validatetext.email = 'กรุณาใส่ Email ให้ถูกต้อง'
+        this.validate.email = false
+      } else {
+        this.validate.email = true
+      }
+
+      if (this.regis.username === '') {
+        this.validatetext.username = 'กรุณาใส่ Username '
+        this.validate.username = false
+      }else if (!/^[a-zA-Z0-9]+$/.test(this.regis.username)) {
+        this.validatetext.username = 'ใส่ค่าได้เฉพาะ A-Z,a-z และตัวเลข'
+        this.validate.username = false
+      }else {
+        this.validate.username = true
+      }
+
+      if (this.regis.password === '') {
+        this.validatetext.password = 'กรุณาใส่ Password'
+        this.validate.password = false
+      } else if (this.regis.password.length < 6) {
+        this.validatetext.password = 'Password ต้องยาวกว่า 6 ตัวอักษร'
+        this.validate.password = false
+      } else {
+        this.validate.password = true
+      }
+
+      if (this.recheckpass === '') {
+        this.validatetext.recheckpass = 'กรุณายืนยัน Password  '
+        this.validate.recheckpass = false
+      }else if (this.recheckpass !== this.regis.password ) {
+        this.validatetext.recheckpass = 'Password ไม่ตรงกัน'
+        this.validate.recheckpass = false
+      }else {
+        this.validate.recheckpass = true
+      }
+
+      if (this.regis.firstname === '') {
+        this.validatetext.firstname = 'กรุณาใส่ Firstname '
+        this.validate.firstname = false
+      }else{
+        this.validate.firstname = true
+      }
+
+      if (this.regis.lastname === '') {
+        this.validatetext.lastname = 'กรุณาใส่ Surname '
+        this.validate.lastname = false
+      }else {
+        this.validate.lastname = true
+      }
+
+      if (this.regis.doB === '') {
+        this.validatetext.doB = 'กรุณาใส่วันเกิด '
+        this.validate.doB = false
+      }else if (+new Date(this.regis.doB) > +new Date(this.currentDate())) {
+        this.validatetext.doB = 'ค่าต้องน้อยกว่าวันที่ปัจจุบัน'
+        this.validate.doB = false
+      }else{
+        this.validate.doB = true
+      }
+
+      if (this.regis.gender === '') {
+        this.validatetext.gender = 'กรุณาเลือกเพศ '
+        this.validate.gender = false
+      }else {
+        this.validate.gender = true
+      }
+
+      if (this.regis.weight === '') {
+        this.validatetext.weight = 'กรุณาใส่น้ำหนัก '
+        this.validate.weight = false
+      }else if (this.regis.weight < 0) {
+        this.validatetext.weight = 'ค่าต้องมากกว่า 0'
+        this.validate.weight = false
+      }else if (this.regis.weight >= 1000) {
+        this.validatetext.weight = 'ค่าต้องน้อยกว่า 1000'
+        this.validate.weight = false
+      }else{
+        this.validate.weight = true
+      }
+
+      if (this.regis.height === '') {
+        this.validatetext.height = 'กรุณาใส่ส่วนสูง '
+        this.validate.height = false
+      }else if (this.regis.height < 0) {
+        this.validatetext.height = 'ค่าต้องมากกว่า 0'
+        this.validate.height = false
+      }else if (this.regis.height >= 1000) {
+        this.validatetext.height = 'ค่าต้องน้อยกว่า 1000'
+        this.validate.height = false
+      }else{
+        this.validate.height = true
+      }
+
+      this.validate.from = true
+      Object.values(this.validate).forEach(v => {
+        this.validate.from = v && this.validate.from
+      });
+    },
+    validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
     }
   },
 }

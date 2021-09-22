@@ -82,6 +82,7 @@
 <script>
 export default {
   layout: 'signinbg',
+  middleware: ['notloggedin'],
   data() {
     return {
       showpass: true,
