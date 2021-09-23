@@ -8,6 +8,6 @@ RUN npm run build
 
 ENV HOST 0.0.0.0   
 
-EXPOSE 5000
+EXPOSE 80
 
 CMD ["npm", "run", "start"]

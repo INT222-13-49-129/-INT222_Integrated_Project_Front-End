@@ -1,5 +1,5 @@
-export default function ({ store }) {
+export default function ({ store, redirect }) {
     if (store.state.auth.loggedIn) {
-      this.$router.replace('/user')
+      return redirect('/user')
     }
 }
