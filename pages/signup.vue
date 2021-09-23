@@ -237,6 +237,7 @@
 <script>
 export default {
   layout: 'signinbg',
+  middleware: ['guest'],
   data() {
     return {
       showpass: true,
@@ -279,11 +280,6 @@ export default {
       }
     };
   },
-  beforeCreate() {
-    if (this.$auth.loggedIn) {
-      this.$router.replace('/user')
-    }
-  },
   methods: {
     hasHistory() {
       return window.history.length > 2
@@ -304,7 +300,7 @@ export default {
 
       const date = yyyy + '-' + mm + '-' + dd;
       return date;
-    },
+    }, 
     submitFrom() {
       this.regis.weight = parseFloat(this.regis.weight).toFixed(2)
       this.regis.height = parseFloat(this.regis.height).toFixed(2)
@@ -324,10 +320,10 @@ export default {
       if (this.regis.username === '') {
         this.validatetext.username = 'กรุณาใส่ Username '
         this.validate.username = false
-      } else if (!/^[a-zA-Z0-9]+$/.test(this.regis.username)) {
+      }else if (!/^[a-zA-Z0-9]+$/.test(this.regis.username)) {
         this.validatetext.username = 'ใส่ค่าได้เฉพาะ A-Z,a-z และตัวเลข'
         this.validate.username = false
-      } else {
+      }else {
         this.validate.username = true
       }
 
@@ -344,67 +340,67 @@ export default {
       if (this.recheckpass === '') {
         this.validatetext.recheckpass = 'กรุณายืนยัน Password  '
         this.validate.recheckpass = false
-      } else if (this.recheckpass !== this.regis.password) {
+      }else if (this.recheckpass !== this.regis.password ) {
         this.validatetext.recheckpass = 'Password ไม่ตรงกัน'
         this.validate.recheckpass = false
-      } else {
+      }else {
         this.validate.recheckpass = true
       }
 
       if (this.regis.firstname === '') {
         this.validatetext.firstname = 'กรุณาใส่ Firstname '
         this.validate.firstname = false
-      } else {
+      }else{
         this.validate.firstname = true
       }
 
       if (this.regis.lastname === '') {
         this.validatetext.lastname = 'กรุณาใส่ Surname '
         this.validate.lastname = false
-      } else {
+      }else {
         this.validate.lastname = true
       }
 
       if (this.regis.doB === '') {
         this.validatetext.doB = 'กรุณาใส่วันเกิด '
         this.validate.doB = false
-      } else if (+new Date(this.regis.doB) > +new Date(this.currentDate())) {
+      }else if (+new Date(this.regis.doB) > +new Date(this.currentDate())) {
         this.validatetext.doB = 'ค่าต้องน้อยกว่าวันที่ปัจจุบัน'
         this.validate.doB = false
-      } else {
+      }else{
         this.validate.doB = true
       }
 
       if (this.regis.gender === '') {
         this.validatetext.gender = 'กรุณาเลือกเพศ '
         this.validate.gender = false
-      } else {
+      }else {
         this.validate.gender = true
       }
 
       if (this.regis.weight === '') {
         this.validatetext.weight = 'กรุณาใส่น้ำหนัก '
         this.validate.weight = false
-      } else if (this.regis.weight < 0) {
+      }else if (this.regis.weight < 0) {
         this.validatetext.weight = 'ค่าต้องมากกว่า 0'
         this.validate.weight = false
-      } else if (this.regis.weight >= 1000) {
+      }else if (this.regis.weight >= 1000) {
         this.validatetext.weight = 'ค่าต้องน้อยกว่า 1000'
         this.validate.weight = false
-      } else {
+      }else{
         this.validate.weight = true
       }
 
       if (this.regis.height === '') {
         this.validatetext.height = 'กรุณาใส่ส่วนสูง '
         this.validate.height = false
-      } else if (this.regis.height < 0) {
+      }else if (this.regis.height < 0) {
         this.validatetext.height = 'ค่าต้องมากกว่า 0'
         this.validate.height = false
-      } else if (this.regis.height >= 1000) {
+      }else if (this.regis.height >= 1000) {
         this.validatetext.height = 'ค่าต้องน้อยกว่า 1000'
         this.validate.height = false
-      } else {
+      }else{
         this.validate.height = true
       }
 

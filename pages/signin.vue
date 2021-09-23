@@ -82,6 +82,7 @@
 <script>
 export default {
   layout: 'signinbg',
+  middleware: ['guest'],
   data() {
     return {
       showpass: true,
@@ -99,11 +100,6 @@ export default {
         password: ''
       }
     };
-  },
-  beforeCreate() {
-    if (this.$auth.loggedIn) {
-      this.$router.replace('/user')
-    }
   },
   methods: {
     hasHistory() {
