@@ -191,7 +191,7 @@
                   placeholder="น้ำหนัก (กก.)"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
-                <div class="flex flex-row-reverse justify-between mt-1 px-1">
+                <div class="flex flex-row-reverse flex-wrap-reverse justify-between mt-1 px-1">
                   <span class="md:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
                   <span
                     v-if="!validate.weight && !validate.from"
@@ -215,7 +215,7 @@
                   placeholder="ส่วนสูง (ซม.)"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
-                <div class="flex flex-row-reverse justify-between mt-1 px-1">
+                <div class="flex flex-row-reverse flex-wrap-reverse justify-between mt-1 px-1">
                   <span class="md:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
                   <span
                     v-if="!validate.height && !validate.from"
