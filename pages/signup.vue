@@ -108,7 +108,7 @@
                   required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="Password"
-                  :type="showpass ? 'password_off' : 'text'"
+                  :type="showpass ? 'password' : 'text'"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
                 <br />
