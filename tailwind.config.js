@@ -9,6 +9,7 @@ module.exports = {
         brightsalmon: '#fcc090',
         tomato: '#f08080',
         lightorange: '#eb9775',
+        orange: '#f08734',
       },
       spacing: {
         '128': '32rem',

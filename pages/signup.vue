@@ -9,10 +9,12 @@
           : $router.push('/')"
         >keyboard_backspace</i>
       </div>
+      <div v-if="false"><OTP /></div>
       <div v-if="loading">
         <Modal
           classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
-        > <img src="../assets/img/loading.svg" class="md:h-32 h-20">
+        >
+          <img src="../assets/img/loading.svg" class="md:h-32 h-20" />
           <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
         </Modal>
       </div>
@@ -232,9 +234,9 @@
               </div>
             </div>
             <div
-                v-if="!validate.all && !validate.from"
-                class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
-              >*{{ validatetext.all }}</div>
+              v-if="!validate.all && !validate.from"
+              class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
+            >*{{ validatetext.all }}</div>
             <button
               type="submit"
               class="mx-auto mt-8 md:mb-6 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
@@ -248,9 +250,11 @@
 <script>
 import * as AuthApi from '../utils/authApi'
 import Modal from '../components/Modal.vue';
+import OTP from '../components/OTP.vue';
 export default {
   components: {
     Modal,
+    OTP
   },
   layout: 'signinbg',
   middleware: ['guest'],
@@ -296,7 +300,7 @@ export default {
         gender: '',
         weight: '',
         height: '',
-        all:''
+        all: ''
       }
     };
   },
@@ -347,7 +351,7 @@ export default {
             this.validatetext.username = 'Username นี้มีอยู่แล้วในระบบ'
             this.validate.username = false
           }
-          if ([500,400].includes(err.response?.status) || err.response === undefined) {
+          if ([500, 400].includes(err.response?.status) || err.response === undefined) {
             this.validatetext.all = 'ลงทะเบียนไม่สำเร็จกรุณาลองใหม่'
             this.validate.all = false
           }
