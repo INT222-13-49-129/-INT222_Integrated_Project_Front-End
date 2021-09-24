@@ -1,6 +1,10 @@
 const config = require('./config.js')
 
 export default {
+  loading: {
+    color: 'coral',
+    height: '5px'
+  },
   env: {
     config: config
   },

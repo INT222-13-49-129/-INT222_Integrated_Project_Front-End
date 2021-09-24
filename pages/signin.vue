@@ -43,7 +43,7 @@
               <span
                 class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
                 @click="showpass = !showpass"
-              >{{ showpass ? 'visibility' : 'visibility_off' }}</span>
+              >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
               <input
                 id="password"
                 v-model="login.password"

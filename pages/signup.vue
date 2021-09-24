@@ -101,14 +101,14 @@
                 <span
                   class="material-icons absolute md:top-3 top-1 right-2 cursor-pointer text-gray-400"
                   @click="showpass = !showpass"
-                >{{ showpass ? 'visibility' : 'visibility_off' }}</span>
+                >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
                 <input
                   id="password"
                   v-model="regis.password"
                   required
                   class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
                   placeholder="Password"
-                  :type="showpass ? 'password' : 'text'"
+                  :type="showpass ? 'password_off' : 'text'"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
                 <br />
@@ -123,7 +123,7 @@
                 <span
                   class="material-icons absolute md:top-3 top-1 right-2 cursor-pointer text-gray-400"
                   @click="showpass = !showpass"
-                >{{ showpass ? 'visibility' : 'visibility_off' }}</span>
+                >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
                 <input
                   id="recheckpass"
                   v-model="recheckpass"
