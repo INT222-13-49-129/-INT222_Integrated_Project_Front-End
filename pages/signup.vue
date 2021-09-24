@@ -9,6 +9,13 @@
           : $router.push('/')"
         >keyboard_backspace</i>
       </div>
+      <div v-if="loading">
+        <Modal
+          classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+        > <img src="../assets/img/loading.svg" class="md:h-32 h-20">
+          <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+        </Modal>
+      </div>
       <div
         class="mx-auto my-auto md:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
       >
@@ -224,6 +231,10 @@
                 </div>
               </div>
             </div>
+            <div
+                v-if="!validate.all && !validate.from"
+                class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
+              >*{{ validatetext.all }}</div>
             <button
               type="submit"
               class="mx-auto mt-8 md:mb-6 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
@@ -235,11 +246,17 @@
   </div>
 </template>
 <script>
+import * as AuthApi from '../utils/authApi'
+import Modal from '../components/Modal.vue';
 export default {
+  components: {
+    Modal,
+  },
   layout: 'signinbg',
   middleware: ['guest'],
   data() {
     return {
+      loading: false,
       showpass: true,
       recheckpass: '',
       regis: {
@@ -251,7 +268,8 @@ export default {
         doB: '2000-01-01',
         gender: '',
         weight: '',
-        height: ''
+        height: '',
+        repeat: false
       },
       validate: {
         username: false,
@@ -264,6 +282,7 @@ export default {
         gender: false,
         weight: false,
         height: false,
+        all: false,
         from: true,
       },
       validatetext: {
@@ -276,7 +295,8 @@ export default {
         doB: '',
         gender: '',
         weight: '',
-        height: ''
+        height: '',
+        all:''
       }
     };
   },
@@ -300,11 +320,39 @@ export default {
 
       const date = yyyy + '-' + mm + '-' + dd;
       return date;
-    }, 
-    submitFrom() {
+    },
+    async submitFrom() {
       this.regis.weight = parseFloat(this.regis.weight).toFixed(2)
       this.regis.height = parseFloat(this.regis.height).toFixed(2)
       this.validateFrom()
+      if (this.validate.from) {
+        try {
+          this.loading = true
+          const response = await AuthApi.register(this.regis)
+          this.loading = false
+          console.log(response.data);
+        } catch (err) {
+          this.loading = false
+          this.validate.from = false
+          const status = err.response?.data?.status
+          if (status === 2012) {
+            this.validatetext.email = 'Email นี้อยู่ระหว่างการยืนยัน'
+            this.validate.email = false
+          }
+          if (status === 2002) {
+            this.validatetext.email = 'Email นี้มีอยู่แล้วในระบบ'
+            this.validate.email = false
+          }
+          if (status === 2003) {
+            this.validatetext.username = 'Username นี้มีอยู่แล้วในระบบ'
+            this.validate.username = false
+          }
+          if ([500,400].includes(err.response?.status) || err.response === undefined) {
+            this.validatetext.all = 'ลงทะเบียนไม่สำเร็จกรุณาลองใหม่'
+            this.validate.all = false
+          }
+        }
+      }
     },
     validateFrom() {
       if (this.regis.email === '') {
@@ -320,10 +368,10 @@ export default {
       if (this.regis.username === '') {
         this.validatetext.username = 'กรุณาใส่ Username '
         this.validate.username = false
-      }else if (!/^[a-zA-Z0-9]+$/.test(this.regis.username)) {
+      } else if (!/^[a-zA-Z0-9]+$/.test(this.regis.username)) {
         this.validatetext.username = 'ใส่ค่าได้เฉพาะ A-Z,a-z และตัวเลข'
         this.validate.username = false
-      }else {
+      } else {
         this.validate.username = true
       }
 
@@ -340,70 +388,71 @@ export default {
       if (this.recheckpass === '') {
         this.validatetext.recheckpass = 'กรุณายืนยัน Password  '
         this.validate.recheckpass = false
-      }else if (this.recheckpass !== this.regis.password ) {
+      } else if (this.recheckpass !== this.regis.password) {
         this.validatetext.recheckpass = 'Password ไม่ตรงกัน'
         this.validate.recheckpass = false
-      }else {
+      } else {
         this.validate.recheckpass = true
       }
 
       if (this.regis.firstname === '') {
         this.validatetext.firstname = 'กรุณาใส่ Firstname '
         this.validate.firstname = false
-      }else{
+      } else {
         this.validate.firstname = true
       }
 
       if (this.regis.lastname === '') {
         this.validatetext.lastname = 'กรุณาใส่ Surname '
         this.validate.lastname = false
-      }else {
+      } else {
         this.validate.lastname = true
       }
 
       if (this.regis.doB === '') {
         this.validatetext.doB = 'กรุณาใส่วันเกิด '
         this.validate.doB = false
-      }else if (+new Date(this.regis.doB) > +new Date(this.currentDate())) {
+      } else if (+new Date(this.regis.doB) > +new Date(this.currentDate())) {
         this.validatetext.doB = 'ค่าต้องน้อยกว่าวันที่ปัจจุบัน'
         this.validate.doB = false
-      }else{
+      } else {
         this.validate.doB = true
       }
 
       if (this.regis.gender === '') {
         this.validatetext.gender = 'กรุณาเลือกเพศ '
         this.validate.gender = false
-      }else {
+      } else {
         this.validate.gender = true
       }
 
       if (this.regis.weight === '') {
         this.validatetext.weight = 'กรุณาใส่น้ำหนัก '
         this.validate.weight = false
-      }else if (this.regis.weight < 0) {
+      } else if (this.regis.weight < 0) {
         this.validatetext.weight = 'ค่าต้องมากกว่า 0'
         this.validate.weight = false
-      }else if (this.regis.weight >= 1000) {
+      } else if (this.regis.weight >= 1000) {
         this.validatetext.weight = 'ค่าต้องน้อยกว่า 1000'
         this.validate.weight = false
-      }else{
+      } else {
         this.validate.weight = true
       }
 
       if (this.regis.height === '') {
         this.validatetext.height = 'กรุณาใส่ส่วนสูง '
         this.validate.height = false
-      }else if (this.regis.height < 0) {
+      } else if (this.regis.height < 0) {
         this.validatetext.height = 'ค่าต้องมากกว่า 0'
         this.validate.height = false
-      }else if (this.regis.height >= 1000) {
+      } else if (this.regis.height >= 1000) {
         this.validatetext.height = 'ค่าต้องน้อยกว่า 1000'
         this.validate.height = false
-      }else{
+      } else {
         this.validate.height = true
       }
 
+      this.validate.all = true
       this.validate.from = true
       Object.values(this.validate).forEach(v => {
         this.validate.from = v && this.validate.from

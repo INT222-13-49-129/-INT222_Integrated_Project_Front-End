@@ -56,7 +56,7 @@
               />
               <br />
             </div>
-            <div class="flex flex-row-reverse justify-between mt-1">
+            <div class="flex flex-row-reverse flex-wrap-reverse justify-between mt-1">
               <span
                 class="text-gray-400 text-sm font-thin underline cursor-pointer"
               >Forget password?</span>
@@ -66,6 +66,10 @@
               >*{{ validatetext.password }}</span>
             </div>
           </div>
+          <div
+                v-if="!validate.all && !validate.from"
+                class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
+              >*{{ validatetext.all }}</div>
           <button
             type="submit"
             class="mx-auto md:mt-8 mt-4 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
@@ -80,6 +84,7 @@
   </div>
 </template>
 <script>
+import { formData } from '../utils/api'
 export default {
   layout: 'signinbg',
   middleware: ['guest'],
@@ -93,11 +98,13 @@ export default {
       validate: {
         email: false,
         password: false,
+        all: false,
         from: true,
       },
       validatetext: {
         email: '',
-        password: ''
+        password: '',
+        all: ''
       }
     };
   },
@@ -108,16 +115,9 @@ export default {
     async submitFrom() {
       this.validateFrom()
       if (this.validate.from) {
-        const jsonPro = JSON.stringify(this.login)
-        const blob = new Blob([jsonPro], {
-          type: 'application/json'
-        })
-        const formData = new FormData()
-        formData.append('login', blob)
-
         try {
           const response = await this.$auth.loginWith('local', {
-            data: formData
+            data: formData(this.login,'login')
           })
           if (response.data.success) {
             this.$router.replace('/user')
@@ -137,6 +137,10 @@ export default {
           if (status === 2012) {
             this.validatetext.email = 'Email นี้อยู่ระหว่างการยืนยัน'
             this.validate.email = false
+          }
+          if ([500,400].includes(err.response?.status) || err.response === undefined) {
+            this.validatetext.all = 'ลงชื่อเข้าใช้ไม่สำเร็จกรุณาลองใหม่'
+            this.validate.all = false
           }
         }
       }
@@ -162,6 +166,7 @@ export default {
         this.validate.password = true
       }
 
+      this.validate.all = true
       this.validate.from = true
       Object.values(this.validate).forEach(v => {
         this.validate.from = v && this.validate.from
