@@ -8,6 +8,35 @@
         : $router.push('/')"
       >keyboard_backspace</i>
     </div>
+    <div v-if="showotp">
+      <OTP :email="emailotp" />
+    </div>
+    <div v-if="loading">
+      <Modal
+        classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+      >
+        <img src="../assets/img/loading.svg" class="md:h-32 h-20" />
+        <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+      </Modal>
+    </div>
+    <div v-if="emailverified">
+      <Modal
+        classpop="relative flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+      >
+        <i
+          class="absolute md:top-5 top-3 md:right-5 right-3 material-icons text-gray-400 md:text-3xl text-2xl cursor-pointer"
+          @click="emailverified = false"
+        >close</i>
+        <div class="md:text-3xl text-xl md:mt-5 mt-2">Email นี้อยู่ระหว่างรอการยืนยัน</div>
+        <div class="md:text-2xl text-base md:mt-5 mt-3">กรุณายืนยัน Email ก่อนเข้าสู่ระบบ</div>
+        <div class="flex justify-center items-center px-3 md:flex-row flex-col">
+          <button
+            class="md:mt-8 mt-3 md:px-4 mx-auto w-5/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+            @click="otpresend(), emailverified = false"
+          >ยืนยัน OTP</button>
+        </div>
+      </Modal>
+    </div>
     <div
       class="mx-auto my-auto md:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
     >
@@ -67,9 +96,9 @@
             </div>
           </div>
           <div
-                v-if="!validate.all && !validate.from"
-                class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
-              >*{{ validatetext.all }}</div>
+            v-if="!validate.all && !validate.from"
+            class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
+          >*{{ validatetext.all }}</div>
           <button
             type="submit"
             class="mx-auto md:mt-8 mt-4 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
@@ -85,11 +114,21 @@
 </template>
 <script>
 import { formData } from '../utils/api'
+import * as AuthApi from '../utils/authApi'
+import Modal from '../components/Modal.vue';
+import OTP from '../components/OTP.vue';
 export default {
+  components: {
+    Modal,
+    OTP
+  },
   layout: 'signinbg',
   middleware: ['guest'],
   data() {
     return {
+      emailverified: false,
+      showotp: false,
+      loading: false,
       showpass: true,
       login: {
         email: '',
@@ -117,7 +156,7 @@ export default {
       if (this.validate.from) {
         try {
           const response = await this.$auth.loginWith('local', {
-            data: formData(this.login,'login')
+            data: formData(this.login, 'login')
           })
           if (response.data.success) {
             this.$router.replace('/user')
@@ -137,13 +176,45 @@ export default {
           if (status === 2012) {
             this.validatetext.email = 'Email นี้อยู่ระหว่างการยืนยัน'
             this.validate.email = false
+            this.emailverified = true
           }
-          if ([500,400].includes(err.response?.status) || err.response === undefined) {
+          if ([500, 400].includes(err.response?.status) || err.response === undefined) {
             this.validatetext.all = 'ลงชื่อเข้าใช้ไม่สำเร็จกรุณาลองใหม่'
             this.validate.all = false
           }
         }
       }
+    },
+    async otpresend() {
+      try {
+        this.loading = true
+        const response = await AuthApi.pinresend({ email: this.login.email })
+        this.loading = false
+        if (response.data.success) {
+          this.emailotp = response.data.email
+          this.otpshow(true)
+        }
+      } catch (err) {
+        this.loading = false
+        this.validate.from = false
+        this.otpshow(false)
+        const status = err.response?.data?.status
+        if (status === 2004) {
+          this.validatetext.email = 'ไม่พบ Email นี้ในระบบ'
+          this.validate.email = false
+        }
+        if (status === 2013) {
+          this.validatetext.email = 'Email นี้ยืนยันเรียบร้อยแล้ว'
+          this.validate.email = false
+        }
+        if ([500, 400].includes(err.response?.status) || err.response === undefined) {
+          this.validatetext.all = 'ลงทะเบียนไม่สำเร็จกรุณาลองใหม่'
+          this.validate.all = false
+        }
+      }
+    },
+    otpshow(show) {
+      this.showotp = show
     },
     validateFrom() {
       if (this.login.email === '') {
