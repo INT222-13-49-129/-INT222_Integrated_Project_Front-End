@@ -9,13 +9,38 @@
           : $router.push('/')"
         >keyboard_backspace</i>
       </div>
-      <div v-if="false"><OTP /></div>
+      <div v-if="showotp">
+        <OTP :email="emailotp" />
+      </div>
       <div v-if="loading">
         <Modal
           classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
         >
           <img src="../assets/img/loading.svg" class="md:h-32 h-20" />
           <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+        </Modal>
+      </div>
+      <div v-if="emailverified">
+        <Modal
+          classpop="relative flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+        >
+          <i
+            class="absolute md:top-5 top-3 md:right-5 right-3 material-icons text-gray-400 md:text-3xl text-2xl cursor-pointer"
+            @click="emailverified = false"
+          >close</i>
+          <div class="md:text-3xl text-xl md:mt-5 mt-2">Email นี้อยู่ระหว่างรอการยืนยัน</div>
+          <div class="md:text-2xl text-base md:mt-5 mt-3">ต้องการใช้ข้อมูลที่ลงทะเบียนใหม่หรือไม่ ?</div>
+          <div class="flex justify-between items-center px-3 md:flex-row flex-col">
+            <button
+              class="md:mt-8 mt-4 md:px-4 mx-auto w-5/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg border-brightsalmon border-2 text-lightorange bg-white"
+              @click="submitFrom(true), emailverified = false"
+            >ใช้ข้อมูลใหม่</button>
+            <div class="md:mt-7 mt-3"> หรือ </div>
+            <button
+              class="md:mt-8 mt-3 md:px-4 mx-auto w-5/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+              @click="otpresend(), emailverified = false"
+            >ยืนยันข้อมูลเดิม</button>
+          </div>
         </Modal>
       </div>
       <div
@@ -260,6 +285,9 @@ export default {
   middleware: ['guest'],
   data() {
     return {
+      emailotp: '',
+      emailverified: false,
+      showotp: false,
       loading: false,
       showpass: true,
       recheckpass: '',
@@ -325,7 +353,8 @@ export default {
       const date = yyyy + '-' + mm + '-' + dd;
       return date;
     },
-    async submitFrom() {
+    async submitFrom(repeat = false) {
+      this.regis.repeat = repeat
       this.regis.weight = parseFloat(this.regis.weight).toFixed(2)
       this.regis.height = parseFloat(this.regis.height).toFixed(2)
       this.validateFrom()
@@ -334,7 +363,10 @@ export default {
           this.loading = true
           const response = await AuthApi.register(this.regis)
           this.loading = false
-          console.log(response.data);
+          if (response.data.success) {
+            this.emailotp = response.data.email
+            this.otpshow(true)
+          }
         } catch (err) {
           this.loading = false
           this.validate.from = false
@@ -342,6 +374,7 @@ export default {
           if (status === 2012) {
             this.validatetext.email = 'Email นี้อยู่ระหว่างการยืนยัน'
             this.validate.email = false
+            this.emailverified = true
           }
           if (status === 2002) {
             this.validatetext.email = 'Email นี้มีอยู่แล้วในระบบ'
@@ -357,6 +390,37 @@ export default {
           }
         }
       }
+    },
+    async otpresend() {
+      try {
+        this.loading = true
+        const response = await AuthApi.pinresend({ email: this.regis.email })
+        this.loading = false
+        if (response.data.success) {
+          this.emailotp = response.data.email
+          this.otpshow(true)
+        }
+      } catch (err) {
+        this.loading = false
+        this.validate.from = false
+        this.otpshow(false)
+        const status = err.response?.data?.status
+        if (status === 2004) {
+          this.validatetext.email = 'ไม่พบ Email นี้ในระบบ'
+          this.validate.email = false
+        }
+        if (status === 2013) {
+          this.validatetext.email = 'Email นี้ยืนยันเรียบร้อยแล้ว'
+          this.validate.email = false
+        }
+        if ([500, 400].includes(err.response?.status) || err.response === undefined) {
+          this.validatetext.all = 'ลงทะเบียนไม่สำเร็จกรุณาลองใหม่'
+          this.validate.all = false
+        }
+      }
+    },
+    otpshow(show) {
+      this.showotp = show
     },
     validateFrom() {
       if (this.regis.email === '') {
