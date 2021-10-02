@@ -8,8 +8,8 @@
             v-model="inputValues[index]"
             type="text"
             maxlength="1"
-            class="focus:outline-none border-b-4 focus:border-lightorange mx-1 text-center md:w-16 w-8 md:text-5xl text-2xl"
-            :class="{ 'border-lightorange': inputValues[index] }"
+            class="focus:outline-none border-b-4 focus:border-lightorange mx-1 text-center"
+            :class="[{ 'border-lightorange': inputValues[index]}, classtext ]"
             @input="returnFullString()"
             @keypress="handleKeypress"
             @keyup="handleInputFocus(index)"
@@ -19,6 +19,12 @@
 </template>
 <script>
 export default {
+    props: {
+        classtext: {
+            type: String,
+            default: ''
+        }
+    },
     data() {
         return {
             inputValues: [],
@@ -44,7 +50,7 @@ export default {
             }
         },
         handlePastedValues(event) {
-            const pastedValue = event.clipboardData.getData('text/plain');
+            const pastedValue = event.clipboardData?.getData('text/plain');
             const splitValues = pastedValue.split('');
             let last = 0
             for (let i = 0; i < splitValues.length; i++) {

@@ -9,13 +9,13 @@
         <div class="flex md:flex-row flex-col">
             <img src="../assets/img/mail.svg" class="md:h-36 h-28 my-auto" />
             <div class="md:pl-28 mx-auto md:mx-0">
-                <div class="md:text-6xl text-3xl text-center my-6 md:my-0">OTP Verification</div>
+                <div class="md:text-6xl text-3xl text-center md:text-left my-6 md:my-0">OTP Verification</div>
                 <div class="md:text-lg text-sm px-5 md:px-0 text-gray-400">
                     Enter the confirmation code sent to
                     <span class="text-blue-600">{{ email }}</span>
                     <br />and click buttom confirm to complete the process.
                 </div>
-                <OtpInput v-model="otp" />
+                <OtpInput v-model="otp" classtext="md:w-16 w-8 md:text-5xl text-2xl"/>
                 <div
                     v-if="!validateotp"
                     class="text-red-600 text-base font-thin -mb-6 text-center md:text-left"

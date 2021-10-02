@@ -264,9 +264,13 @@
             >*{{ validatetext.all }}</div>
             <button
               type="submit"
-              class="mx-auto mt-8 md:mb-6 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+              class="mx-auto mt-8 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
             >Create Account</button>
           </form>
+          <div class="md:mt-8 md:mb-6 mt-6 md:text-base text-sm">
+            Already Have An Account? 
+            <NuxtLink to="/signin" class="underline text-lightorange">Sign In.</NuxtLink>
+          </div>
         </div>
       </div>
     </div>

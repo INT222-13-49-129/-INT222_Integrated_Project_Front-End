@@ -15,7 +15,7 @@
       <Modal
         classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
       >
-        <img src="../assets/img/loading.svg" class="md:h-32 h-20" />
+        <img src="../../assets/img/loading.svg" class="md:h-32 h-20" />
         <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
       </Modal>
     </div>
@@ -88,6 +88,7 @@
             <div class="flex flex-row-reverse flex-wrap-reverse justify-between mt-1">
               <span
                 class="text-gray-400 text-sm font-thin underline cursor-pointer"
+                @click="$router.push('/signin/forgetpass')"
               >Forget password?</span>
               <span
                 v-if="!validate.password && !validate.from"
@@ -113,10 +114,10 @@
   </div>
 </template>
 <script>
-import { formData } from '../utils/api'
-import * as AuthApi from '../utils/authApi'
-import Modal from '../components/Modal.vue';
-import OTP from '../components/OTP.vue';
+import { formData } from '../../utils/api'
+import * as AuthApi from '../../utils/authApi'
+import Modal from '../../components/Modal.vue';
+import OTP from '../../components/OTP.vue';
 export default {
   components: {
     Modal,
