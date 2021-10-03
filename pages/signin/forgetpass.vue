@@ -3,7 +3,7 @@
         <div class="absolute md:top-5 top-3 left-5">
             <i
                 class="material-icons md:text-5xl text-4xl text-lightorange md:hover:animate-bouncexl cursor-pointer"
-                @click="$router.push('/signin')"
+                @click="$router.replace('/signin')"
             >keyboard_backspace</i>
         </div>
         <div v-if="loading">
