@@ -3,7 +3,9 @@
         <div class="absolute md:top-5 top-3 left-5">
             <i
                 class="material-icons md:text-5xl text-4xl text-lightorange md:hover:animate-bouncexl cursor-pointer"
-                @click="$router.replace('/signin')"
+                @click="hasHistory()
+                ? $router.go(-1)
+                : $router.replace('/signin')"
             >keyboard_backspace</i>
         </div>
         <div v-if="loading">
@@ -191,6 +193,9 @@ export default {
         }
     },
     methods: {
+        hasHistory() {
+            return window.history.length > 2
+        },
         async sendemailforgot() {
             this.validateFrom()
             if (this.validate.email) {
