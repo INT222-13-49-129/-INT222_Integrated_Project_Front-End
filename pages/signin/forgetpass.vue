@@ -1,12 +1,20 @@
 <template>
-    <div class="z-30 bg-white inset-0 fixed flex justify-center items-center">
+    <div class="z-30 bg-white flex items-center overflow-scroll w-full h-full">
         <div class="absolute md:top-5 top-3 left-5">
             <i
                 class="material-icons md:text-5xl text-4xl text-lightorange md:hover:animate-bouncexl cursor-pointer"
                 @click="$router.push('/signin')"
             >keyboard_backspace</i>
         </div>
-        <div class="flex md:flex-row flex-col">
+        <div v-if="loading">
+            <Modal
+                classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+            >
+                <img src="../../assets/img/loading.svg" class="md:h-32 h-20" />
+                <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+            </Modal>
+        </div>
+        <div class="flex md:flex-row flex-col my-auto mx-auto py-6">
             <img src="../../assets/img/mail.svg" class="md:h-36 h-28 md:my-auto" />
             <div class="md:pl-28 mx-auto md:mx-0">
                 <div
@@ -16,122 +24,134 @@
                     v-if="!havemail"
                     class="md:text-lg text-sm px-5 md:px-0 text-gray-400 md:w-128"
                 >
-                    <span>Enter the email associated with your account and we’ll send an email instructions to reset your password.</span>
-                    <div class="mt-8 text-left text-sm md:text-base">
-                        <label class="mb-1" for="email">Email Address</label>
-                        <br />
-                        <input
-                            id="email"
-                            v-model="forgotpass.email"
-                            type="email"
-                            required
-                            class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
-                            placeholder="you@company.com"
-                            @keyup="validate.from ? '' : validateFrom()"
-                        />
-                        <br />
-                        <span
-                            v-if="!validate.email && !validate.from"
-                            class="text-red-600 text-xs font-thin"
-                        >*{{ validatetext.email }}</span>
-                    </div>
-                    <div class="flex md:justify-end justify-center text-lg">
-                        <button
-                            class="md:mr-4 mt-6 bg-orange text-white px-6 rounded-lg py-1"
-                            @click="havemail=true"
-                        >Send Instructions</button>
-                    </div>
+                    <form @submit.prevent="sendemailforgot()">
+                        <span>Enter the email associated with your account and we’ll send an email instructions to reset your password.</span>
+                        <div class="mt-8 text-left text-sm md:text-base">
+                            <label class="mb-1" for="email">Email Address</label>
+                            <br />
+                            <input
+                                id="email"
+                                v-model="forgotpass.email"
+                                type="email"
+                                required
+                                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1 text-gray-600"
+                                placeholder="you@company.com"
+                                @keyup="validate.email ? '' : validateFrom()"
+                            />
+                            <br />
+                            <span
+                                v-if="!validate.email"
+                                class="text-red-600 text-xs font-thin"
+                            >*{{ validatetext.email }}</span>
+                        </div>
+                        <div class="flex md:justify-end justify-center text-lg">
+                            <button
+                                type="submit"
+                                class="md:mr-4 mt-6 bg-orange text-white px-6 rounded-lg py-1"
+                            >Send Instructions</button>
+                        </div>
+                    </form>
                 </div>
                 <div v-if="havemail" class="md:text-lg text-sm px-5 md:px-0 text-gray-400 md:w-128">
-                    <span>
-                        Enter the confirmation code sent to
-                        <span
-                            class="text-blue-600"
-                        >{{ forgotpass.email }}</span>
-                        <br />and click button confirm to complete the process.
-                    </span>
-                    <div
-                        class="mt-6 -mb-4 text-left text-sm md:text-lg text-gray-600"
-                    >OTP Verification code</div>
-                    <OtpInput
-                        v-model="forgotpass.pin"
-                        classtext="md:w-10 w-8 md:text-3xl text-2xl"
-                    />
-                    <div
-                        v-if="!validate.pin && !validate.from"
-                        class="text-red-600 text-xs -mt-3 mb-1.5 font-thin text-center md:text-left"
-                    >*{{ validatetext.pin }}</div>
-                    <div
-                        class="w-11/12"
-                    >Your new password should be different from your previous password.</div>
-                    <div class="mt-6 text-left text-sm md:text-lg">
-                        <label class="text-gray-600" for="password">Password</label>
-                        <br />
-                        <div class="relative min-w-min">
+                    <form @submit.prevent="sendemailpinpass()">
+                        <div class="flex flex-wrap items-center">
+                            Enter the confirmation code sent to
                             <span
-                                class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
-                                @click="showpass = !showpass"
-                            >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
-                            <input
-                                id="password"
-                                v-model="forgotpass.password"
-                                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
-                                required
-                                placeholder="your password"
-                                :type="showpass ? 'password' : 'text'"
-                                @keyup.enter="submitFrom()"
-                                @keyup="validate.from ? '' : validateFrom()"
-                            />
-                            <br />
+                                class="text-blue-600 mx-1"
+                            >{{ forgotpass.email }}</span>
+                            <i
+                                class="material-icons md:text-lg text-base cursor-pointer"
+                                @click="havemail = false"
+                            >edit</i>
+                            and click button confirm to complete the process.
                         </div>
-                        <span
-                            v-if="!validate.password && !validate.from"
-                            class="text-red-600 text-xs font-thin"
-                        >*{{ validatetext.password }}</span>
-                    </div>
-                    <div class="mt-4 text-left text-sm md:text-lg">
-                        <label class="text-gray-600" for="password">Comfirm Password</label>
-                        <br />
-                        <div class="relative min-w-min">
+                        <div
+                            class="mt-6 -mb-4 text-left text-sm md:text-lg text-gray-600"
+                        >OTP Verification code</div>
+                        <OtpInput
+                            v-model="forgotpass.pin"
+                            classtext="md:w-10 w-8 md:text-3xl text-2xl"
+                        />
+                        <div
+                            v-if="!validate.pin && !validate.from"
+                            class="text-red-600 text-xs -mt-3 mb-1.5 font-thin text-center md:text-left"
+                        >*{{ validatetext.pin }}</div>
+                        <div
+                            class="w-11/12"
+                        >Your new password should be different from your previous password.</div>
+                        <div class="mt-6 text-left text-sm md:text-lg">
+                            <label class="text-gray-600" for="password">Password</label>
+                            <br />
+                            <div class="relative min-w-min">
+                                <span
+                                    class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
+                                    @click="showpass = !showpass"
+                                >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
+                                <input
+                                    id="password"
+                                    v-model="forgotpass.password"
+                                    class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+                                    required
+                                    placeholder="your password"
+                                    :type="showpass ? 'password' : 'text'"
+                                    @keyup="validate.from ? '' : validateFrom(true)"
+                                />
+                                <br />
+                            </div>
                             <span
-                                class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
-                                @click="showpass = !showpass"
-                            >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
-                            <input
-                                id="password"
-                                v-model="forgotpass.password"
-                                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
-                                required
-                                placeholder="again password"
-                                :type="showpass ? 'password' : 'text'"
-                                @keyup.enter="submitFrom()"
-                                @keyup="validate.from ? '' : validateFrom()"
-                            />
-                            <br />
+                                v-if="!validate.password && !validate.from"
+                                class="text-red-600 text-xs font-thin"
+                            >*{{ validatetext.password }}</span>
                         </div>
-                        <span
-                            v-if="!validate.password && !validate.from"
-                            class="text-red-600 text-xs font-thin"
-                        >*{{ validatetext.password }}</span>
-                    </div>
-                    <div
-                        class="text-lg md:mt-10 mt-6 flex md:justify-end justify-center items-center md:items-start"
-                    >
-                        <button
-                            class="bg-orange text-white px-6 rounded-lg py-1"
-                            @click="havemail=false"
-                        >Reset Password</button>
-                    </div>
+                        <div class="mt-4 text-left text-sm md:text-lg">
+                            <label class="text-gray-600" for="password">Comfirm Password</label>
+                            <br />
+                            <div class="relative min-w-min">
+                                <span
+                                    class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
+                                    @click="showpass = !showpass"
+                                >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
+                                <input
+                                    id="password"
+                                    v-model="recheckpass"
+                                    class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+                                    required
+                                    placeholder="again password"
+                                    :type="showpass ? 'password' : 'text'"
+                                    @keyup="validate.from ? '' : validateFrom(true)"
+                                />
+                                <br />
+                            </div>
+                            <span
+                                v-if="!validate.recheckpass && !validate.from"
+                                class="text-red-600 text-xs font-thin"
+                            >*{{ validatetext.recheckpass }}</span>
+                        </div>
+                        <div
+                            v-if="!validate.all && !validate.from"
+                            class="text-red-600 text-xs font-thin text-left mt-2"
+                        >*{{ validatetext.all }}</div>
+                        <div
+                            class="text-lg md:mt-10 mt-6 flex md:justify-end justify-center items-center md:items-start"
+                        >
+                            <button
+                                type="submit"
+                                class="bg-orange text-white px-6 rounded-lg py-1"
+                            >Reset Password</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-// import * as AuthApi from '../../utils/authApi'
+import * as AuthApi from '../../utils/authApi'
 import OtpInput from "../../components/OtpInput.vue"
+import Modal from '../../components/Modal.vue';
 export default {
     components: {
+        Modal,
         OtpInput
     },
     layout: 'signinbg',
@@ -139,30 +159,113 @@ export default {
         return {
             havemail: false,
             showpass: true,
+            loading: false,
+            recheckpass: '',
             forgotpass: {
                 email: '',
                 pin: '',
                 password: ''
             },
             validate: {
-                email: false,
+                email: true,
                 pin: false,
                 password: false,
+                recheckpass: false,
+                all: false,
                 from: true
             },
             validatetext: {
                 email: '',
                 pin: '',
-                password: ''
+                password: '',
+                recheckpass: '',
+                all: '',
+            }
+        }
+    },
+    watch: {
+        'forgotpass.pin': function otpCheck() {
+            if (!this.validate.from) {
+                this.validateFrom(true)
             }
         }
     },
     methods: {
-        validateFrom(chackall = false) {
+        async sendemailforgot() {
+            this.validateFrom()
+            if (this.validate.email) {
+                try {
+                    this.loading = true
+                    const response = await AuthApi.pinforgotpass({ email: this.forgotpass.email })
+                    this.loading = false
+                    if (response.data.success) {
+                        this.havemail = true
+                    }
+                } catch (err) {
+                    this.loading = false
+                    this.validate.email = false
+                    const status = err.response?.data?.status
+                    if (status === 2004) {
+                        this.validatetext.email = 'ไม่พบ Email นี้ในระบบ'
+                    }
+                    if (status === 2012) {
+                        this.validatetext.email = 'Email นี้ยังไม่ได้ยืนยัน'
+                    }
+                    if ([500, 400].includes(err.response?.status) || err.response === undefined) {
+                        this.validatetext.email = 'ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่'
+                    }
+                }
+            }
+        },
+        async sendemailpinpass() {
+            this.validateFrom(true)
+            if (this.validate.from) {
+                try {
+                    this.loading = true
+                    const response = await AuthApi.pinverifyforgotpass(this.forgotpass)
+                    this.loading = false
+                    if (response.data.success) {
+                        this.$auth.setUser(response.data.user)
+                        await this.$auth.setUserToken(response.data.token)
+                        this.$router.replace('/user')
+                    }
+                } catch (err) {
+                    this.loading = false
+                    this.validate.from = false
+                    const status = err.response?.data?.status
+                    if (status === 2004) {
+                        this.validatetext.email = 'ไม่พบ Email นี้ในระบบ'
+                        this.validate.email = false
+                        this.havemail = false
+                    }
+                    if (status === 9001) {
+                        this.validatetext.pin = 'ไม่พบรหัสยืนยันของ Email นี้ในระบบ'
+                        this.validate.pin = false
+                    }
+                    if (status === 9003) {
+                        this.validatetext.pin = 'OTP ของ Email หมดอายุการใช้งานแล้ว'
+                        this.validate.pin = false
+                    }
+                    if (status === 9002) {
+                        this.validatetext.pin = 'OTP ไม่ถูกต้อง'
+                        this.validate.pin = false
+                    }
+                    if (status === 2014) {
+                        this.validatetext.password = 'ไม่มีค่า password'
+                        this.validate.password = false
+                    }
+                    if ([500, 400].includes(err.response?.status) || err.response === undefined) {
+                        this.validatetext.all = 'ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่'
+                        this.validate.all = false
+                    }
+                }
+            }
+        },
+        validateFrom(checkall = false) {
             if (this.forgotpass.email === '') {
                 this.validatetext.email = 'กรุณาใส่ Email '
                 this.validate.email = false
-            } else if (!this.validateEmail(this.login.email)) {
+            } else if (!this.validateEmail(this.forgotpass.email)) {
                 this.validatetext.email = 'กรุณาใส่ Email ให้ถูกต้อง'
                 this.validate.email = false
             } else {
@@ -179,8 +282,29 @@ export default {
                 this.validate.password = true
             }
 
+            if (this.recheckpass === '') {
+                this.validatetext.recheckpass = 'กรุณายืนยัน Password'
+                this.validate.recheckpass = false
+            } else if (this.recheckpass !== this.forgotpass.password) {
+                this.validatetext.recheckpass = 'Password ไม่ตรงกัน'
+                this.validate.recheckpass = false
+            } else {
+                this.validate.recheckpass = true
+            }
+
+            if (this.forgotpass.pin === '') {
+                this.validatetext.pin = 'กรุณาใส่ OTP'
+                this.validate.pin = false
+            } else if (this.forgotpass.pin.length < 6) {
+                this.validatetext.pin = 'กรุณาใส่ค่าให้ครบ'
+                this.validate.pin = false
+            } else {
+                this.validate.pin = true
+            }
+
+            this.validate.all = true
             this.validate.from = true
-            if (chackall) {
+            if (checkall) {
                 Object.values(this.validate).forEach(v => {
                     this.validate.from = v && this.validate.from
                 });
