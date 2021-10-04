@@ -30,7 +30,7 @@
     </div>
     <div class="flex md:flex-row flex-col w-full min-h-screen">
       <div
-        class="md:w-1/6 md:bg-gray-200 mx-auto mt-2 md:mt-0 flex items-center md:items-start md:flex-col flex-row md:py-10 py-4 md:pl-8 pl-4 pr-4 md:text-2xl text-lg md:gap-y-8 gap-x-6 md:gap-x-0 md:text-salmon text-gray-600"
+        class="md:w-1/6 md:bg-gray-200 mx-auto mt-2 md:mt-0 flex items-center md:items-start md:flex-col flex-row md:py-10 py-4 md:pl-8 pl-4 pr-4 md:text-2xl text-lg md:gap-y-8 gap-x-8 md:gap-x-0 md:text-salmon text-gray-600"
       >
         <div class="flex-shrink-0 md:w-full">
           <div>General</div>
@@ -73,7 +73,7 @@
           <div>[number page]</div>
         </div>
         <div class="flex md:flex-wrap flex-col md:flex-row md:gap-y-4 md:gap-x-4 md:pl-5 pl-2 md:pr-0 pr-2 md:pt-0 pt-2 divide-y-2 md:divide-y-0">
-          <div v-for="i in 21" :key="i" class="py-2 md:py-0">
+          <div v-for="i in 18" :key="i" class="py-2 md:py-0">
             <Item
               :item="{
                 name: `ข้าวกระเพราหมู ${i}`,
