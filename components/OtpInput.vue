@@ -1,5 +1,5 @@
 <template>
-    <div class="my-6 flex md:mx-0 mx-auto w-min">
+    <div class="my-6 flex xl:mx-0 mx-auto w-min">
         <input
             v-for="(input, index) in length"
             :id="index"

@@ -1,8 +1,8 @@
 <template>
     <div class="z-30 bg-white flex items-center overflow-scroll w-full h-full">
-        <div class="absolute md:top-5 top-3 left-5">
+        <div class="absolute xl:top-5 top-3 left-5">
             <i
-                class="material-icons md:text-5xl text-4xl text-lightorange md:hover:animate-bouncexl cursor-pointer"
+                class="material-icons xl:text-5xl text-4xl text-lightorange xl:hover:animate-bouncexl cursor-pointer"
                 @click="hasHistory()
                 ? $router.go(-1)
                 : $router.replace('/signin')"
@@ -10,25 +10,25 @@
         </div>
         <div v-if="loading">
             <Modal
-                classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+                classpop="flex flex-col justify-center text-center xl:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed xl:px-16 px-10"
             >
-                <img src="../../assets/img/loading.svg" class="md:h-32 h-20" />
-                <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+                <img src="../../assets/img/loading.svg" class="xl:h-32 h-20" />
+                <div class="xl:text-3xl text-xl xl:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
             </Modal>
         </div>
-        <div class="flex md:flex-row flex-col my-auto mx-auto py-6">
-            <img src="../../assets/img/mail.svg" class="md:h-36 h-28 md:my-auto" />
-            <div class="md:pl-28 mx-auto md:mx-0">
+        <div class="flex xl:flex-row flex-col my-auto mx-auto py-6">
+            <img src="../../assets/img/mail.svg" class="xl:h-36 h-28 xl:my-auto" />
+            <div class="xl:pl-28 mx-auto xl:mx-0">
                 <div
-                    class="md:text-5xl text-3xl text-center md:text-left my-6 md:my-0 md:mb-3"
+                    class="xl:text-5xl text-3xl text-center xl:text-left my-6 xl:my-0 xl:mb-3"
                 >Reset password</div>
                 <div
                     v-if="!havemail"
-                    class="md:text-lg text-sm px-5 md:px-0 text-gray-400 md:w-128"
+                    class="xl:text-lg text-sm px-5 xl:px-0 text-gray-400 xl:w-128"
                 >
                     <form @submit.prevent="sendemailforgot()">
                         <span>Enter the email associated with your account and we’ll send an email instructions to reset your password.</span>
-                        <div class="mt-8 text-left text-sm md:text-base">
+                        <div class="mt-8 text-left text-sm xl:text-base">
                             <label class="mb-1" for="email">Email Address</label>
                             <br />
                             <input
@@ -36,7 +36,7 @@
                                 v-model="forgotpass.email"
                                 type="email"
                                 required
-                                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1 text-gray-600"
+                                class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin text-sm xl:pl-5 pl-2 xl:mt-3 mt-1 text-gray-600"
                                 placeholder="you@company.com"
                                 @keyup="validate.email ? '' : validateFrom()"
                             />
@@ -46,15 +46,15 @@
                                 class="text-red-600 text-xs font-thin"
                             >*{{ validatetext.email }}</span>
                         </div>
-                        <div class="flex md:justify-end justify-center text-lg">
+                        <div class="flex xl:justify-end justify-center text-lg">
                             <button
                                 type="submit"
-                                class="md:mr-4 mt-6 bg-orange text-white px-6 rounded-lg py-1"
+                                class="xl:mr-4 mt-6 bg-orange text-white px-6 rounded-lg py-1"
                             >Send Instructions</button>
                         </div>
                     </form>
                 </div>
-                <div v-if="havemail" class="md:text-lg text-sm px-5 md:px-0 text-gray-400 md:w-128">
+                <div v-if="havemail" class="xl:text-lg text-sm px-5 xl:px-0 text-gray-400 xl:w-128">
                     <form @submit.prevent="sendemailpinpass()">
                         <div class="flex flex-wrap items-center">
                             Enter the confirmation code sent to
@@ -62,37 +62,37 @@
                                 class="text-blue-600 mx-1"
                             >{{ forgotpass.email }}</span>
                             <i
-                                class="material-icons md:text-lg text-base cursor-pointer"
+                                class="material-icons xl:text-lg text-base cursor-pointer"
                                 @click="havemail = false"
                             >edit</i>
                             and click button confirm to complete the process.
                         </div>
                         <div
-                            class="mt-6 -mb-4 text-left text-sm md:text-lg text-gray-600"
+                            class="mt-6 -mb-4 text-left text-sm xl:text-lg text-gray-600"
                         >OTP Verification code</div>
                         <OtpInput
                             v-model="forgotpass.pin"
-                            classtext="md:w-10 w-8 md:text-3xl text-2xl"
+                            classtext="xl:w-10 w-8 xl:text-3xl text-2xl"
                         />
                         <div
                             v-if="!validate.pin && !validate.from"
-                            class="text-red-600 text-xs -mt-3 mb-1.5 font-thin text-center md:text-left"
+                            class="text-red-600 text-xs -mt-3 mb-1.5 font-thin text-center xl:text-left"
                         >*{{ validatetext.pin }}</div>
                         <div
                             class="w-11/12"
                         >Your new password should be different from your previous password.</div>
-                        <div class="mt-6 text-left text-sm md:text-lg">
+                        <div class="mt-6 text-left text-sm xl:text-lg">
                             <label class="text-gray-600" for="password">Password</label>
                             <br />
                             <div class="relative min-w-min">
                                 <span
-                                    class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
+                                    class="material-icons absolute xl:top-5 top-2 right-2 cursor-pointer text-gray-400"
                                     @click="showpass = !showpass"
                                 >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
                                 <input
                                     id="password"
                                     v-model="forgotpass.password"
-                                    class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+                                    class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin text-sm xl:pl-5 pl-2 xl:mt-3 mt-1"
                                     required
                                     placeholder="your password"
                                     :type="showpass ? 'password' : 'text'"
@@ -105,18 +105,18 @@
                                 class="text-red-600 text-xs font-thin"
                             >*{{ validatetext.password }}</span>
                         </div>
-                        <div class="mt-4 text-left text-sm md:text-lg">
+                        <div class="mt-4 text-left text-sm xl:text-lg">
                             <label class="text-gray-600" for="password">Comfirm Password</label>
                             <br />
                             <div class="relative min-w-min">
                                 <span
-                                    class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
+                                    class="material-icons absolute xl:top-5 top-2 right-2 cursor-pointer text-gray-400"
                                     @click="showpass = !showpass"
                                 >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
                                 <input
                                     id="password"
                                     v-model="recheckpass"
-                                    class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+                                    class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin text-sm xl:pl-5 pl-2 xl:mt-3 mt-1"
                                     required
                                     placeholder="again password"
                                     :type="showpass ? 'password' : 'text'"
@@ -134,7 +134,7 @@
                             class="text-red-600 text-xs font-thin text-left mt-2"
                         >*{{ validatetext.all }}</div>
                         <div
-                            class="text-lg md:mt-10 mt-6 flex md:justify-end justify-center items-center md:items-start"
+                            class="text-lg xl:mt-10 mt-6 flex xl:justify-end justify-center items-center xl:items-start"
                         >
                             <button
                                 type="submit"

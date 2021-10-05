@@ -1,9 +1,9 @@
 <template>
   <div class="w-screen h-screen fixed">
-    <div class="flex flex-col item-center w-full h-full text-gray-600 overflow-scroll md:py-16">
-      <div class="absolute md:top-5 top-3 left-5">
+    <div class="flex flex-col item-center w-full h-full text-gray-600 overflow-scroll xl:py-16">
+      <div class="absolute xl:top-5 top-3 left-5">
         <i
-          class="material-icons md:text-5xl text-4xl text-gray-400 opacity-50 md:hover:animate-bouncexl cursor-pointer"
+          class="material-icons xl:text-5xl text-4xl text-gray-400 opacity-50 xl:hover:animate-bouncexl cursor-pointer"
           @click="hasHistory()
           ? $router.go(-1)
           : $router.push('/')"
@@ -14,52 +14,52 @@
       </div>
       <div v-if="loading">
         <Modal
-          classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+          classpop="flex flex-col justify-center text-center xl:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed xl:px-16 px-10"
         >
-          <img src="../assets/img/loading.svg" class="md:h-32 h-20" />
-          <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+          <img src="../assets/img/loading.svg" class="xl:h-32 h-20" />
+          <div class="xl:text-3xl text-xl xl:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
         </Modal>
       </div>
       <div v-if="emailverified">
         <Modal
-          classpop="relative flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+          classpop="relative flex flex-col justify-center text-center xl:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed xl:px-16 px-10"
         >
           <i
-            class="absolute md:top-5 top-3 md:right-5 right-3 material-icons text-gray-400 md:text-3xl text-2xl cursor-pointer"
+            class="absolute xl:top-5 top-3 xl:right-5 right-3 material-icons text-gray-400 xl:text-3xl text-2xl cursor-pointer"
             @click="emailverified = false"
           >close</i>
-          <div class="md:text-3xl text-xl md:mt-5 mt-2">Email นี้อยู่ระหว่างรอการยืนยัน</div>
-          <div class="md:text-2xl text-base md:mt-5 mt-3">ต้องการใช้ข้อมูลที่ลงทะเบียนใหม่หรือไม่ ?</div>
-          <div class="flex justify-between items-center px-3 md:flex-row flex-col">
+          <div class="xl:text-3xl text-xl xl:mt-5 mt-2">Email นี้อยู่ระหว่างรอการยืนยัน</div>
+          <div class="xl:text-2xl text-base xl:mt-5 mt-3">ต้องการใช้ข้อมูลที่ลงทะเบียนใหม่หรือไม่ ?</div>
+          <div class="flex justify-between items-center px-3 xl:flex-row flex-col">
             <button
-              class="md:mt-8 mt-4 md:px-4 mx-auto w-5/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg border-brightsalmon border-2 text-lightorange bg-white"
+              class="xl:mt-8 mt-4 xl:px-4 mx-auto w-5/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg border-brightsalmon border-2 text-lightorange bg-white"
               @click="submitFrom(true), emailverified = false"
             >ใช้ข้อมูลใหม่</button>
-            <div class="md:mt-7 mt-3"> หรือ </div>
+            <div class="xl:mt-7 mt-3"> หรือ </div>
             <button
-              class="md:mt-8 mt-3 md:px-4 mx-auto w-5/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+              class="xl:mt-8 mt-3 xl:px-4 mx-auto w-5/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg text-white bg-brightsalmon"
               @click="otpresend(), emailverified = false"
             >ยืนยันข้อมูลเดิม</button>
           </div>
         </Modal>
       </div>
       <div
-        class="mx-auto my-auto md:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
+        class="mx-auto my-auto xl:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
       >
         <div>
-          <p class="md:text-4xl text-2xl font-bold text-lightorange pt-10 pb-3">Create An Account</p>
-          <p class="md:text-lg text-sm">
+          <p class="xl:text-4xl text-2xl font-bold text-lightorange pt-10 pb-3">Create An Account</p>
+          <p class="xl:text-lg text-sm">
             Create an account to enjoy all the services
             <br />without any ads for free!
           </p>
           <form @submit.prevent="submitFrom()">
-            <div class="md:mt-8 mt-4 mx-10 md:mx-44 text-left text-xs md:text-base">
+            <div class="xl:mt-8 mt-4 mx-10 xl:mx-44 text-left text-xs xl:text-base">
               <input
                 id="email"
                 v-model="regis.email"
                 type="email"
                 required
-                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                 placeholder="Email Address"
                 @keyup="validate.from ? '' : validateFrom()"
               />
@@ -69,12 +69,12 @@
                 class="text-red-600 text-xs font-thin"
               >*{{ validatetext.email }}</span>
             </div>
-            <div class="md:mt-3 mt-1 mx-10 md:mx-44 text-left text-xs md:text-base">
+            <div class="xl:mt-3 mt-1 mx-10 xl:mx-44 text-left text-xs xl:text-base">
               <input
                 id="username"
                 v-model="regis.username"
                 required
-                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                 placeholder="Username"
                 @keyup="validate.from ? '' : validateFrom()"
               />
@@ -86,13 +86,13 @@
             </div>
             <div class="flex flex-row">
               <div
-                class="flex-grow w-1/2 md:mt-3 mt-1 ml-10 md:ml-44 text-left text-xs md:text-base"
+                class="flex-grow w-1/2 xl:mt-3 mt-1 ml-10 xl:ml-44 text-left text-xs xl:text-base"
               >
                 <input
                   id="firstname"
                   v-model="regis.firstname"
                   required
-                  class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="Firstname"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
@@ -102,17 +102,17 @@
                   class="text-red-600 text-xs font-thin"
                 >*{{ validatetext.firstname }}</span>
               </div>
-              <div class="flex-shrink md:w-10 w-3">
+              <div class="flex-shrink xl:w-10 w-3">
                 <!-- This item will shrink -->
               </div>
               <div
-                class="flex-grow w-1/2 md:mt-3 mt-1 mr-10 md:mr-44 text-left text-xs md:text-base"
+                class="flex-grow w-1/2 xl:mt-3 mt-1 mr-10 xl:mr-44 text-left text-xs xl:text-base"
               >
                 <input
                   id="lastname"
                   v-model="regis.lastname"
                   required
-                  class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="Surname"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
@@ -123,17 +123,17 @@
                 >*{{ validatetext.lastname }}</span>
               </div>
             </div>
-            <div class="md:mt-3 mt-1 mx-10 md:mx-44 text-left text-xs md:text-base">
+            <div class="xl:mt-3 mt-1 mx-10 xl:mx-44 text-left text-xs xl:text-base">
               <div class="relative min-w-min">
                 <span
-                  class="material-icons absolute md:top-3 top-1 right-2 cursor-pointer text-gray-400"
+                  class="material-icons absolute xl:top-3 top-1 right-2 cursor-pointer text-gray-400"
                   @click="showpass = !showpass"
                 >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
                 <input
                   id="password"
                   v-model="regis.password"
                   required
-                  class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="Password"
                   :type="showpass ? 'password' : 'text'"
                   @keyup="validate.from ? '' : validateFrom()"
@@ -145,17 +145,17 @@
                 >*{{ validatetext.password }}</span>
               </div>
             </div>
-            <div class="md:mt-3 mt-1 mx-10 md:mx-44 text-left text-xs md:text-base">
+            <div class="xl:mt-3 mt-1 mx-10 xl:mx-44 text-left text-xs xl:text-base">
               <div class="relative min-w-min">
                 <span
-                  class="material-icons absolute md:top-3 top-1 right-2 cursor-pointer text-gray-400"
+                  class="material-icons absolute xl:top-3 top-1 right-2 cursor-pointer text-gray-400"
                   @click="showpass = !showpass"
                 >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
                 <input
                   id="recheckpass"
                   v-model="recheckpass"
                   required
-                  class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="Again Password"
                   :type="showpass ? 'password' : 'text'"
                   @keyup="validate.from ? '' : validateFrom()"
@@ -168,13 +168,13 @@
             </div>
             <div class="flex flex-row">
               <div
-                class="flex-grow w-1/2 md:mt-3 mt-1 ml-10 md:ml-44 text-left text-xs md:text-base"
+                class="flex-grow w-1/2 xl:mt-3 mt-1 ml-10 xl:ml-44 text-left text-xs xl:text-base"
               >
                 <select
                   id="gender"
                   v-model="regis.gender"
                   required
-                  class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   @change="validate.from ? '' : validateFrom()"
                 >
                   <option value disabled selected>เพศ</option>
@@ -186,11 +186,11 @@
                   class="text-red-600 text-xs font-thin text-left"
                 >*{{ validatetext.gender }}</span>
               </div>
-              <div class="flex-shrink md:w-10 w-3">
+              <div class="flex-shrink xl:w-10 w-3">
                 <!-- This item will shrink -->
               </div>
               <div
-                class="flex-grow w-1/2 md:mt-3 mt-1 mr-10 md:mr-44 text-left text-xs md:text-base"
+                class="flex-grow w-1/2 xl:mt-3 mt-1 mr-10 xl:mr-44 text-left text-xs xl:text-base"
               >
                 <input
                   id="doB"
@@ -198,7 +198,7 @@
                   type="date"
                   required
                   :max="currentDate()"
-                  class="rounded-md border-2 border-gray-100 text-gray-400 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 text-gray-400 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="dd-mm-yyyy"
                   @change="validate.from ? '' : validateFrom()"
                 />
@@ -211,7 +211,7 @@
 
             <div class="flex flex-row">
               <div
-                class="flex-grow w-1/2 md:mt-3 mt-1 ml-10 md:ml-44 text-left text-xs md:text-base"
+                class="flex-grow w-1/2 xl:mt-3 mt-1 ml-10 xl:ml-44 text-left text-xs xl:text-base"
               >
                 <input
                   id="weight"
@@ -221,21 +221,21 @@
                   max="999.99"
                   step="any"
                   required
-                  class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="น้ำหนัก (กก.)"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
                 <div class="flex flex-row-reverse flex-wrap-reverse justify-between mt-1 px-1">
-                  <span class="md:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
+                  <span class="xl:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
                   <span
                     v-if="!validate.weight && !validate.from"
                     class="text-red-600 text-xs font-thin mt-1"
                   >*{{ validatetext.weight }}</span>
                 </div>
               </div>
-              <div class="flex-shrink md:w-10 w-3"></div>
+              <div class="flex-shrink xl:w-10 w-3"></div>
               <div
-                class="flex-grow w-1/2 md:mt-3 mt-1 mr-10 md:mr-44 text-left text-xs md:text-base"
+                class="flex-grow w-1/2 xl:mt-3 mt-1 mr-10 xl:mr-44 text-left text-xs xl:text-base"
               >
                 <input
                   id="height"
@@ -245,12 +245,12 @@
                   max="999.99"
                   step="any"
                   required
-                  class="rounded-md border-2 border-gray-100 text-gray-400 w-full md:h-10 h-8 font-thin md:pl-5 pl-2 md:mt-1"
+                  class="rounded-md border-2 border-gray-100 text-gray-400 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="ส่วนสูง (ซม.)"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
                 <div class="flex flex-row-reverse flex-wrap-reverse justify-between mt-1 px-1">
-                  <span class="md:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
+                  <span class="xl:mb-6 text-xs mt-1 text-right text-gray-400">ใส่ทศนิยมได้</span>
                   <span
                     v-if="!validate.height && !validate.from"
                     class="text-red-600 text-xs font-thin mt-1"
@@ -260,14 +260,14 @@
             </div>
             <div
               v-if="!validate.all && !validate.from"
-              class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
+              class="text-red-600 text-xs font-thin mx-10 xl:mx-44 text-left -mb-2"
             >*{{ validatetext.all }}</div>
             <button
               type="submit"
-              class="mx-auto mt-8 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+              class="mx-auto mt-8 xl:px-14 w-3/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg text-white bg-brightsalmon"
             >Create Account</button>
           </form>
-          <div class="md:mt-8 md:mb-6 mt-6 md:text-base text-sm">
+          <div class="xl:mt-8 xl:mb-6 mt-6 xl:text-base text-sm">
             Already Have An Account? 
             <NuxtLink to="/signin" class="underline text-lightorange">Sign In.</NuxtLink>
           </div>

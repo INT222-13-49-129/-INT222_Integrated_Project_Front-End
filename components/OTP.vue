@@ -1,27 +1,27 @@
 <template>
     <div class="z-30 bg-white inset-0 fixed flex justify-center items-center">
-        <div class="absolute md:top-5 top-3 left-5">
+        <div class="absolute xl:top-5 top-3 left-5">
             <i
-                class="material-icons md:text-6xl text-5xl text-lightorange cursor-pointer"
+                class="material-icons xl:text-6xl text-5xl text-lightorange cursor-pointer"
                 @click="$parent.otpshow(false)"
             >close</i>
         </div>
-        <div class="flex md:flex-row flex-col">
-            <img src="../assets/img/mail.svg" class="md:h-36 h-28 my-auto" />
-            <div class="md:pl-28 mx-auto md:mx-0">
-                <div class="md:text-6xl text-3xl text-center md:text-left my-6 md:my-0">OTP Verification</div>
-                <div class="md:text-lg text-sm px-5 md:px-0 text-gray-400">
+        <div class="flex xl:flex-row flex-col">
+            <img src="../assets/img/mail.svg" class="xl:h-36 h-28 my-auto" />
+            <div class="xl:pl-28 mx-auto xl:mx-0">
+                <div class="xl:text-6xl text-3xl text-center xl:text-left my-6 xl:my-0">OTP Verification</div>
+                <div class="xl:text-lg text-sm px-5 xl:px-0 text-gray-400">
                     Enter the confirmation code sent to
                     <span class="text-blue-600">{{ email }}</span>
                     <br />and click buttom confirm to complete the process.
                 </div>
-                <OtpInput v-model="otp" classtext="md:w-16 w-8 md:text-5xl text-2xl"/>
+                <OtpInput v-model="otp" classtext="xl:w-16 w-8 xl:text-5xl text-2xl"/>
                 <div
                     v-if="!validateotp"
-                    class="text-red-600 text-base font-thin -mb-6 text-center md:text-left"
+                    class="text-red-600 text-base font-thin -mb-6 text-center xl:text-left"
                 >*{{ validatetext }}</div>
                 <div
-                    class="text-lg md:mt-16 mt-10 flex md:flex-row flex-col justify-between items-center md:items-start"
+                    class="text-lg xl:mt-16 mt-10 flex xl:flex-row flex-col justify-between items-center xl:items-start"
                 >
                     <span>
                         ไม่ได้ อีเมล ?
@@ -31,7 +31,7 @@
                         >ส่งรหัสอีกครั้ง?</span>
                     </span>
                     <button
-                        class="md:mr-8 md:-mt-1.5 mt-6 bg-orange text-white px-6 rounded-lg py-1"
+                        class="xl:mr-8 xl:-mt-1.5 mt-6 bg-orange text-white px-6 rounded-lg py-1"
                         @click="otpverify()"
                     >ยืนยันรหัส OTP</button>
                 </div>

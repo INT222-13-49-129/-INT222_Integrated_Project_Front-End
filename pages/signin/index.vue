@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col item-center w-full h-full text-gray-600 overflow-scroll">
-    <div class="absolute md:top-5 top-3 left-5">
+    <div class="absolute xl:top-5 top-3 left-5">
       <i
-        class="material-icons md:text-5xl text-4xl text-gray-400 opacity-50 md:hover:animate-bouncexl cursor-pointer"
+        class="material-icons xl:text-5xl text-4xl text-gray-400 opacity-50 xl:hover:animate-bouncexl cursor-pointer"
         @click="hasHistory()
         ? $router.go(-1)
         : $router.push('/')"
@@ -13,41 +13,41 @@
     </div>
     <div v-if="loading">
       <Modal
-        classpop="flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+        classpop="flex flex-col justify-center text-center xl:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed xl:px-16 px-10"
       >
-        <img src="../../assets/img/loading.svg" class="md:h-32 h-20" />
-        <div class="md:text-3xl text-xl md:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
+        <img src="../../assets/img/loading.svg" class="xl:h-32 h-20" />
+        <div class="xl:text-3xl text-xl xl:mt-5 mt-2">กำลังตรวจสอบข้อมูล</div>
       </Modal>
     </div>
     <div v-if="emailverified">
       <Modal
-        classpop="relative flex flex-col justify-center text-center md:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed md:px-16 px-10"
+        classpop="relative flex flex-col justify-center text-center xl:py-12 py-6 bg-opacity-95 bg-gray-100  rounded-xl fixed xl:px-16 px-10"
       >
         <i
-          class="absolute md:top-5 top-3 md:right-5 right-3 material-icons text-gray-400 md:text-3xl text-2xl cursor-pointer"
+          class="absolute xl:top-5 top-3 xl:right-5 right-3 material-icons text-gray-400 xl:text-3xl text-2xl cursor-pointer"
           @click="emailverified = false"
         >close</i>
-        <div class="md:text-3xl text-xl md:mt-5 mt-2">Email นี้อยู่ระหว่างรอการยืนยัน</div>
-        <div class="md:text-2xl text-base md:mt-5 mt-3">กรุณายืนยัน Email ก่อนเข้าสู่ระบบ</div>
-        <div class="flex justify-center items-center px-3 md:flex-row flex-col">
+        <div class="xl:text-3xl text-xl xl:mt-5 mt-2">Email นี้อยู่ระหว่างรอการยืนยัน</div>
+        <div class="xl:text-2xl text-base xl:mt-5 mt-3">กรุณายืนยัน Email ก่อนเข้าสู่ระบบ</div>
+        <div class="flex justify-center items-center px-3 xl:flex-row flex-col">
           <button
-            class="md:mt-8 mt-3 md:px-4 mx-auto w-5/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+            class="xl:mt-8 mt-3 xl:px-4 mx-auto w-5/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg text-white bg-brightsalmon"
             @click="otpresend(), emailverified = false"
           >ยืนยัน OTP</button>
         </div>
       </Modal>
     </div>
     <div
-      class="mx-auto my-auto md:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
+      class="mx-auto my-auto xl:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
     >
       <div>
-        <p class="md:text-4xl text-2xl font-bold text-lightorange md:pt-20 pt-10 pb-3">Sign in</p>
-        <p class="md:text-lg text-sm">
+        <p class="xl:text-4xl text-2xl font-bold text-lightorange xl:pt-20 pt-10 pb-3">Sign in</p>
+        <p class="xl:text-lg text-sm">
           Sign in to access your account
           <br />Email Address
         </p>
         <form @submit.prevent="submitFrom()">
-          <div class="mt-8 mx-10 md:mx-44 text-left text-sm md:text-base">
+          <div class="mt-8 mx-10 xl:mx-44 text-left text-sm xl:text-base">
             <label class="mb-1" for="email">Email Address</label>
             <br />
             <input
@@ -55,7 +55,7 @@
               v-model="login.email"
               type="email"
               required
-              class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+              class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin text-sm xl:pl-5 pl-2 xl:mt-3 mt-1"
               placeholder="you@company.com"
               @keyup="validate.from ? '' : validateFrom()"
             />
@@ -65,18 +65,18 @@
               class="text-red-600 text-xs font-thin"
             >*{{ validatetext.email }}</span>
           </div>
-          <div class="mt-4 mx-10 md:mx-44 text-left text-sm md:text-base">
+          <div class="mt-4 mx-10 xl:mx-44 text-left text-sm xl:text-base">
             <label class="mb-1" for="password">Password</label>
             <br />
             <div class="relative min-w-min">
               <span
-                class="material-icons absolute md:top-5 top-2 right-2 cursor-pointer text-gray-400"
+                class="material-icons absolute xl:top-5 top-2 right-2 cursor-pointer text-gray-400"
                 @click="showpass = !showpass"
               >{{ showpass ? 'visibility_off' : 'visibility' }}</span>
               <input
                 id="password"
                 v-model="login.password"
-                class="rounded-md border-2 border-gray-100 w-full md:h-10 h-8 font-thin text-sm md:pl-5 pl-2 md:mt-3 mt-1"
+                class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin text-sm xl:pl-5 pl-2 xl:mt-3 mt-1"
                 required
                 placeholder="your password"
                 :type="showpass ? 'password' : 'text'"
@@ -98,14 +98,14 @@
           </div>
           <div
             v-if="!validate.all && !validate.from"
-            class="text-red-600 text-xs font-thin mx-10 md:mx-44 text-left -mb-2"
+            class="text-red-600 text-xs font-thin mx-10 xl:mx-44 text-left -mb-2"
           >*{{ validatetext.all }}</div>
           <button
             type="submit"
-            class="mx-auto md:mt-8 mt-4 md:px-14 w-3/6 md:w-auto py-1.5 md:text-xl text-base rounded-lg text-white bg-brightsalmon"
+            class="mx-auto xl:mt-8 mt-4 xl:px-14 w-3/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg text-white bg-brightsalmon"
           >Sign in</button>
         </form>
-        <div class="md:mt-8 md:mb-6 mt-6 md:text-base text-sm">
+        <div class="xl:mt-8 xl:mb-6 mt-6 xl:text-base text-sm">
           Don't have an account yet?
           <NuxtLink to="/signup" class="underline text-lightorange">Sign up.</NuxtLink>
         </div>
