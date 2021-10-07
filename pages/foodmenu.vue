@@ -70,15 +70,15 @@
           class="flex justify-between xl:pb-2 pb-1.5 xl:pt-0 pt-1.5 px-3 xl:px-0 mt-2 xl:mt-0 items-center bg-gray-400 xl:bg-white text-white xl:text-gray-700"
         >
           <div class="xl:text-3xl text-lg">All items</div>
-          <div>[number page]</div>
+          <div><PageNumber :page="foodmenusArray" /></div>
         </div>
         <div class="flex xl:flex-wrap flex-col xl:flex-row xl:gap-y-4 xl:gap-x-4 xl:pl-5 pl-2 xl:pr-0 pr-2 xl:pt-0 pt-2 divide-y-2 xl:divide-y-0">
-          <div v-for="i in 18" :key="i" class="py-2 xl:py-0">
+          <div v-for="foodmenu in foodmenusArray.content" :key="foodmenu.foodmenuid" class="py-2 xl:py-0">
             <Item
               :item="{
-                name: `ข้าวกระเพราหมู ${i}`,
-                description: '100% ของแคลอรี่ที่ควรบริโภคต่อวัน',
-                totalkcal: '5020'
+                name: foodmenu.foodname,
+                description: `${(foodmenu.totalkcal/2000)*100}% ของแคลอรี่ที่ควรบริโภคต่อวัน`,
+                totalkcal: foodmenu.totalkcal
               }"
             >
               <div class="xl:w-24 xl:h-24 w-12 h-12  items-center xl:mr-2 mr-1 flex flex-shrink-0">
@@ -94,18 +94,25 @@
 <script>
 import * as GeneralApi from '../utils/generalApi'
 import Item from '../components/Item.vue';
+import PageNumber from '../components/PageNumber.vue';
 export default {
   components: {
-    Item
+    Item,
+    PageNumber
   },
   async asyncData() {
-    const response = await GeneralApi.foodtypes()
-    const foodtypeArray = response.data
-    return { foodtypeArray }
+    const foodtypesresponse = await GeneralApi.foodtypes()
+    const foodtypeArray = foodtypesresponse.data
+
+    const foodmenusresponse = await GeneralApi.foodmenusWithPage()
+    const foodmenusArray = foodmenusresponse.data
+
+    return { foodtypeArray,foodmenusArray  }
   },
   data() {
     return {
-      foodtypeArray: []
+      foodtypeArray: [],
+      foodmenusArray: [],
     };
   },
 }
