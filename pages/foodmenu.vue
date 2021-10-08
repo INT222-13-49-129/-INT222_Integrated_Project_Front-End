@@ -11,7 +11,11 @@
         <div class="xl:w-1/4 xl:pr-20 flex-grow mx-6 xl:mx-0 my-4 xl:my-0">
           <div class="relative text-gray-600 flex justify-end xl:pt-8 pt-2 z-0">
             <div class="flex justify-start">
-              <button type="submit" class="focus:outline-none absolute mt-3 ml-3 mr-1" @click="searchfilter">
+              <button
+                type="submit"
+                class="focus:outline-none absolute mt-3 ml-3 mr-1"
+                @click="searchfilter"
+              >
                 <i class="material-icons text-gray-400">search</i>
               </button>
             </div>
@@ -22,9 +26,19 @@
               @keyup.enter="searchfilter"
             />
             <div class="flex justify-end">
-              <button type="submit" class="focus:outline-none absolute mt-3 mr-3">
-                <i class="material-icons text-gray-200">filter_alt</i>
+              <button type="submit" class="focus:outline-none absolute mt-3 mr-3"  @click="popfilter = !popfilter">
+                <i class="material-icons text-gray-200" :class="{'text-brightsalmon' :  popfilter}">filter_alt</i>
               </button>
+            </div>
+            <div v-if="popfilter" class="absolute z-10 xl:top-20 top-12 rounded-md shadow-md bg-white max-w-min xl:mt-0.5 mt-2.5 py-2  text-sm"> 
+              <div class="px-5 pt-1 cursor-pointer" :class="{ 'bg-gray-100': null === foodtypeSelected }" @click="foodtypefilter(null)">ทั้งหมด</div>
+              <div 
+                v-for="t in foodtypeArray"
+                :key="t.foodtypeid"
+                class="px-5 cursor-pointer"
+                :class="{ 'bg-gray-100': foodtypeSelected ? t.foodtypeid === foodtypeSelected.foodtypeid : false }"
+                @click="foodtypefilter(t)"
+              >{{ t.typename }}</div>
             </div>
           </div>
         </div>
@@ -39,11 +53,17 @@
           <div class="text-base text-gray-500 pl-3 xl:block hidden">
             <div class="pt-2 text-lg text-gray-600">Catagory</div>
             <div>
-              <div class="pl-2 py-0.5 bg-brightsalmon rounded-md shadow-lg">ทั้งหมด</div>
+              <div
+                class="pl-2 py-0.5 cursor-pointer"
+                :class="{ 'bg-brightsalmon rounded-md shadow-lg': null === foodtypeSelected }"
+                @click="foodtypefilter(null)"
+              >ทั้งหมด</div>
               <div
                 v-for="t in foodtypeArray"
                 :key="t.foodtypeid"
-                class="pl-2 py-0.5"
+                class="pl-2 py-0.5 cursor-pointer"
+                :class="{ 'bg-brightsalmon rounded-md shadow-lg': foodtypeSelected ? t.foodtypeid === foodtypeSelected.foodtypeid : false }"
+                @click="foodtypefilter(t)"
               >{{ t.typename }}</div>
             </div>
           </div>
@@ -66,7 +86,7 @@
       </div>
       <div
         class="text-xs text-right mr-4 -mt-3 xl:hidden text-gray-400"
-      >catagory: {{ foodtypeArray[2].typename }}</div>
+      >catagory: {{ foodtypeSelected?foodtypeSelected.typename:'ทั้งหมด' }}</div>
       <div class="xl:w-5/6 xl:p-10">
         <div
           class="flex justify-between xl:pb-2 pb-1.5 xl:pt-0 pt-1.5 px-3 xl:px-0 mt-2 xl:mt-0 items-center bg-gray-400 xl:bg-white text-white xl:text-gray-700"
@@ -76,7 +96,17 @@
             <PageNumber :page="foodmenusArray" />
           </div>
         </div>
-        <div v-if="foodmenusArray.totalElements===0" class="text-center text-2xl mt-12"> ไม่พบข้อมูลที่ค้นหา </div>
+        <div v-if="foodmenusArray.totalElements === 0" class="mx-6 mt-6">
+          <div class="xl:text-4xl text-3xl xl:my-2 my-3">No results found</div>
+          <div class="xl:text-xl text-lg text-gray-600">
+            <p>Here are some hints:</p>
+            <ul class="list-disc ml-6 xl:text-lg text-base">
+              <li>Make sure the spelling is correct.</li>
+              <li>Use generic terms. Instead of specific brands, use their generic equivalent. For Example, instead of 'Pepsi'; use 'soda'</li>
+              <li>If you continue to have problems, visit the Contact Us page to reach a customer support rep</li>
+            </ul>
+          </div>
+        </div>
         <div
           class="flex xl:flex-wrap flex-col xl:flex-row xl:gap-y-4 xl:gap-x-4 xl:pl-5 pl-2 xl:pr-0 pr-2 xl:pt-0 pt-2 divide-y-2 xl:divide-y-0"
         >
@@ -124,24 +154,47 @@ export default {
     return {
       foodtypeArray: [],
       foodmenusArray: [],
+      foodtypeSelected: null,
+      popfilter: false,
       searchInput: "",
-      url: ""
+      search: "",
+      url: "foodmenusWithPage"
     };
   },
   methods: {
     async changPage(n) {
       let response
-      if(this.url==='foodmenusWithPageSearch'){
-        response = await GeneralApi.foodmenusWithPageSearch(encodeURIComponent(this.searchInput),this.foodmenusArray.pageable.pageNumber+n)
-      }else{
-        response = await GeneralApi.foodmenusWithPage(this.foodmenusArray.pageable.pageNumber+n)
+      if (this.url === 'foodmenusWithPageSearch') {
+        response = await GeneralApi.foodmenusWithPageSearch(this.search, this.foodmenusArray.pageable.pageNumber + n)
+      } 
+      else if (this.url === 'foodmenusWithPageFoodtype') {
+        response = await GeneralApi.foodmenusWithPageFoodtype(this.foodtypeSelected.foodtypeid, this.foodmenusArray.pageable.pageNumber + n)
+      }
+      else if (this.url === 'foodmenusWithPage') {
+        response = await GeneralApi.foodmenusWithPage(this.foodmenusArray.pageable.pageNumber + n)
       }
       this.foodmenusArray = response.data
     },
-    async searchfilter(){
-      const response = await GeneralApi.foodmenusWithPageSearch(encodeURIComponent(this.searchInput))
+    async searchfilter() {
+      this.foodtypeSelected = null
+      this.search = encodeURIComponent(this.searchInput)
+      const response = await GeneralApi.foodmenusWithPageSearch(this.search)
       this.foodmenusArray = response.data
       this.url = 'foodmenusWithPageSearch'
+    },
+    async foodtypefilter(foodtype) {
+      this.popfilter = false
+      this.searchInput = ""
+      this.foodtypeSelected = foodtype
+      if (this.foodtypeSelected === null) {
+        const response = await GeneralApi.foodmenusWithPage()
+        this.foodmenusArray = response.data
+        this.url = 'foodmenusWithPage'
+        return
+      }
+      const response = await GeneralApi.foodmenusWithPageFoodtype(this.foodtypeSelected.foodtypeid)
+      this.foodmenusArray = response.data
+      this.url = 'foodmenusWithPageFoodtype'
     }
   },
 }
