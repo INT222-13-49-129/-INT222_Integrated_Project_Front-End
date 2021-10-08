@@ -7,7 +7,12 @@ export function foodtypes() {
   return request('get', url, {})
 }
 
-export function foodmenusWithPage() {
-  const url = `${process.env.config.BASE_URL}general/foodmenu/page`
+export function foodmenusWithPage(pageNo=0,pageSize=18) {
+  const url = `${process.env.config.BASE_URL}general/foodmenu/page?pageNo=${pageNo}&pageSize=${pageSize}`
+  return request('get', url, {})
+}
+
+export function foodmenusWithPageSearch(searchData="",pageNo=0,pageSize=18) {
+  const url = `${process.env.config.BASE_URL}general/foodmenu/page/search?searchData=${searchData}&pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {})
 }
