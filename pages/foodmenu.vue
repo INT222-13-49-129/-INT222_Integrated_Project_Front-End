@@ -20,7 +20,7 @@
               </button>
             </div>
             <input
-              v-model="searchInput"
+              v-model.trim="searchInput"
               class="rounded-2xl bg-white w-full xl:w-auto h-12 px-5 pl-10 text-sm focus:outline-none"
               placeholder="ค้นหาอาหาร"
               @keyup.enter="searchfilter"
@@ -167,8 +167,8 @@ export default {
       if (this.url === 'foodmenusWithPageSearch') {
         response = await GeneralApi.foodmenusWithPageSearch(this.search, this.foodmenusArray.pageable.pageNumber + n)
       } 
-      else if (this.url === 'foodmenusWithPageFoodtype') {
-        response = await GeneralApi.foodmenusWithPageFoodtype(this.foodtypeSelected.foodtypeid, this.foodmenusArray.pageable.pageNumber + n)
+      else if (this.url === 'foodmenusWithPageSearchFoodtype') {
+        response = await GeneralApi.foodmenusWithPageSearchFoodtype(this.search, this.foodtypeSelected.foodtypeid, this.foodmenusArray.pageable.pageNumber + n)
       }
       else if (this.url === 'foodmenusWithPage') {
         response = await GeneralApi.foodmenusWithPage(this.foodmenusArray.pageable.pageNumber + n)
@@ -176,25 +176,25 @@ export default {
       this.foodmenusArray = response.data
     },
     async searchfilter() {
-      this.foodtypeSelected = null
       this.search = encodeURIComponent(this.searchInput)
+      if (this.foodtypeSelected !== null) {
+        this.foodtypefilter(this.foodtypeSelected)
+        return
+      }
       const response = await GeneralApi.foodmenusWithPageSearch(this.search)
       this.foodmenusArray = response.data
       this.url = 'foodmenusWithPageSearch'
     },
     async foodtypefilter(foodtype) {
       this.popfilter = false
-      this.searchInput = ""
       this.foodtypeSelected = foodtype
       if (this.foodtypeSelected === null) {
-        const response = await GeneralApi.foodmenusWithPage()
-        this.foodmenusArray = response.data
-        this.url = 'foodmenusWithPage'
+        this.searchfilter()
         return
       }
-      const response = await GeneralApi.foodmenusWithPageFoodtype(this.foodtypeSelected.foodtypeid)
+      const response = await GeneralApi.foodmenusWithPageSearchFoodtype(this.search,this.foodtypeSelected.foodtypeid)
       this.foodmenusArray = response.data
-      this.url = 'foodmenusWithPageFoodtype'
+      this.url = 'foodmenusWithPageSearchFoodtype'
     }
   },
 }

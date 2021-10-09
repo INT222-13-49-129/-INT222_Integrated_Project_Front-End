@@ -17,7 +17,7 @@ export function foodmenusWithPageSearch(searchData="",pageNo=0,pageSize=18) {
   return request('get', url, {})
 }
 
-export function foodmenusWithPageFoodtype(foodtypeId=0,pageNo=0,pageSize=18) {
-  const url = `${process.env.config.BASE_URL}general/foodmenu/page/foodtype?foodtypeId=${foodtypeId}&pageNo=${pageNo}&pageSize=${pageSize}`
+export function foodmenusWithPageSearchFoodtype(searchData="",foodtypeId=0,pageNo=0,pageSize=18) {
+  const url = `${process.env.config.BASE_URL}general/foodmenu/page/search/foodtype?searchData=${searchData}&foodtypeId=${foodtypeId}&pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {})
 }
