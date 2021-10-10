@@ -2,7 +2,7 @@
     <div>
         <div
             v-if="sidebar"
-            class="flex bg-opacity-20 bg-black z-30 w-screen h-screen fixed bottom-0 left-0 xl:hidden"
+            class="flex bg-opacity-20 bg-black z-20 w-screen h-screen fixed top-0 left-0 xl:hidden"
         >
             <div class="relative h-full w-52 bg-brightsalmon animate__animated animate__slideInLeft">
                 <div class="absolute top-3 left-5">
