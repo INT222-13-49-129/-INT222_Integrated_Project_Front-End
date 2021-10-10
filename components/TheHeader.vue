@@ -11,19 +11,19 @@
                         @click="sidebar = false"
                     >close</i>
                 </div>
-                <div class="mt-12 ml-3 flex items-center" @click="sidebar = false">
+                <div class="mt-12 ml-3 flex items-center" @click="sidebar = false,$router.push('/')">
                     <img src="~assets/img/cat.png" class="w-12" />
                     <NuxtLink to="/" class="text-white ml-3 text-lg">HOME</NuxtLink>
                 </div>
-                <div class="ml-3 flex items-center" @click="sidebar = false">
+                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/foodmenu')">
                     <img src="~assets/img/cat.png" class="w-12" />
                     <NuxtLink to="/foodmenu" class="text-white ml-3 text-lg">MENU</NuxtLink>
                 </div>
-                <div class="ml-3 flex items-center" @click="sidebar = false">
+                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/')">
                     <img src="~assets/img/cat.png" class="w-12" />
                     <NuxtLink to="/" class="text-white ml-3 text-lg">NEW</NuxtLink>
                 </div>
-                <div class="ml-3 flex items-center" @click="sidebar = false">
+                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/')">
                     <img src="~assets/img/cat.png" class="w-12" />
                     <NuxtLink to="/" class="text-white ml-3 text-lg">ABOUT US</NuxtLink>
                 </div>
