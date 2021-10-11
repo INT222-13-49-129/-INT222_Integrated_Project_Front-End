@@ -21,3 +21,8 @@ export function foodmenusWithPageSearchFoodtype(searchData="",foodtypeId=0,pageN
   const url = `${process.env.config.BASE_URL}general/foodmenu/page/search/foodtype?searchData=${searchData}&foodtypeId=${foodtypeId}&pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {})
 }
+
+export function ingredientsType() {
+  const url = `${process.env.config.BASE_URL}general/ingredients/type`
+  return request('get', url, {})
+}

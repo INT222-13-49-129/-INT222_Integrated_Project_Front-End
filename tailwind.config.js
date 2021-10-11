@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      dropShadow: {
+        'all': '0 0 4px rgba(0, 0, 0, 0.15)',
+      },
       colors: {
         salmon: '#d9795f',
         lightsalmon: '#df9C7b',

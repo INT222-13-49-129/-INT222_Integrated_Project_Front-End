@@ -19,13 +19,13 @@
                     <img src="~assets/img/cat.png" class="w-12" />
                     <NuxtLink to="/foodmenu" class="text-white ml-3 text-lg">MENU</NuxtLink>
                 </div>
-                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/')">
+                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/newmenu')">
                     <img src="~assets/img/cat.png" class="w-12" />
-                    <NuxtLink to="/" class="text-white ml-3 text-lg">NEW</NuxtLink>
+                    <NuxtLink to="/newmenu" class="text-white ml-3 text-lg">NEW</NuxtLink>
                 </div>
-                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/')">
+                <div class="ml-3 flex items-center" @click="sidebar = false,$router.push('/aboutus')">
                     <img src="~assets/img/cat.png" class="w-12" />
-                    <NuxtLink to="/" class="text-white ml-3 text-lg">ABOUT US</NuxtLink>
+                    <NuxtLink to="/aboutus" class="text-white ml-3 text-lg">ABOUT US</NuxtLink>
                 </div>
                 <div class="flex justify-center mt-3">
                     <div
@@ -56,12 +56,12 @@
                 class="flex-shrink-0 xl:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
             >MENU</NuxtLink>
             <NuxtLink
-                to="/"
+                to="/newmenu"
                 :class="isindex ? 'xl:mx-10' : 'xl:mx-10 '"
                 class="flex-shrink-0 xl:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
             >NEW</NuxtLink>
             <NuxtLink
-                to="/"
+                to="/aboutus"
                 :class="isindex ? 'xl:mx-10' : 'xl:mx-10 '"
                 class="flex-shrink-0 xl:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
             >ABOUT US</NuxtLink>

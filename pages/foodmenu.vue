@@ -72,7 +72,7 @@
             v-if="showing === Show.General"
             class="text-base text-gray-500 pl-3 xl:block hidden animate__animated animate__fadeIn"
           >
-            <div class="pt-2 text-lg text-gray-600">Catagory</div>
+            <div class="pt-2 text-lg text-gray-600">Category</div>
             <div>
               <div
                 class="pl-2 py-0.5 cursor-pointer"
@@ -99,7 +99,7 @@
             v-if="showing === Show.Myfoods"
             class="text-base text-gray-500 pl-3 xl:block hidden animate__animated animate__fadeIn"
           >
-            <div class="pt-2 text-lg text-gray-600">Catagory</div>
+            <div class="pt-2 text-lg text-gray-600">Category</div>
             <div>
               <div
                 class="pl-2 py-0.5 cursor-pointer"
@@ -120,7 +120,7 @@
       </div>
       <div
         class="text-xs text-right mr-4 -mt-3 xl:hidden text-gray-400" :class="{'-mt-5 text-sm': !isLoggedIn}" 
-      >catagory: {{ foodtypeSelected ? foodtypeSelected.typename : 'ทั้งหมด' }}</div>
+      >category: {{ foodtypeSelected ? foodtypeSelected.typename : 'ทั้งหมด' }}</div>
       <div class="xl:w-5/6 xl:p-10">
         <div
           class="flex justify-between xl:pb-2 pb-1.5 xl:pt-0 pt-1.5 px-3 xl:px-0 mt-2 xl:mt-0 items-center bg-gray-400 xl:bg-white text-white xl:text-gray-700"
