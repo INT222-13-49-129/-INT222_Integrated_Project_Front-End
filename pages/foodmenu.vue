@@ -1,5 +1,5 @@
 <template>
-  <div class="xl:w-336 w-11/12 mt-16 mx-auto pt-6 xl:pt-0 bg-white shadow-lg">
+  <div class="xl:w-336 w-11/12 pt-24 mx-auto xl:pt-16 bg-white shadow-lg">
     <div
       class="bgimge object-cover xl:w-full py-2 xl:h-28 mx-6 xl:mx-0 rounded-3xl xl:rounded-none"
     >
