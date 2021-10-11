@@ -20,7 +20,7 @@
     },
     computed: {
     isindex() {
-      return this.$route.name === 'index';
+      return this.$route.name === 'index' || this.$route.name === 'aboutus';
     }
   }
   }
