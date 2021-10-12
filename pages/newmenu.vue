@@ -13,29 +13,29 @@
             </div>
         </div>
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
-            <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2">
+            <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
                     <div class="xl:text-2xl text-xl">คำนวณใหม่</div>
                     <div class="text-gray-500 xl:text-base text-sm">ยอดรวม 321 cal</div>
                 </div>
-                <div class="mt-2 xl:text-base text-sm">
+                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="foodname">ชื่ออาหาร</label>
                     <br />
                     <input
                         id="foodname"
                         type="text"
                         required
-                        class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-sm text-xs"
+                        class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
                         placeholder="ชื่ออาหาร"
                     />
                 </div>
-                <div class="mt-2 xl:text-base text-sm">
+                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="foodtype">ประเภทอาหาร</label>
                     <br />
                     <select
                         id="foodtype"
                         required
-                        class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-sm text-xs"
+                        class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
                     >
                         <option value disabled selected>ประเภทอาหาร</option>
                         <option
@@ -45,12 +45,12 @@
                         >{{ t.typename }}</option>
                     </select>
                 </div>
-                <div class="mt-3 xl:text-base text-sm">
+                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <div class="flex justify-between">
                         <div>วัตถุดิบ</div>
                         <div class="text-gray-500">all</div>
                     </div>
-                    <div class="flex justify-between mt-1">
+                    <div class="flex justify-between mt-2 mb-1">
                         <div v-for="i in ingredientstypeArray" :key="i">
                             <div class="flex flex-col justify-center items-center xl:w-14 w-12">
                                 <div
@@ -69,23 +69,96 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-4 flex gap-x-4 ">
-                    <div class="relative text-gray-600 flex-grow flex filter drop-shadow-all">
-                        <div class="flex justify-start ">
-                            <button type="submit" class="focus:outline-none absolute mt-1.5 ml-2">
-                                <i class="material-icons text-gray-400">search</i>
-                            </button>
+                <div class="xl:block hidden">
+                    <div class="xl:mt-4 mt-2 flex gap-x-4">
+                        <div class="relative text-gray-600 flex-grow flex filter drop-shadow-all">
+                            <div class="flex justify-start">
+                                <button
+                                    type="submit"
+                                    class="focus:outline-none absolute mt-1.5 ml-2"
+                                >
+                                    <i class="material-icons text-gray-400">search</i>
+                                </button>
+                            </div>
+                            <input
+                                class="rounded-xl w-full bg-white h-9 px-5 pl-10 text-sm focus:outline-none"
+                                placeholder="ค้นหาวัตถุดิบ"
+                            />
                         </div>
-                        <input
-                            class="rounded-xl w-full bg-white h-9 px-5 pl-10 text-sm focus:outline-none "
-                            placeholder="ค้นหาวัตถุดิบ"
-                        />
-                    </div>
-                    <div class="flex justify-center items-center w-9 h-9 bg-white filter rounded-xl drop-shadow-all ">
+                        <div
+                            class="flex justify-center items-center w-9 h-9 bg-white filter rounded-xl drop-shadow-all"
+                        >
                             <i class="material-icons text-gray-400">add</i>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-4">
+                        <div class="flex gap-x-4 text-gray-500">
+                            <div>ค้นหา</div>
+                            <div>คำขอ</div>
+                        </div>
+                        <div>
+                            <PageNumber :page="ingredientsArray" classnum="text-sm text-gray-500" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col mt-3 divide-y-2 border-t-2">
+                        <div
+                            v-for="ingredients in ingredientsArray.content"
+                            :key="ingredients.ingredientsid"
+                            class="py-2 flex items-center justify-between"
+                        >
+                            <Item
+                                :item="{
+                                    name: ingredients.ingredientsname,
+                                    description: ingredients.descriptionunit,
+                                    totalkcal: ingredients.kcalpunit
+                                }"
+                            >
+                                <IngredientstypeSVG
+                                    :ingredient="ingredients.ingredientstype"
+                                    classingredient="w-12 h-12 mr-2"
+                                    fill="#FCC090"
+                                    class="flex justify-center items-center"
+                                />
+                            </Item>
+                            <div
+                                class="flex justify-center items-center w-9 h-9 bg-brightsalmon rounded-full mr-2 cursor-pointer"
+                            >
+                                <i class="material-icons text-white">add</i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div></div>
+            </div>
+            <div class="xl:w-2/3 xl:px-8 px-6 py-2">
+                <div class="xl:text-3xl text-lg">สรุปรายการ</div>
+                <div>
+                    <FoodmenuItem class="mt-10 w-11/12 mx-auto shadow-lg">
+                        <template #header>
+                            <div>
+                                <div class="flex items-center">
+                                    <img
+                                        src="../assets/img/chooseimg.svg"
+                                        class="filter drop-shadow ml-8 object-cover h-36 w-48"
+                                    />
+                                    <div class="flex flex-col items-start ml-4 gap-y-4 text-lg">
+                                        <div>กระเพราะหมูสับไข่ดาว</div>
+                                        <div class="text-base">ประเภท : ผัด</div>
+                                    </div>
+                                    <div class="flex-grow"></div>
+                                    <div class="text-lg mr-2">แคลอรี่รวม 340 kcal.</div>
+                                </div>
+                                <div class="mt-2 flex items-center">
+                                    <label
+                                        for="image"
+                                        class="ml-8 mr-1 px-4 py-0.5 bg-white border-2 rounded-full text-sm border-opacity-0 filter drop-shadow cursor-pointer"
+                                    >อัพโหลดรูป</label>
+                                    <input id="image" type="file" class="hidden" />
+                                    <div class="text-xs text-gray-500 truncate">ยังไม่ได้เลือกรูป</div>
+                                </div>
+                            </div>
+                        </template>
+                    </FoodmenuItem>
+                </div>
             </div>
         </div>
     </div>
@@ -93,10 +166,14 @@
 <script>
 import * as GeneralApi from '../utils/generalApi'
 import IngredientstypeSVG from '../components/IngredientstypeSVG.vue'
+import PageNumber from '../components/PageNumber.vue';
+import FoodmenuItem from '../components/FoodmenuItem.vue';
 
 export default {
     components: {
-        IngredientstypeSVG
+        IngredientstypeSVG,
+        PageNumber,
+        FoodmenuItem
     },
     async asyncData() {
         const foodtypesresponse = await GeneralApi.foodtypes()
@@ -105,12 +182,16 @@ export default {
         const ingredientstyperesponse = await GeneralApi.ingredientsType()
         const ingredientstypeArray = ingredientstyperesponse.data
 
-        return { foodtypeArray, ingredientstypeArray }
+        const ingredientsresponse = await GeneralApi.ingredientsWithPage()
+        const ingredientsArray = ingredientsresponse.data
+
+        return { foodtypeArray, ingredientstypeArray, ingredientsArray }
     },
     data() {
         return {
             foodtypeArray: [],
-            ingredientstypeArray: []
+            ingredientstypeArray: [],
+            ingredientsArray: []
         }
     },
 }

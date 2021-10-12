@@ -1,7 +1,7 @@
 <template>
     <div class="text-lg flex items-center">
         <i class="material-icons" :class="page.first ? 'text-gray-300':'cursor-pointer'" @click="page.first?'':$parent.changPage(-1)">navigate_before</i>
-        <span class="text-sm xl:text-gray-500 text-white">{{ pageitem }}</span>
+        <span :class="classnum">{{ pageitem }}</span>
         <i class="material-icons" :class="page.last ? 'text-gray-300':'cursor-pointer'" @click="page.last?'':$parent.changPage(1)">navigate_next</i>
     </div>
 </template>
@@ -13,6 +13,10 @@ export default {
             default() {
                 return null
             },
+        },
+        classnum:{
+            type: String,
+            default: 'text-sm xl:text-gray-500 text-white'
         }
     },
     computed: {
