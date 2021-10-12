@@ -15,7 +15,7 @@
       <i class="material-icons text-xl ml-3">
         search
       </i></nuxt-link>
-      <nuxt-link class="transition duration-300 ease-in-out transform hover:scale-110 group bg-lightsalmon hover:bg-salmon hover:shadow-md px-5 py-2 rounded-full flex justify-center" to="/">คำนวนแคลอรี่ใหม่
+      <nuxt-link class="transition duration-300 ease-in-out transform hover:scale-110 group bg-lightsalmon hover:bg-salmon hover:shadow-md px-5 py-2 rounded-full flex justify-center" to="/newmenu">คำนวนแคลอรี่ใหม่
       <i class="material-icons text-xl ml-3">
         add
       </i></nuxt-link>

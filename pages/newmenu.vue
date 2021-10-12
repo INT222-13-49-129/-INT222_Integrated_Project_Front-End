@@ -70,14 +70,14 @@
                     </div>
                 </div>
                 <div class="mt-4 flex gap-x-4 ">
-                    <div class="relative text-gray-600 flex-grow flex">
-                        <div class="flex justify-start z-10">
+                    <div class="relative text-gray-600 flex-grow flex filter drop-shadow-all">
+                        <div class="flex justify-start ">
                             <button type="submit" class="focus:outline-none absolute mt-1.5 ml-2">
                                 <i class="material-icons text-gray-400">search</i>
                             </button>
                         </div>
                         <input
-                            class="rounded-xl w-full bg-white h-9 px-5 pl-10 text-sm focus:outline-none filter drop-shadow-all"
+                            class="rounded-xl w-full bg-white h-9 px-5 pl-10 text-sm focus:outline-none "
                             placeholder="ค้นหาวัตถุดิบ"
                         />
                     </div>
@@ -85,6 +85,7 @@
                             <i class="material-icons text-gray-400">add</i>
                     </div>
                 </div>
+                <div></div>
             </div>
         </div>
     </div>
