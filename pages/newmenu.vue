@@ -48,19 +48,24 @@
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <div class="flex justify-between">
                         <div>วัตถุดิบ</div>
-                        <div class="text-gray-500">all</div>
+                        <div
+                            class="text-gray-500 cursor-pointer"
+                            :class="{ 'text-brightsalmon': '' === ingredientstype }"
+                            @click="ingredientstypefilter('')"
+                        >all</div>
                     </div>
                     <div class="flex justify-between mt-2 mb-1">
                         <div v-for="i in ingredientstypeArray" :key="i">
                             <div class="flex flex-col justify-center items-center xl:w-14 w-12">
                                 <div
-                                    class="rounded-full bg-gray-100 p-2 shadow-lg"
-                                    :class="{ 'shadow-inner': i === 'Oil' }"
+                                    class="rounded-full bg-gray-100 p-2 shadow-lg cursor-pointer"
+                                    :class="{ 'shadow-inner': i === ingredientstype }"
+                                    @click="ingredientstypefilter(i)"
                                 >
                                     <IngredientstypeSVG
                                         :ingredient="i"
                                         classingredient="w-6 h-6"
-                                        :fill="i === 'Oil' ? '#FCC090' : '#B4C1CC'"
+                                        :fill="i === ingredientstype ? '#FCC090' : '#B4C1CC'"
                                         class="flex justify-center items-center"
                                     />
                                 </div>
@@ -76,13 +81,16 @@
                                 <button
                                     type="submit"
                                     class="focus:outline-none absolute mt-1.5 ml-2"
+                                    @click="searchfilter"
                                 >
                                     <i class="material-icons text-gray-400">search</i>
                                 </button>
                             </div>
                             <input
+                                v-model.trim="searchInput"
                                 class="rounded-xl w-full bg-white h-9 px-5 pl-10 text-sm focus:outline-none"
                                 placeholder="ค้นหาวัตถุดิบ"
+                                @keyup.enter="searchfilter"
                             />
                         </div>
                         <div
@@ -126,6 +134,17 @@
                                 <i class="material-icons text-white">add</i>
                             </div>
                         </div>
+                        <div v-if="ingredientsArray.totalElements === 0" class="mx-6 mt-6">
+                            <div class="xl:text-2xl text-xl xl:my-2 my-3">No results found</div>
+                            <div class="xl:text-lg text-base text-gray-600">
+                                <p>Here are some hints:</p>
+                                <ul class="list-disc ml-6 xl:text-base text-sm">
+                                    <li>Make sure the spelling is correct.</li>
+                                    <li>Use generic terms. Instead of specific brands, use their generic equivalent. For Example, instead of 'Pepsi'; use 'soda'</li>
+                                    <li>If you continue to have problems, visit the Contact Us page to reach a customer support rep</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,13 +172,15 @@
                                         >ยังไม่ได้เลือกรูป</div>
                                     </div>
                                     <div
-                                        class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg  mt-4 xl:mt-0"
+                                        class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg mt-4 xl:mt-0"
                                     >
                                         <div class="truncate">กระเพราะหมูสับไข่ดาว</div>
                                         <div class="xl:text-base text-sm">ประเภท : ผัด</div>
                                     </div>
                                     <div class="flex-grow xl:block hidden"></div>
-                                    <div class="xl:text-lg text-base xl:mr-2 mt-2 xl:mt-0">แคลอรี่รวม 340 kcal.</div>
+                                    <div
+                                        class="xl:text-lg text-base xl:mr-2 mt-2 xl:mt-0"
+                                    >แคลอรี่รวม 340 kcal.</div>
                                 </div>
                                 <div
                                     class="mt-2 xl:flex items-center justify-center xl:justify-start mx-2 xl:mx-0 hidden"
@@ -175,7 +196,9 @@
                         </template>
                     </FoodmenuItem>
                 </div>
-                <div class="flex flex-col xl:flex-row text-white xl:mt-12 mt-6 mb-6 xl:mb-0 justify-center gap-x-6 gap-y-4 xl:w-full w-11/12 mx-auto">
+                <div
+                    class="flex flex-col xl:flex-row text-white xl:mt-12 mt-6 mb-6 xl:mb-0 justify-center gap-x-6 gap-y-4 xl:w-full w-11/12 mx-auto"
+                >
                     <div
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                     >
@@ -185,7 +208,7 @@
                     <div
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                     >
-                        คำนวณแคลอรี่เหมาะสมต่อวัน
+                        แคลอรี่เหมาะสมต่อวัน
                         <i class="material-icons text-xl ml-3">east</i>
                     </div>
                 </div>
@@ -221,7 +244,29 @@ export default {
         return {
             foodtypeArray: [],
             ingredientstypeArray: [],
-            ingredientsArray: []
+            ingredientsArray: [],
+            searchInput: "",
+            search: "",
+            ingredientstype: ""
+        }
+    },
+    methods: {
+        changPage(n) {
+            const pagenumber = this.ingredientsArray.pageable.pageNumber + n
+            this.getingredient(pagenumber);
+        },
+        searchfilter() {
+            this.search = encodeURIComponent(this.searchInput)
+            this.getingredient();
+        },
+        ingredientstypefilter(ingredientstype) {
+            this.ingredientstype = ingredientstype
+            this.getingredient();
+        },
+        async getingredient(pagenumber = 0) {
+            this.searchInput = decodeURIComponent(this.search)
+            const response = await GeneralApi.ingredientsWithPage(this.ingredientstype, this.search, pagenumber)
+            this.ingredientsArray = response.data
         }
     },
 }

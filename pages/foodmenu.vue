@@ -268,8 +268,8 @@ export default {
           response = await UserApi.foodmenusWithPage(pagenumber)
         }
       }
-
       this.foodmenusArray = response.data
+      this.searchInput = decodeURIComponent(this.search)
     },
     async searchfilter() {
       this.search = encodeURIComponent(this.searchInput)
@@ -300,6 +300,7 @@ export default {
         response = await UserApi.foodmenusWithPageSearchFoodtype(this.search, this.foodtypeSelected.foodtypeid)
       }
       this.foodmenusArray = response.data
+      this.searchInput = decodeURIComponent(this.search)
       this.url = Url.foodmenusWithPageSearchFoodtype
     }
   },
