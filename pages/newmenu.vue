@@ -16,13 +16,16 @@
             <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
                     <div class="xl:text-2xl text-xl">คำนวณใหม่</div>
-                    <div class="text-gray-500 xl:text-base text-sm">ยอดรวม 321 cal</div>
+                    <div
+                        class="text-gray-500 xl:text-base text-sm"
+                    >ยอดรวม {{ newfoodmenu.totalkcal }} cal</div>
                 </div>
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="foodname">ชื่ออาหาร</label>
                     <br />
                     <input
                         id="foodname"
+                        v-model.lazy.trim="newfoodmenu.foodname"
                         type="text"
                         required
                         class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
@@ -34,10 +37,11 @@
                     <br />
                     <select
                         id="foodtype"
+                        v-model="newfoodmenu.foodtype"
                         required
                         class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
                     >
-                        <option value disabled selected>ประเภทอาหาร</option>
+                        <option :value="null" disabled selected>ประเภทอาหาร</option>
                         <option
                             v-for="t in foodtypeArray"
                             :key="t.foodtypeid"
@@ -113,6 +117,7 @@
                             v-for="ingredients in ingredientsArray.content"
                             :key="ingredients.ingredientsid"
                             class="py-2 flex items-center justify-between"
+                            @click="haveIngredients(ingredients) ? addingredients(ingredients, newfoodmenu.foodmenuHasIngredientsList[ingredientsIndex(ingredients)].totalunit + 1) : addingredients(ingredients)"
                         >
                             <Item
                                 :item="{
@@ -189,7 +194,10 @@
                             <PageNumber :page="ingredientsArray" classnum="text-sm text-gray-500" />
                         </div>
                     </div>
-                    <div class="flex flex-col mt-3 divide-y-2 border-t-2" :class="{'border-b-2': ingredientsArray.totalElements !== 0}">
+                    <div
+                        class="flex flex-col mt-3 divide-y-2 border-t-2"
+                        :class="{ 'border-b-2': ingredientsArray.totalElements !== 0 }"
+                    >
                         <div
                             v-for="ingredients in ingredientsArray.content"
                             :key="ingredients.ingredientsid"
@@ -228,7 +236,10 @@
             <div class="xl:w-2/3 xl:px-8 px-6 py-2">
                 <div class="xl:text-3xl text-lg">สรุปรายการ</div>
                 <div>
-                    <FoodmenuItem class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg">
+                    <FoodmenuItem
+                        :newfoodmenu="newfoodmenu"
+                        class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
+                    >
                         <template #header>
                             <div>
                                 <div class="flex items-center flex-col xl:flex-row">
@@ -251,13 +262,17 @@
                                     <div
                                         class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg mt-4 xl:mt-0"
                                     >
-                                        <div class="truncate">กระเพราะหมูสับไข่ดาว</div>
-                                        <div class="xl:text-base text-sm">ประเภท : ผัด</div>
+                                        <div
+                                            class="truncate"
+                                        >{{ newfoodmenu.foodname ? newfoodmenu.foodname : 'ชื่ออาหาร' }}</div>
+                                        <div
+                                            class="xl:text-base text-sm"
+                                        >ประเภท : {{ newfoodmenu.foodtype ? newfoodmenu.foodtype.typename : '-' }}</div>
                                     </div>
                                     <div class="flex-grow xl:block hidden"></div>
                                     <div
                                         class="xl:text-lg text-base xl:mr-2 mt-2 xl:mt-0"
-                                    >แคลอรี่รวม 340 kcal.</div>
+                                    >แคลอรี่รวม {{ newfoodmenu.totalkcal }} kcal.</div>
                                 </div>
                                 <div
                                     class="mt-2 xl:flex items-center justify-center xl:justify-start mx-2 xl:mx-0 hidden"
@@ -285,7 +300,7 @@
                     <div
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                     >
-                        แคลอรี่เหมาะสมต่อวัน
+                        แคลอรี่ที่เหมาะสมต่อวัน
                         <i class="material-icons text-xl ml-3">east</i>
                     </div>
                 </div>
@@ -325,7 +340,15 @@ export default {
             ingredientsArray: [],
             searchInput: "",
             search: "",
-            ingredientstype: ""
+            ingredientstype: "",
+            newfoodmenu: {
+                foodname: "",
+                totalkcal: 0,
+                description: "",
+                foodmenustatus: "",
+                foodtype: null,
+                foodmenuHasIngredientsList: []
+            }
         }
     },
     methods: {
@@ -346,8 +369,39 @@ export default {
             this.searchInput = decodeURIComponent(this.search)
             const response = await GeneralApi.ingredientsWithPage(this.ingredientstype, this.search, pagenumber)
             this.ingredientsArray = response.data
+        },
+        haveIngredients(ingredients) {
+            return this.newfoodmenu.foodmenuHasIngredientsList.map(i => i.key.ingredientsIngredientsid).includes(ingredients.ingredientsid)
+        },
+        ingredientsIndex(ingredients) {
+            return this.newfoodmenu.foodmenuHasIngredientsList.findIndex((i => i.key.ingredientsIngredientsid === ingredients.ingredientsid))
+        },
+        addingredients(ingredients, totalunit = 1) {
+            if (this.haveIngredients(ingredients)) {
+                const index = this.ingredientsIndex(ingredients)
+                this.newfoodmenu.foodmenuHasIngredientsList[index].totalunit = totalunit
+                this.newfoodmenu.foodmenuHasIngredientsList[index].totalkcal = totalunit * ingredients.kcalpunit
+            } else {
+                this.newfoodmenu.foodmenuHasIngredientsList.push({
+                    key: {
+                        ingredientsIngredientsid: ingredients.ingredientsid
+                    },
+                    ingredients,
+                    totalunit,
+                    totalkcal: totalunit * ingredients.kcalpunit
+                })
+            }
+            this.calculatetotalkcal()
+
+        },
+        deleteingredients(ingredients) {
+            this.newfoodmenu.foodmenuHasIngredientsList = this.newfoodmenu.foodmenuHasIngredientsList.filter(i => i.key.ingredientsIngredientsid !== ingredients.ingredientsid)
+            this.calculatetotalkcal()
+        },
+        calculatetotalkcal(){
+             this.newfoodmenu.totalkcal = this.newfoodmenu.foodmenuHasIngredientsList.map(i => i.totalkcal).reduce((a, b) => a + b, 0)
         }
-    },
+    }
 }
 </script>
 <style>
