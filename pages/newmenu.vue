@@ -147,6 +147,83 @@
                         </div>
                     </div>
                 </div>
+                <div
+                    v-if="ingredientsShow"
+                    class="fixed z-30 inset-0 w-full h-full bg-white xl:hidden overflow-y-scroll"
+                >
+                    <div class="w-full h-32 bg-brightsalmon text-white text-2xl">
+                        <div class="flex items-center pt-10 px-8 justify-between">
+                            <i
+                                class="material-icons cursor-pointer text-xl"
+                                @click="ingredientsShow = false"
+                            >arrow_back_ios</i>
+                            <div>{{ ingredientstype === '' ? 'All ingredients' : ingredientstype }}</div>
+                            <i class="material-icons cursor-pointer">add</i>
+                        </div>
+                    </div>
+                    <div
+                        class="relative text-gray-600 flex-grow flex filter drop-shadow-all px-10 -mt-6"
+                    >
+                        <div class="flex justify-start">
+                            <button
+                                type="submit"
+                                class="focus:outline-none absolute mt-3 ml-3"
+                                @click="searchfilter"
+                            >
+                                <i class="material-icons text-gray-400">search</i>
+                            </button>
+                        </div>
+                        <input
+                            v-model.trim="searchInput"
+                            class="rounded-2xl w-full bg-white h-12 px-5 pl-10 text-base focus:outline-none"
+                            placeholder="ค้นหาวัตถุดิบ"
+                            @keyup.enter="searchfilter"
+                        />
+                    </div>
+                    <div class="flex justify-between mt-4 px-8">
+                        <div class="flex gap-x-4 text-gray-500">
+                            <div>ค้นหา</div>
+                            <div>คำขอ</div>
+                        </div>
+                        <div>
+                            <PageNumber :page="ingredientsArray" classnum="text-sm text-gray-500" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col mt-3 divide-y-2 border-t-2" :class="{'border-b-2': ingredientsArray.totalElements !== 0}">
+                        <div
+                            v-for="ingredients in ingredientsArray.content"
+                            :key="ingredients.ingredientsid"
+                            class="py-2 flex items-center justify-center w-full"
+                        >
+                            <Item
+                                :item="{
+                                    name: ingredients.ingredientsname,
+                                    description: ingredients.descriptionunit,
+                                    totalkcal: ingredients.kcalpunit
+                                }"
+                                class="w-11/12"
+                            >
+                                <IngredientstypeSVG
+                                    :ingredient="ingredients.ingredientstype"
+                                    classingredient="w-10 h-10 mr-2"
+                                    fill="#FCC090"
+                                    class="flex justify-center items-center"
+                                />
+                            </Item>
+                        </div>
+                        <div v-if="ingredientsArray.totalElements === 0" class="mx-6 mt-4">
+                            <div class="xl:text-2xl text-xl xl:my-2 my-3">No results found</div>
+                            <div class="xl:text-lg text-base text-gray-600">
+                                <p>Here are some hints:</p>
+                                <ul class="list-disc ml-6 xl:text-base text-sm">
+                                    <li>Make sure the spelling is correct.</li>
+                                    <li>Use generic terms. Instead of specific brands, use their generic equivalent. For Example, instead of 'Pepsi'; use 'soda'</li>
+                                    <li>If you continue to have problems, visit the Contact Us page to reach a customer support rep</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="xl:w-2/3 xl:px-8 px-6 py-2">
                 <div class="xl:text-3xl text-lg">สรุปรายการ</div>
@@ -242,6 +319,7 @@ export default {
     },
     data() {
         return {
+            ingredientsShow: false,
             foodtypeArray: [],
             ingredientstypeArray: [],
             ingredientsArray: [],
@@ -260,6 +338,7 @@ export default {
             this.getingredient();
         },
         ingredientstypefilter(ingredientstype) {
+            this.ingredientsShow = true
             this.ingredientstype = ingredientstype
             this.getingredient();
         },
