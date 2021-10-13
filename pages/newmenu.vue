@@ -132,25 +132,41 @@
             <div class="xl:w-2/3 xl:px-8 px-6 py-2">
                 <div class="xl:text-3xl text-lg">สรุปรายการ</div>
                 <div>
-                    <FoodmenuItem class="mt-10 w-11/12 mx-auto shadow-lg">
+                    <FoodmenuItem class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg">
                         <template #header>
                             <div>
-                                <div class="flex items-center">
+                                <div class="flex items-center flex-col xl:flex-row">
                                     <img
                                         src="../assets/img/chooseimg.svg"
-                                        class="filter drop-shadow ml-8 object-cover h-36 w-48"
+                                        class="filter drop-shadow xl:ml-8 object-cover h-36 w-48 mt-4 xl:mt-0"
                                     />
-                                    <div class="flex flex-col items-start ml-4 gap-y-4 text-lg">
-                                        <div>กระเพราะหมูสับไข่ดาว</div>
-                                        <div class="text-base">ประเภท : ผัด</div>
+                                    <div
+                                        class="mt-3 flex items-center justify-center xl:justify-start mx-2 xl:mx-0 xl:hidden"
+                                    >
+                                        <label
+                                            for="image"
+                                            class="xl:ml-8 mr-1 xl:px-4 px-2 py-0.5 bg-white border-2 rounded-full xl:text-sm text-xs border-opacity-0 filter drop-shadow cursor-pointer flex-shrink-0"
+                                        >อัพโหลดรูป</label>
+                                        <input id="image" type="file" class="hidden" />
+                                        <div
+                                            class="text-xs text-gray-500 truncate"
+                                        >ยังไม่ได้เลือกรูป</div>
                                     </div>
-                                    <div class="flex-grow"></div>
-                                    <div class="text-lg mr-2">แคลอรี่รวม 340 kcal.</div>
+                                    <div
+                                        class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg  mt-4 xl:mt-0"
+                                    >
+                                        <div class="truncate">กระเพราะหมูสับไข่ดาว</div>
+                                        <div class="xl:text-base text-sm">ประเภท : ผัด</div>
+                                    </div>
+                                    <div class="flex-grow xl:block hidden"></div>
+                                    <div class="xl:text-lg text-base xl:mr-2 mt-2 xl:mt-0">แคลอรี่รวม 340 kcal.</div>
                                 </div>
-                                <div class="mt-2 flex items-center">
+                                <div
+                                    class="mt-2 xl:flex items-center justify-center xl:justify-start mx-2 xl:mx-0 hidden"
+                                >
                                     <label
                                         for="image"
-                                        class="ml-8 mr-1 px-4 py-0.5 bg-white border-2 rounded-full text-sm border-opacity-0 filter drop-shadow cursor-pointer"
+                                        class="xl:ml-8 mr-1 xl:px-4 px-2 py-0.5 bg-white border-2 rounded-full xl:text-sm text-xs border-opacity-0 filter drop-shadow cursor-pointer flex-shrink-0"
                                     >อัพโหลดรูป</label>
                                     <input id="image" type="file" class="hidden" />
                                     <div class="text-xs text-gray-500 truncate">ยังไม่ได้เลือกรูป</div>
@@ -158,6 +174,20 @@
                             </div>
                         </template>
                     </FoodmenuItem>
+                </div>
+                <div class="flex flex-col xl:flex-row text-white xl:mt-12 mt-6 mb-6 xl:mb-0 justify-center gap-x-6 gap-y-4 xl:w-full w-11/12 mx-auto">
+                    <div
+                        class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
+                    >
+                        เพิ่มในรายการอาหารของฉัน
+                        <i class="material-icons text-xl ml-3">playlist_add</i>
+                    </div>
+                    <div
+                        class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
+                    >
+                        คำนวณแคลอรี่เหมาะสมต่อวัน
+                        <i class="material-icons text-xl ml-3">east</i>
+                    </div>
                 </div>
             </div>
         </div>
