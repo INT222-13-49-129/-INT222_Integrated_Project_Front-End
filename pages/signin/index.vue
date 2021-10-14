@@ -224,6 +224,9 @@ export default {
       } else if (!this.validateEmail(this.login.email)) {
         this.validatetext.email = 'กรุณาใส่ Email ให้ถูกต้อง'
         this.validate.email = false
+      } else if (this.login.email.length > 50) {
+        this.validatetext.email = 'Email ห้ามยาวกว่า 50 ตัวอักษร'
+        this.validate.email = false
       } else {
         this.validate.email = true
       }

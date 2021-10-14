@@ -35,7 +35,7 @@
               class="xl:mt-8 mt-4 xl:px-4 mx-auto w-5/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg border-brightsalmon border-2 text-lightorange bg-white"
               @click="submitFrom(true), emailverified = false"
             >ใช้ข้อมูลใหม่</button>
-            <div class="xl:mt-7 mt-3"> หรือ </div>
+            <div class="xl:mt-7 mt-3">หรือ</div>
             <button
               class="xl:mt-8 mt-3 xl:px-4 mx-auto w-5/6 xl:w-auto py-1.5 xl:text-xl text-base rounded-lg text-white bg-brightsalmon"
               @click="otpresend(), emailverified = false"
@@ -268,7 +268,7 @@
             >Create Account</button>
           </form>
           <div class="xl:mt-8 xl:mb-6 mt-6 xl:text-base text-sm">
-            Already Have An Account? 
+            Already Have An Account?
             <NuxtLink to="/signin" class="underline text-lightorange">Sign In.</NuxtLink>
           </div>
         </div>
@@ -430,6 +430,9 @@ export default {
       if (this.regis.email === '') {
         this.validatetext.email = 'กรุณาใส่ Email '
         this.validate.email = false
+      } else if (this.regis.email.length > 50) {
+        this.validatetext.email = 'Email ห้ามยาวกว่า 50 ตัวอักษร'
+        this.validate.email = false
       } else if (!this.validateEmail(this.regis.email)) {
         this.validatetext.email = 'กรุณาใส่ Email ให้ถูกต้อง'
         this.validate.email = false
@@ -442,6 +445,9 @@ export default {
         this.validate.username = false
       } else if (!/^[a-zA-Z0-9]+$/.test(this.regis.username)) {
         this.validatetext.username = 'ใส่ค่าได้เฉพาะ A-Z,a-z และตัวเลข'
+        this.validate.username = false
+      } else if (this.regis.username.length > 50) {
+        this.validatetext.username = 'Username ห้ามยาวกว่า 50 ตัวอักษร'
         this.validate.username = false
       } else {
         this.validate.username = true
@@ -470,12 +476,18 @@ export default {
       if (this.regis.firstname === '') {
         this.validatetext.firstname = 'กรุณาใส่ Firstname '
         this.validate.firstname = false
+      } else if (this.regis.firstname.length > 50) {
+        this.validatetext.firstname = 'Firstname ห้ามยาวกว่า 50 ตัวอักษร'
+        this.validate.firstname = false
       } else {
         this.validate.firstname = true
       }
 
       if (this.regis.lastname === '') {
         this.validatetext.lastname = 'กรุณาใส่ Surname '
+        this.validate.lastname = false
+      } else if (this.regis.lastname.length > 50) {
+        this.validatetext.lastname = 'Surname ห้ามยาวกว่า 50 ตัวอักษร'
         this.validate.lastname = false
       } else {
         this.validate.lastname = true

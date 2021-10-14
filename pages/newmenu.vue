@@ -12,6 +12,51 @@
                 </div>
             </div>
         </div>
+        <div v-if="ingredientsSelected">
+            <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-10/12  fixed">
+                <div
+                    class="w-full bg-brightsalmon flex justify-center items-center text-white xl:text-2xl text-lg px-6 xl:py-6 py-4"
+                >
+                    <i
+                        class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2"
+                        @click="ingredientsSelected = null, ingredientsNum = 1"
+                    >close</i>
+                    <span>{{ ingredientsSelected.ingredientsname }}</span>
+                </div>
+                <div class="w-full bg-white py-8 flex flex-col justify-center text-center">
+                    <div class="xl:text-xl text-lg">
+                        {{ ingredientsSelected.kcalpunit }} kcal. ต่อ
+                        1 {{ ingredientsSelected.unit }}
+                        <br />
+                        โดยเท่ากับ {{ ingredientsSelected.descriptionunit }}
+                    </div>
+                    <div class="flex items-center justify-center xl:text-xl text-lg mt-4 mx-2">
+                        <span class="flex-1 text-right xl:mr-4 mr-2">จำนวน</span>
+                        <i
+                            class="material-icons text-brightsalmon cursor-pointer"
+                            @click="ingredientsNum > 1 ? ingredientsNum-- : ''"
+                        >remove_circle_outline</i>
+                        <input
+                            id="ingredientsNum"
+                            v-model="ingredientsNum"
+                            type="number"
+                            min="1"
+                            step="1"
+                            class="w-1/6 focus:outline-none text-center xl:text-2xl text-xl"
+                        />
+                        <i
+                            class="material-icons text-brightsalmon cursor-pointer"
+                            @click="ingredientsNum++"
+                        >add_circle_outline</i>
+                        <span class="flex-1 text-left xl:ml-4 ml-2">{{ ingredientsSelected.unit }}</span>
+                    </div>
+                    <div
+                        class="rounded-2xl px-6 py-2 bg-green-300 mx-auto text-white mt-6 cursor-pointer xl:text-base text-sm hover:bg-green-400"
+                        @click="ingredientsNum > 0 ? addingredients(ingredientsSelected, ingredientsNum) : ''"
+                    >บันทึก</div>
+                </div>
+            </Modal>
+        </div>
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
             <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
@@ -48,6 +93,34 @@
                             :value="t"
                         >{{ t.typename }}</option>
                     </select>
+                </div>
+                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
+                    <label for="description">คำอธิบายอาหาร</label>
+                    <br />
+                    <textarea
+                        id="description"
+                        v-model.lazy.trim="newfoodmenu.description"
+                        type="text"
+                        required
+                        class="rounded-xl border-2 border-gray-100 w-full h-16 px-4 bg-gray-100 xl:text-base text-sm"
+                        placeholder="คำอธิบาย"
+                    ></textarea>
+                </div>
+                <div class="xl:mt-2 mt-0 xl:text-lg text-base relative">
+                    <label for="foodtype">ระดับการแชร์</label>
+                    <br />
+                    <select
+                        id="foodtype"
+                        v-model="newfoodmenu.foodmenustatus"
+                        required
+                        class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
+                    >
+                        <option value="PERSONAL">&nbsp;&nbsp;ส่วนตัว</option>
+                        <option value="PUBLISH">&nbsp;&nbsp;สาธารณะ</option>
+                    </select>
+                    <i
+                        class="material-icons absolute xl:top-7 top-6 mt-0.5 left-3 xl:text-lg text-base text-brightsalmon"
+                    >{{ newfoodmenu.foodmenustatus === 'PERSONAL' ? 'lock' : 'public' }}</i>
                 </div>
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <div class="flex justify-between">
@@ -116,25 +189,27 @@
                         <div
                             v-for="ingredients in ingredientsArray.content"
                             :key="ingredients.ingredientsid"
-                            class="py-2 flex items-center justify-between"
-                            @click="haveIngredients(ingredients) ? addingredients(ingredients, newfoodmenu.foodmenuHasIngredientsList[ingredientsIndex(ingredients)].totalunit + 1) : addingredients(ingredients)"
+                            class="py-2 flex items-center justify-between cursor-pointer hover:bg-salmon hover:bg-opacity-10"
                         >
-                            <Item
-                                :item="{
-                                    name: ingredients.ingredientsname,
-                                    description: ingredients.descriptionunit,
-                                    totalkcal: ingredients.kcalpunit
-                                }"
-                            >
-                                <IngredientstypeSVG
-                                    :ingredient="ingredients.ingredientstype"
-                                    classingredient="w-12 h-12 mr-2"
-                                    fill="#FCC090"
-                                    class="flex justify-center items-center"
-                                />
-                            </Item>
+                            <div class="flex-grow" @click="ingredientsSelected = ingredients,haveIngredients(ingredients)?ingredientsNum=newfoodmenu.foodmenuHasIngredientsList[ingredientsIndex(ingredients)].totalunit:''">
+                                <Item
+                                    :item="{
+                                        name: ingredients.ingredientsname,
+                                        description: ingredients.descriptionunit,
+                                        totalkcal: ingredients.kcalpunit
+                                    }"
+                                >
+                                    <IngredientstypeSVG
+                                        :ingredient="ingredients.ingredientstype"
+                                        classingredient="w-12 h-12 mr-2"
+                                        fill="#FCC090"
+                                        class="flex justify-center items-center"
+                                    />
+                                </Item>
+                            </div>
                             <div
-                                class="flex justify-center items-center w-9 h-9 bg-brightsalmon rounded-full mr-2 cursor-pointer"
+                                class="flex justify-center items-center w-9 h-9 bg-brightsalmon rounded-full mr-2 cursor-pointer hover:bg-salmon"
+                                @click="haveIngredients(ingredients) ? addingredients(ingredients, newfoodmenu.foodmenuHasIngredientsList[ingredientsIndex(ingredients)].totalunit + 1) : addingredients(ingredients)"
                             >
                                 <i class="material-icons text-white">add</i>
                             </div>
@@ -202,6 +277,7 @@
                             v-for="ingredients in ingredientsArray.content"
                             :key="ingredients.ingredientsid"
                             class="py-2 flex items-center justify-center w-full"
+                            @click="ingredientsSelected = ingredients,haveIngredients(ingredients)?ingredientsNum=newfoodmenu.foodmenuHasIngredientsList[ingredientsIndex(ingredients)].totalunit:''"
                         >
                             <Item
                                 :item="{
@@ -244,34 +320,34 @@
                             <div>
                                 <div class="flex items-center flex-col xl:flex-row">
                                     <img
-                                        src="../assets/img/chooseimg.svg"
+                                        :src="img"
                                         class="filter drop-shadow xl:ml-8 object-cover h-36 w-48 mt-4 xl:mt-0"
                                     />
                                     <div
-                                        class="mt-3 flex items-center justify-center xl:justify-start mx-2 xl:mx-0 xl:hidden"
+                                        class="mt-3 flex items-center justify-center w-11/12 xl:justify-start mx-2 xl:mx-0 xl:hidden"
                                     >
                                         <label
                                             for="image"
                                             class="xl:ml-8 mr-1 xl:px-4 px-2 py-0.5 bg-white border-2 rounded-full xl:text-sm text-xs border-opacity-0 filter drop-shadow cursor-pointer flex-shrink-0"
                                         >อัพโหลดรูป</label>
-                                        <input id="image" type="file" class="hidden" />
                                         <div
                                             class="text-xs text-gray-500 truncate"
-                                        >ยังไม่ได้เลือกรูป</div>
+                                        >{{ newfoodmenu.image }}</div>
                                     </div>
                                     <div
-                                        class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg mt-4 xl:mt-0"
+                                        class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg mt-4 xl:mt-0 w-full px-8 xl:px-0"
                                     >
-                                        <div
-                                            class="truncate"
-                                        >{{ newfoodmenu.foodname ? newfoodmenu.foodname : 'ชื่ออาหาร' }}</div>
                                         <div
                                             class="xl:text-base text-sm"
                                         >ประเภท : {{ newfoodmenu.foodtype ? newfoodmenu.foodtype.typename : '-' }}</div>
+                                        <div class="xl:text-base text-sm text-left">
+                                            คำอธิบาย :
+                                            <br />
+                                            {{ newfoodmenu.description ? newfoodmenu.description : '-' }}
+                                        </div>
                                     </div>
-                                    <div class="flex-grow xl:block hidden"></div>
                                     <div
-                                        class="xl:text-lg text-base xl:mr-2 mt-2 xl:mt-0"
+                                        class="xl:text-lg text-base xl:mr-2 mt-2 xl:mt-0 flex-shrink-0 xl:ml-2"
                                     >แคลอรี่รวม {{ newfoodmenu.totalkcal }} kcal.</div>
                                 </div>
                                 <div
@@ -281,8 +357,16 @@
                                         for="image"
                                         class="xl:ml-8 mr-1 xl:px-4 px-2 py-0.5 bg-white border-2 rounded-full xl:text-sm text-xs border-opacity-0 filter drop-shadow cursor-pointer flex-shrink-0"
                                     >อัพโหลดรูป</label>
-                                    <input id="image" type="file" class="hidden" />
-                                    <div class="text-xs text-gray-500 truncate">ยังไม่ได้เลือกรูป</div>
+                                    <input
+                                        id="image"
+                                        type="file"
+                                        class="hidden"
+                                        accept="image/*"
+                                        @change="uploadImg"
+                                    />
+                                    <div
+                                        class="text-xs text-gray-500 truncate"
+                                    >{{ newfoodmenu.image }}</div>
                                 </div>
                             </div>
                         </template>
@@ -313,12 +397,14 @@ import * as GeneralApi from '../utils/generalApi'
 import IngredientstypeSVG from '../components/IngredientstypeSVG.vue'
 import PageNumber from '../components/PageNumber.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
+import Modal from '../components/Modal.vue';
 
 export default {
     components: {
         IngredientstypeSVG,
         PageNumber,
-        FoodmenuItem
+        FoodmenuItem,
+        Modal
     },
     async asyncData() {
         const foodtypesresponse = await GeneralApi.foodtypes()
@@ -334,18 +420,23 @@ export default {
     },
     data() {
         return {
+            img: require("../assets/img/chooseimg.svg"),
+            file: null,
             ingredientsShow: false,
+            ingredientsSelected: null,
             foodtypeArray: [],
             ingredientstypeArray: [],
             ingredientsArray: [],
             searchInput: "",
             search: "",
             ingredientstype: "",
+            ingredientsNum: 1,
             newfoodmenu: {
                 foodname: "",
                 totalkcal: 0,
+                image: "ยังไม่ได้เลือกรูป",
                 description: "",
-                foodmenustatus: "",
+                foodmenustatus: "PERSONAL",
                 foodtype: null,
                 foodmenuHasIngredientsList: []
             }
@@ -377,6 +468,9 @@ export default {
             return this.newfoodmenu.foodmenuHasIngredientsList.findIndex((i => i.key.ingredientsIngredientsid === ingredients.ingredientsid))
         },
         addingredients(ingredients, totalunit = 1) {
+            if (totalunit < 1) {
+                return
+            }
             if (this.haveIngredients(ingredients)) {
                 const index = this.ingredientsIndex(ingredients)
                 this.newfoodmenu.foodmenuHasIngredientsList[index].totalunit = totalunit
@@ -391,16 +485,45 @@ export default {
                     totalkcal: totalunit * ingredients.kcalpunit
                 })
             }
+            this.ingredientsSelected = null
+            this.ingredientsNum = 1
             this.calculatetotalkcal()
-
         },
         deleteingredients(ingredients) {
             this.newfoodmenu.foodmenuHasIngredientsList = this.newfoodmenu.foodmenuHasIngredientsList.filter(i => i.key.ingredientsIngredientsid !== ingredients.ingredientsid)
             this.calculatetotalkcal()
         },
-        calculatetotalkcal(){
-             this.newfoodmenu.totalkcal = this.newfoodmenu.foodmenuHasIngredientsList.map(i => i.totalkcal).reduce((a, b) => a + b, 0)
-        }
+        calculatetotalkcal() {
+            this.newfoodmenu.totalkcal = this.newfoodmenu.foodmenuHasIngredientsList.map(i => i.totalkcal).reduce((a, b) => a + b, 0)
+        },
+        uploadImg(event) {
+            const file = event.target.files[0]
+            if (this.isImage(file.name)) {
+                const reader = new FileReader()
+                reader.onload = (event) => {
+                    this.img = event.target.result;
+                };
+                reader.readAsDataURL(file);
+                this.file = file
+                this.newfoodmenu.image = file.name
+            }
+        },
+        getExtension(filename) {
+            const parts = filename.split('.');
+            return parts[parts.length - 1];
+        },
+        isImage(filename) {
+            const ext = this.getExtension(filename);
+            switch (ext.toLowerCase()) {
+                case 'jpg':
+                case 'jpeg':
+                case 'gif':
+                case 'bmp':
+                case 'png':
+                    return true;
+            }
+            return false;
+        },
     }
 }
 </script>
@@ -409,5 +532,16 @@ export default {
     background-image: url("../assets/img/bgfoodmenu.svg");
     background-position: center;
     background-size: 700px auto;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 </style>
