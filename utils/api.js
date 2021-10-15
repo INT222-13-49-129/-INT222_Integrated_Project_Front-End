@@ -9,12 +9,15 @@ const getToken = function () {
   }
 }
 
-export function formData(data, name) {
+export function formData(data, name, file = null) {
   const jsonPro = JSON.stringify(data)
   const blob = new Blob([jsonPro], {
     type: 'application/json'
   })
   const formData = new FormData()
+  if(file !== null){
+    formData.append('file', file)
+  }
   formData.append(name, blob)
   return formData
 }

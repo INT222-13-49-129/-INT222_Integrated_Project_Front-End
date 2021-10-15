@@ -22,11 +22,11 @@
                         @click="ingredientsSelected = null, ingredientsNum = 1"
                     >close</i>
                     <IngredientstypeSVG
-                                        :ingredient="ingredientsSelected.ingredientstype"
-                                        classingredient="xl:w-8 xl:h-8 w-6 h-6 mr-2"
-                                        fill="#FFFFFF"
-                                        class="flex justify-center items-center"
-                                    />
+                        :ingredient="ingredientsSelected.ingredientstype"
+                        classingredient="xl:w-8 xl:h-8 w-6 h-6 mr-2"
+                        fill="#FFFFFF"
+                        class="flex justify-center items-center"
+                    />
                     <span>{{ ingredientsSelected.ingredientsname }}</span>
                 </div>
                 <div class="w-full bg-white py-8 flex flex-col justify-center text-center">
@@ -69,7 +69,7 @@
                     <div class="xl:text-2xl text-xl">คำนวณใหม่</div>
                     <div
                         class="text-gray-500 xl:text-base text-sm"
-                    >ยอดรวม {{ newfoodmenu.totalkcal }} kcal</div>
+                    >ยอดรวม {{ newfoodmenu.totalkcal }} kcal.</div>
                 </div>
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="foodname">ชื่ออาหาร</label>
@@ -81,24 +81,42 @@
                         required
                         class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
                         placeholder="ชื่ออาหาร"
+                        @change="validate.from ? '' : validateFrom()"
                     />
+                    <div
+                        v-if="!validate.foodname && !validate.from"
+                        class="text-red-600 text-xs text-right mt-1"
+                    >*{{ validatetext.foodname }}</div>
                 </div>
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="foodtype">ประเภทอาหาร</label>
                     <br />
-                    <select
-                        id="foodtype"
-                        v-model="newfoodmenu.foodtype"
-                        required
-                        class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
-                    >
-                        <option :value="null" disabled selected>ประเภทอาหาร</option>
-                        <option
-                            v-for="t in foodtypeArray"
-                            :key="t.foodtypeid"
-                            :value="t"
-                        >{{ t.typename }}</option>
-                    </select>
+                    <div class="flex">
+                        <select
+                            id="foodtype"
+                            v-model="newfoodmenu.foodtype"
+                            required
+                            class="rounded-xl border-2 border-gray-100 w-full h-8 px-4 bg-gray-100 xl:text-base text-sm"
+                            @change="validate.from ? '' : validateFrom()"
+                        >
+                            <option :value="null" disabled selected>ประเภทอาหาร</option>
+                            <option
+                                v-for="t in foodtypeArray"
+                                :key="t.foodtypeid"
+                                :value="t"
+                            >{{ t.typename }}</option>
+                        </select>
+                        <div
+                            v-if="isLoggedIn"
+                            class="flex justify-center items-center w-8 h-8 ml-2 px-1 bg-gray-100 rounded-xl cursor-pointer"
+                        >
+                            <i class="material-icons text-gray-400">add</i>
+                        </div>
+                    </div>
+                    <div
+                        v-if="!validate.foodtype && !validate.from"
+                        class="text-red-600 text-xs text-right mt-1"
+                    >*{{ validatetext.foodtype }}</div>
                 </div>
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="description">คำอธิบายอาหาร</label>
@@ -110,9 +128,14 @@
                         required
                         class="rounded-xl border-2 border-gray-100 w-full h-16 px-4 bg-gray-100 xl:text-base text-sm"
                         placeholder="คำอธิบาย"
+                        @change="validate.from ? '' : validateFrom()"
                     ></textarea>
+                    <div
+                        v-if="!validate.description && !validate.from"
+                        class="text-red-600 text-xs text-right"
+                    >*{{ validatetext.description }}</div>
                 </div>
-                <div class="xl:mt-2 mt-0 xl:text-lg text-base relative">
+                <div v-if="isLoggedIn" class="xl:mt-2 mt-0 xl:text-lg text-base relative">
                     <label for="foodtype">ระดับการแชร์</label>
                     <br />
                     <select
@@ -156,6 +179,10 @@
                             </div>
                         </div>
                     </div>
+                    <div
+                        v-if="!validate.foodmenuHasIngredientsList && !validate.from"
+                        class="text-red-600 text-xs text-right mt-1"
+                    >*{{ validatetext.foodmenuHasIngredientsList }}</div>
                 </div>
                 <div class="xl:block hidden">
                     <div class="xl:mt-4 mt-2 flex gap-x-4">
@@ -177,6 +204,7 @@
                             />
                         </div>
                         <div
+                            v-if="isLoggedIn"
                             class="flex justify-center items-center w-9 h-9 bg-white filter rounded-xl drop-shadow-all"
                         >
                             <i class="material-icons text-gray-400">add</i>
@@ -185,7 +213,7 @@
                     <div class="flex justify-between mt-4">
                         <div class="flex gap-x-4 text-gray-500">
                             <div>ค้นหา</div>
-                            <div>คำขอ</div>
+                            <div v-if="isLoggedIn">คำขอ</div>
                         </div>
                         <div>
                             <PageNumber :page="ingredientsArray" classnum="text-sm text-gray-500" />
@@ -242,13 +270,16 @@
                 >
                     <div class="w-full h-full relative overflow-y-scroll">
                         <div class="w-full h-32 bg-brightsalmon text-white text-2xl">
-                            <div class="flex items-center pt-10 px-8 justify-between">
+                            <div class="flex items-center pt-10 px-8 justify-center relative">
                                 <i
-                                    class="material-icons cursor-pointer text-xl"
+                                    class="material-icons absolute cursor-pointer text-xl left-8"
                                     @click="ingredientsShow = false"
                                 >arrow_back_ios</i>
                                 <div>{{ ingredientstype === '' ? 'All ingredients' : ingredientstype }}</div>
-                                <i class="material-icons cursor-pointer">add</i>
+                                <i
+                                    v-if="isLoggedIn"
+                                    class="material-icons absolute cursor-pointer right-8"
+                                >add</i>
                             </div>
                         </div>
                         <div
@@ -273,7 +304,7 @@
                         <div class="flex justify-between mt-4 px-8">
                             <div class="flex gap-x-4 text-gray-500">
                                 <div>ค้นหา</div>
-                                <div>คำขอ</div>
+                                <div v-if="isLoggedIn">คำขอ</div>
                             </div>
                             <div>
                                 <PageNumber
@@ -342,22 +373,22 @@
                                     class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
                                 >
                                     <template #top>
-                                        <div class="absolute flex items-center top-1 left-2"
-                                             @click="foodmenuShow = false">
-                                            <i
-                                                class="material-icons text-xl text-gray-400"
-                                            >close</i>
+                                        <div
+                                            class="absolute flex items-center top-1 left-2"
+                                            @click="foodmenuShow = false"
+                                        >
+                                            <i class="material-icons text-xl text-gray-400">close</i>
                                         </div>
                                     </template>
                                     <template #footer>
-                                        <div class="mt-4 text-right mr-2 text-lg">
-                                            แคลอรี่รวม {{ newfoodmenu.totalkcal }} kcal.
-                                        </div>
+                                        <div
+                                            class="mt-4 text-right mr-2 text-lg"
+                                        >แคลอรี่รวม {{ newfoodmenu.totalkcal }} kcal.</div>
                                     </template>
                                     <template #bottom>
-                                        <div class="py-1 text-gray-700">
-                                            ประเภท : {{ newfoodmenu.foodtype ? newfoodmenu.foodtype.typename : '-' }}
-                                        </div>
+                                        <div
+                                            class="py-1 text-gray-700"
+                                        >ประเภท : {{ newfoodmenu.foodtype ? newfoodmenu.foodtype.typename : '-' }}</div>
                                     </template>
                                 </FoodmenuItem>
                             </div>
@@ -372,7 +403,7 @@
                         :newfoodmenu="newfoodmenu"
                         class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
                     >
-                        <template #top>
+                        <template v-if="isLoggedIn" #top>
                             <div
                                 class="absolute flex items-center xl:top-3 top-1 xl:right-4 right-2"
                             >
@@ -402,6 +433,10 @@
                                             class="text-xs text-gray-500 truncate"
                                         >{{ newfoodmenu.image }}</div>
                                     </div>
+                                    <div
+                                        v-if="!validate.image && !validate.from"
+                                        class="text-red-600 text-xs xl:hidden mt-1"
+                                    >*{{ validatetext.image }}</div>
                                     <div
                                         class="flex flex-col items-start xl:ml-4 xl:gap-y-4 text-lg mt-4 xl:mt-0 w-full px-8 xl:px-0"
                                     >
@@ -436,15 +471,21 @@
                                         class="text-xs text-gray-500 truncate"
                                     >{{ newfoodmenu.image }}</div>
                                 </div>
+                                <div
+                                    v-if="!validate.image && !validate.from"
+                                    class="text-red-600 text-xs text-left mt-1 xl:ml-8 xl:block hidden"
+                                >*{{ validatetext.image }}</div>
                             </div>
                         </template>
                     </FoodmenuItem>
                 </div>
                 <div
+                    v-if="isLoggedIn"
                     class="flex flex-col xl:flex-row text-white xl:mt-12 mt-6 mb-6 xl:mb-0 justify-center gap-x-6 gap-y-4 xl:w-full w-11/12 mx-auto"
                 >
                     <div
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
+                        @click="submitFrom()"
                     >
                         เพิ่มในรายการอาหารของฉัน
                         <i class="material-icons text-xl ml-3">playlist_add</i>
@@ -462,6 +503,7 @@
 </template>
 <script>
 import * as GeneralApi from '../utils/generalApi'
+import * as UserApi from '../utils/userApi'
 import IngredientstypeSVG from '../components/IngredientstypeSVG.vue'
 import PageNumber from '../components/PageNumber.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
@@ -490,6 +532,7 @@ export default {
         return {
             img: require("../assets/img/chooseimg.svg"),
             file: null,
+            isLoggedIn: this.$auth.loggedIn,
             foodmenuShow: false,
             ingredientsShow: false,
             ingredientsSelected: null,
@@ -508,10 +551,88 @@ export default {
                 foodmenustatus: "PERSONAL",
                 foodtype: null,
                 foodmenuHasIngredientsList: []
+            },
+            validate: {
+                foodname: false,
+                image: false,
+                description: false,
+                foodtype: false,
+                foodmenuHasIngredientsList: false,
+                all: '',
+                from: true,
+            },
+            validatetext: {
+                foodname: '',
+                image: '',
+                description: '',
+                foodtype: '',
+                foodmenuHasIngredientsList: '',
+                all: ''
             }
         }
     },
     methods: {
+        async submitFrom() {
+            this.validateFrom()
+            if (this.validate.from) {
+                try {
+                    const response = await UserApi.createFoodmenu(this.newfoodmenu,this.file)
+                    if (response.data) {
+                        console.log(response.data);
+                    }
+                } catch (err) {
+                    console.log(err.response.data);
+                }
+            }
+        },
+        validateFrom() {
+            if (this.newfoodmenu.foodname === '') {
+                this.validatetext.foodname = 'กรุณาใส่ชื่อเมนูอาหาร'
+                this.validate.foodname = false
+            } else if (this.newfoodmenu.foodname.length > 50) {
+                this.validatetext.foodname = 'ชื่อเมนูอาหารห้ามยาวกว่า 50 ตัวอักษร'
+                this.validate.foodname = false
+            } else {
+                this.validate.foodname = true
+            }
+
+            if (this.file === null) {
+                this.validatetext.image = 'กรุณาใส่รูป'
+                this.validate.image = false
+            } else {
+                this.validate.image = true
+            }
+
+            if (this.newfoodmenu.description === '') {
+                this.validatetext.description = 'กรุณาใส่คำอธิบาย'
+                this.validate.description = false
+            } else if (this.newfoodmenu.description.length > 255) {
+                this.validatetext.description = 'คำอธิบายห้ามยาวกว่า 255 ตัวอักษร'
+                this.validate.description = false
+            } else {
+                this.validate.description = true
+            }
+
+            if (this.newfoodmenu.foodtype === null) {
+                this.validatetext.foodtype = 'กรุณาเลือกประเภทอาหาร'
+                this.validate.foodtype = false
+            } else {
+                this.validate.foodtype = true
+            }
+
+            if (this.newfoodmenu.foodmenuHasIngredientsList.length === 0) {
+                this.validatetext.foodmenuHasIngredientsList = 'กรุณาเพิ่มวัตถุดิบ'
+                this.validate.foodmenuHasIngredientsList = false
+            } else {
+                this.validate.foodmenuHasIngredientsList = true
+            }
+
+            this.validate.all = true
+            this.validate.from = true
+            Object.values(this.validate).forEach(v => {
+                this.validate.from = v && this.validate.from
+            });
+        },
         changPage(n) {
             const pagenumber = this.ingredientsArray.pageable.pageNumber + n
             this.getingredient(pagenumber);
@@ -564,6 +685,9 @@ export default {
         },
         calculatetotalkcal() {
             this.newfoodmenu.totalkcal = this.newfoodmenu.foodmenuHasIngredientsList.map(i => i.totalkcal).reduce((a, b) => a + b, 0)
+            if (!this.validate.from) {
+                this.validateFrom()
+            }
         },
         uploadImg(event) {
             const file = event.target.files[0]
@@ -575,6 +699,9 @@ export default {
                 reader.readAsDataURL(file);
                 this.file = file
                 this.newfoodmenu.image = file.name
+            }
+            if (!this.validate.from) {
+                this.validateFrom()
             }
         },
         getExtension(filename) {
