@@ -1,10 +1,6 @@
 <template>
     <div class="bg-white filter drop-shadow relative">
-        <div class="absolute flex items-center xl:top-3 top-1 xl:right-4 right-2 ">
-            <i class="material-icons xl:text-lg text-base text-brightsalmon"
-            >{{ newfoodmenu.foodmenustatus === 'PERSONAL' ? 'lock' : 'public' }}</i>
-            <span class="ml-2 xl:text-base text-sm">{{ newfoodmenu.foodmenustatus === 'PERSONAL' ? 'ส่วนตัว' : 'สาธารณะ' }}</span>
-        </div>
+        <slot name="top"></slot>
         <div class="flex flex-col justify-center text-center py-6 xl:px-4">
             <div class="text-gray-600">สรุปรายการ</div>
             <div class="text-xl">{{ newfoodmenu.foodname ? newfoodmenu.foodname : 'ชื่ออาหาร' }}</div>
