@@ -21,6 +21,12 @@
                         class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2"
                         @click="ingredientsSelected = null, ingredientsNum = 1"
                     >close</i>
+                    <IngredientstypeSVG
+                                        :ingredient="ingredientsSelected.ingredientstype"
+                                        classingredient="xl:w-8 xl:h-8 w-6 h-6 mr-2"
+                                        fill="#FFFFFF"
+                                        class="flex justify-center items-center"
+                                    />
                     <span>{{ ingredientsSelected.ingredientsname }}</span>
                 </div>
                 <div class="w-full bg-white py-8 flex flex-col justify-center text-center">
