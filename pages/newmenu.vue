@@ -63,7 +63,7 @@
                     <div class="xl:text-2xl text-xl">คำนวณใหม่</div>
                     <div
                         class="text-gray-500 xl:text-base text-sm"
-                    >ยอดรวม {{ newfoodmenu.totalkcal }} cal</div>
+                    >ยอดรวม {{ newfoodmenu.totalkcal }} kcal</div>
                 </div>
                 <div class="xl:mt-4 mt-2 xl:text-lg text-base">
                     <label for="foodname">ชื่ออาหาร</label>
@@ -198,7 +198,7 @@
                                 <Item
                                     :item="{
                                         name: ingredients.ingredientsname,
-                                        description: ingredients.descriptionunit,
+                                        description: `1 ${ingredients.unit}, ${ingredients.descriptionunit}`,
                                         totalkcal: ingredients.kcalpunit
                                     }"
                                 >
@@ -289,7 +289,7 @@
                                 <Item
                                     :item="{
                                         name: ingredients.ingredientsname,
-                                        description: ingredients.descriptionunit,
+                                        description: `1 ${ingredients.unit}, ${ingredients.descriptionunit}`,
                                         totalkcal: ingredients.kcalpunit
                                     }"
                                     class="w-11/12"
@@ -316,9 +316,46 @@
                         </div>
                     </div>
                     <div
-                        class="absolute flex items-center justify-center bottom-6 right-6 rounded-full bg-lightsalmon h-10 w-10"
+                        class="absolute flex items-center justify-center bottom-6 right-6 rounded-full bg-lightsalmon h-12 w-12 shadow-md cursor-pointer"
+                        @click="foodmenuShow = true"
                     >
-                        <i class="material-icons text-xl text-white">restaurant_menu</i>
+                        <div class="relative">
+                            <i class="material-icons text-2xl text-white">restaurant_menu</i>
+                            <div
+                                class="h-6 w-6 flex items-center justify-center absolute -top-3 -right-5 bg-white text-sm rounded-full filter drop-shadow-all"
+                            >{{ newfoodmenu.foodmenuHasIngredientsList.length }}</div>
+                        </div>
+                    </div>
+                    <div v-if="foodmenuShow">
+                        <div
+                            class="fixed bg-opacity-20 bg-black flex z-40 inset-0 overflow-y-auto overflow-x-auto"
+                        >
+                            <div class="w-11/12 py-2 my-auto mx-auto">
+                                <FoodmenuItem
+                                    :newfoodmenu="newfoodmenu"
+                                    class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
+                                >
+                                    <template #top>
+                                        <div class="absolute flex items-center top-1 left-2"
+                                             @click="foodmenuShow = false">
+                                            <i
+                                                class="material-icons text-xl text-gray-400"
+                                            >close</i>
+                                        </div>
+                                    </template>
+                                    <template #footer>
+                                        <div class="mt-4 text-right mr-2 text-lg">
+                                            แคลอรี่รวม {{ newfoodmenu.totalkcal }} kcal.
+                                        </div>
+                                    </template>
+                                    <template #bottom>
+                                        <div class="py-1 text-gray-700">
+                                            ประเภท : {{ newfoodmenu.foodtype ? newfoodmenu.foodtype.typename : '-' }}
+                                        </div>
+                                    </template>
+                                </FoodmenuItem>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -447,6 +484,7 @@ export default {
         return {
             img: require("../assets/img/chooseimg.svg"),
             file: null,
+            foodmenuShow: false,
             ingredientsShow: false,
             ingredientsSelected: null,
             foodtypeArray: [],

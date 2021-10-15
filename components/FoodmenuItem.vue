@@ -45,7 +45,9 @@
             </div>
             <slot name="footer"></slot>
         </div>
-        <div class="w-full xl:h-10 h-6 bg-gray-100 flex justify-center items-center"></div>
+        <div class="w-full xl:py-5 py-3 bg-gray-100 flex justify-center items-center">
+            <slot name="bottom"></slot>
+        </div>
     </div>
 </template>
 <script>
