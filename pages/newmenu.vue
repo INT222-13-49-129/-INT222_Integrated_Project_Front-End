@@ -212,14 +212,27 @@
                     </div>
                     <div class="flex justify-between mt-4">
                         <div class="flex gap-x-4 text-gray-500">
-                            <div>ค้นหา</div>
-                            <div v-if="isLoggedIn">คำขอ</div>
+                            <div
+                                class="cursor-pointer"
+                                :class="{ 'underline': !request }"
+                                @click="request = false"
+                            >ค้นหา</div>
+                            <div
+                                v-if="isLoggedIn"
+                                class="cursor-pointer"
+                                :class="{ 'underline': request }"
+                                @click="request = true"
+                            >คำขอ</div>
                         </div>
                         <div>
-                            <PageNumber :page="ingredientsArray" classnum="text-sm text-gray-500" />
+                            <PageNumber
+                                v-if="!request"
+                                :page="ingredientsArray"
+                                classnum="text-sm text-gray-500"
+                            />
                         </div>
                     </div>
-                    <div class="flex flex-col mt-3 divide-y-2 border-t-2">
+                    <div v-if="!request" class="flex flex-col mt-3 divide-y-2 border-t-2">
                         <div
                             v-for="ingredients in ingredientsArray.content"
                             :key="ingredients.ingredientsid"
@@ -263,6 +276,15 @@
                             </div>
                         </div>
                     </div>
+                    <div v-else class="flex flex-col mt-3 divide-y-2 border-t-2">
+                        <div
+                            v-for="i in 10"
+                            :key="i"
+                            class="py-2 flex items-center"
+                        >
+                        <RequestItem></RequestItem>
+                        </div>
+                    </div>
                 </div>
                 <div
                     v-if="ingredientsShow"
@@ -303,8 +325,8 @@
                         </div>
                         <div class="flex justify-between mt-4 px-8">
                             <div class="flex gap-x-4 text-gray-500">
-                                <div>ค้นหา</div>
-                                <div v-if="isLoggedIn">คำขอ</div>
+                                <div :class="{ 'underline': !request }">ค้นหา</div>
+                                <div v-if="isLoggedIn" :class="{ 'underline': request }">คำขอ</div>
                             </div>
                             <div>
                                 <PageNumber
@@ -480,6 +502,10 @@
                     </FoodmenuItem>
                 </div>
                 <div
+                    v-if="!validate.all && !validate.from"
+                    class="text-red-600 text-xs text-center mt-8 xl:-mb-6 -mb-4"
+                >*{{ validatetext.all }}</div>
+                <div
                     v-if="isLoggedIn"
                     class="flex flex-col xl:flex-row text-white xl:mt-12 mt-6 mb-6 xl:mb-0 justify-center gap-x-6 gap-y-4 xl:w-full w-11/12 mx-auto"
                 >
@@ -507,6 +533,7 @@ import * as UserApi from '../utils/userApi'
 import IngredientstypeSVG from '../components/IngredientstypeSVG.vue'
 import PageNumber from '../components/PageNumber.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
+import RequestItem from '../components/RequestItem.vue';
 import Modal from '../components/Modal.vue';
 
 export default {
@@ -514,6 +541,7 @@ export default {
         IngredientstypeSVG,
         PageNumber,
         FoodmenuItem,
+        RequestItem,
         Modal
     },
     async asyncData() {
@@ -535,6 +563,7 @@ export default {
             isLoggedIn: this.$auth.loggedIn,
             foodmenuShow: false,
             ingredientsShow: false,
+            request: false,
             ingredientsSelected: null,
             foodtypeArray: [],
             ingredientstypeArray: [],
@@ -558,7 +587,7 @@ export default {
                 description: false,
                 foodtype: false,
                 foodmenuHasIngredientsList: false,
-                all: '',
+                all: false,
                 from: true,
             },
             validatetext: {
@@ -576,12 +605,33 @@ export default {
             this.validateFrom()
             if (this.validate.from) {
                 try {
-                    const response = await UserApi.createFoodmenu(this.newfoodmenu,this.file)
+                    const response = await UserApi.createFoodmenu(this.newfoodmenu, this.file)
                     if (response.data) {
                         console.log(response.data);
                     }
                 } catch (err) {
-                    console.log(err.response.data);
+                    this.validate.from = false
+                    const status = err.response?.data?.status
+                    if (status === 1002) {
+                        this.validatetext.foodname = 'ชื่อเมนูอาหารซ้ำกับเมนูสาธารณะที่มีอยู่แล้ว'
+                        this.validate.foodname = false
+                    }
+                    if (status === 1003) {
+                        this.validatetext.foodname = 'ชื่อเมนูอาหารซ้ำกับเมนูส่วนตัวที่มีอยู่แล้ว'
+                        this.validate.foodname = false
+                    }
+                    if (status === 2011) {
+                        this.validatetext.all = 'ผู้ใช้ไม่สามารถเป็นค่าว่างได้หากเป็นเมนูส่วนตัว'
+                        this.validate.all = false
+                    }
+                    if (status === 3002) {
+                        this.validatetext.image = 'บันทึกรูปไม่สำเร็จกรุณาลองใหม่'
+                        this.validate.image = false
+                    }
+                    if ([500, 400].includes(err.response?.status) || err.response === undefined) {
+                        this.validatetext.all = 'ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่'
+                        this.validate.all = false
+                    }
                 }
             }
         },
@@ -699,10 +749,14 @@ export default {
                 reader.readAsDataURL(file);
                 this.file = file
                 this.newfoodmenu.image = file.name
+                if (!this.validate.from) {
+                    this.validateFrom()
+                }
+            } else if (this.file === null) {
+                this.validatetext.image = 'กรุณาใส่เฉพาะไฟล์รูป'
+                this.validate.image = false
             }
-            if (!this.validate.from) {
-                this.validateFrom()
-            }
+
         },
         getExtension(filename) {
             const parts = filename.split('.');
@@ -716,6 +770,7 @@ export default {
                 case 'gif':
                 case 'bmp':
                 case 'png':
+                case 'webp':
                     return true;
             }
             return false;
