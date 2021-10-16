@@ -530,6 +530,7 @@
 <script>
 import * as GeneralApi from '../utils/generalApi'
 import * as UserApi from '../utils/userApi'
+import Item from '../components/Item.vue';
 import IngredientstypeSVG from '../components/IngredientstypeSVG.vue'
 import PageNumber from '../components/PageNumber.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
@@ -538,6 +539,7 @@ import Modal from '../components/Modal.vue';
 
 export default {
     components: {
+        Item,
         IngredientstypeSVG,
         PageNumber,
         FoodmenuItem,
