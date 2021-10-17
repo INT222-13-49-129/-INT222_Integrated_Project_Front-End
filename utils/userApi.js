@@ -19,3 +19,8 @@ export function createFoodmenu(newfoodmenu, file) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/add`
   return request('post', url, formData(newfoodmenu, 'newfoodmenu', file), true)
 }
+
+export function requestsWithPage(pageNo = 0, pageSize = 5) {
+  const url = `${process.env.config.BASE_URL}user/request/page?pageNo=${pageNo}&pageSize=${pageSize}`
+  return request('get', url, {}, true)
+}

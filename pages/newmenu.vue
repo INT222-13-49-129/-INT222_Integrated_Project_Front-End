@@ -63,6 +63,11 @@
                 </div>
             </Modal>
         </div>
+        <div v-if="false">
+            <Modal classpop="flex justify-center items-center w-full h-full" >
+                <SendRequest />
+            </Modal>
+        </div>
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
             <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
@@ -205,7 +210,7 @@
                         </div>
                         <div
                             v-if="isLoggedIn"
-                            class="flex justify-center items-center w-9 h-9 bg-white filter rounded-xl drop-shadow-all"
+                            class="flex justify-center items-center w-9 h-9 bg-white filter rounded-xl drop-shadow-all cursor-pointer"
                         >
                             <i class="material-icons text-gray-400">add</i>
                         </div>
@@ -221,13 +226,12 @@
                                 v-if="isLoggedIn"
                                 class="cursor-pointer"
                                 :class="{ 'underline': request }"
-                                @click="request = true"
+                                @click="getrequest(requestArray.length !== 0 ? requestArray.pageable.pageNumber : 0)"
                             >คำขอ</div>
                         </div>
                         <div>
                             <PageNumber
-                                v-if="!request"
-                                :page="ingredientsArray"
+                                :page="request ? requestArray : ingredientsArray"
                                 classnum="text-sm text-gray-500"
                             />
                         </div>
@@ -278,11 +282,11 @@
                     </div>
                     <div v-else class="flex flex-col mt-3 divide-y-2 border-t-2">
                         <div
-                            v-for="i in 10"
-                            :key="i"
+                            v-for="r in requestArray.content"
+                            :key="r.requestid"
                             class="py-2 flex items-center"
                         >
-                        <RequestItem></RequestItem>
+                            <RequestItem :request="r" />
                         </div>
                     </div>
                 </div>
@@ -325,17 +329,25 @@
                         </div>
                         <div class="flex justify-between mt-4 px-8">
                             <div class="flex gap-x-4 text-gray-500">
-                                <div :class="{ 'underline': !request }">ค้นหา</div>
-                                <div v-if="isLoggedIn" :class="{ 'underline': request }">คำขอ</div>
+                                <div
+                                    :class="{ 'underline': !request }"
+                                    @click="request = false"
+                                >ค้นหา</div>
+                                <div
+                                    v-if="isLoggedIn"
+                                    :class="{ 'underline': request }"
+                                    @click="getrequest(requestArray.length !== 0 ? requestArray.pageable.pageNumber : 0)"
+                                >คำขอ</div>
                             </div>
                             <div>
                                 <PageNumber
-                                    :page="ingredientsArray"
+                                    :page="request ? requestArray : ingredientsArray"
                                     classnum="text-sm text-gray-500"
                                 />
                             </div>
                         </div>
                         <div
+                            v-if="!request"
                             class="flex flex-col mt-3 divide-y-2 border-t-2"
                             :class="{ 'border-b-2': ingredientsArray.totalElements !== 0 }"
                         >
@@ -371,6 +383,19 @@
                                         <li>If you continue to have problems, visit the Contact Us page to reach a customer support rep</li>
                                     </ul>
                                 </div>
+                            </div>
+                        </div>
+                        <div
+                            v-else
+                            class="flex flex-col mt-3 divide-y-2 border-t-2"
+                            :class="{ 'border-b-2': requestArray.totalElements !== 0 }"
+                        >
+                            <div
+                                v-for="r in requestArray.content"
+                                :key="r.requestid"
+                                class="py-2 flex items-center px-2"
+                            >
+                                <RequestItem :request="r" />
                             </div>
                         </div>
                     </div>
@@ -536,6 +561,7 @@ import PageNumber from '../components/PageNumber.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
 import RequestItem from '../components/RequestItem.vue';
 import Modal from '../components/Modal.vue';
+import SendRequest from '../components/SendRequest.vue';
 
 export default {
     components: {
@@ -544,7 +570,8 @@ export default {
         PageNumber,
         FoodmenuItem,
         RequestItem,
-        Modal
+        Modal,
+        SendRequest
     },
     async asyncData() {
         const foodtypesresponse = await GeneralApi.foodtypes()
@@ -566,6 +593,7 @@ export default {
             foodmenuShow: false,
             ingredientsShow: false,
             request: false,
+            requestArray: [],
             ingredientsSelected: null,
             foodtypeArray: [],
             ingredientstypeArray: [],
@@ -686,8 +714,19 @@ export default {
             });
         },
         changPage(n) {
-            const pagenumber = this.ingredientsArray.pageable.pageNumber + n
-            this.getingredient(pagenumber);
+            let pagenumber
+            if (this.request) {
+                pagenumber = this.requestArray.pageable.pageNumber + n
+                this.getrequest(pagenumber)
+            } else {
+                pagenumber = this.ingredientsArray.pageable.pageNumber + n
+                this.getingredient(pagenumber)
+            }
+        },
+        async getrequest(pagenumber = 0) {
+            const response = await UserApi.requestsWithPage(pagenumber)
+            this.requestArray = response.data
+            this.request = true
         },
         searchfilter() {
             this.search = encodeURIComponent(this.searchInput)
@@ -702,6 +741,7 @@ export default {
             this.searchInput = decodeURIComponent(this.search)
             const response = await GeneralApi.ingredientsWithPage(this.ingredientstype, this.search, pagenumber)
             this.ingredientsArray = response.data
+            this.request = false
         },
         haveIngredients(ingredients) {
             return this.newfoodmenu.foodmenuHasIngredientsList.map(i => i.key.ingredientsIngredientsid).includes(ingredients.ingredientsid)
