@@ -20,7 +20,12 @@ export function createFoodmenu(newfoodmenu, file) {
   return request('post', url, formData(newfoodmenu, 'newfoodmenu', file), true)
 }
 
-export function requestsWithPage(pageNo = 0, pageSize = 5) {
+export function requestsWithPage(pageNo = 0, pageSize = 10) {
   const url = `${process.env.config.BASE_URL}user/request/page?pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {}, true)
+}
+
+export function createRequest(newrequest) {
+  const url = `${process.env.config.BASE_URL}user/request/add`
+  return request('post', url, formData(newrequest,'newrequest'), true)
 }

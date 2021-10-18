@@ -12,6 +12,34 @@
                 </div>
             </div>
         </div>
+        <div v-if="popup.show">
+            <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-11/12 rounded-xl fixed">
+                <div class="my-6">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="24" fill="none" />
+                        <path
+                            class="checkmark__check"
+                            fill="none"
+                            d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                        />
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-center xl:text-xl text-lg">
+                        ส่งคำขอของคุณเรียบร้อยแล้ว
+                        <br class="xl:hidden" />โปรดรอการตรวจสอบ
+                        <br />
+                        <span class="xl:text-xl text-base">และสามารถติดตามผลพิจารณาได้ทางเว็บไซต์</span>
+                    </div>
+                    <div class="flex items-center justify-center mt-4 mb-6">
+                        <div
+                            class="px-3 py-1 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+                            @click="popup.show = false"
+                        >รับทราบ</div>
+                    </div>
+                </div>
+            </Modal>
+        </div>
         <div v-if="ingredientsSelected">
             <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-10/12  fixed">
                 <div
@@ -63,9 +91,12 @@
                 </div>
             </Modal>
         </div>
-        <div v-if="false">
-            <Modal classpop="flex justify-center items-center w-full h-full" >
-                <SendRequest />
+        <div v-if="sendrequestShow">
+            <Modal classpop="flex justify-center items-center w-full h-full">
+                <SendRequest
+                    :ingredientstype="ingredientstypeArray"
+                    :foodtype="sendrequestfoodtype"
+                />
             </Modal>
         </div>
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
@@ -114,6 +145,7 @@
                         <div
                             v-if="isLoggedIn"
                             class="flex justify-center items-center w-8 h-8 ml-2 px-1 bg-gray-100 rounded-xl cursor-pointer"
+                            @click="RequestShow(true, true)"
                         >
                             <i class="material-icons text-gray-400">add</i>
                         </div>
@@ -211,6 +243,7 @@
                         <div
                             v-if="isLoggedIn"
                             class="flex justify-center items-center w-9 h-9 bg-white filter rounded-xl drop-shadow-all cursor-pointer"
+                            @click="RequestShow(true)"
                         >
                             <i class="material-icons text-gray-400">add</i>
                         </div>
@@ -305,6 +338,7 @@
                                 <i
                                     v-if="isLoggedIn"
                                     class="material-icons absolute cursor-pointer right-8"
+                                    @click="RequestShow(true)"
                                 >add</i>
                             </div>
                         </div>
@@ -589,10 +623,15 @@ export default {
         return {
             img: require("../assets/img/chooseimg.svg"),
             file: null,
+            popup:{
+                show:false
+            },
             isLoggedIn: this.$auth.loggedIn,
             foodmenuShow: false,
             ingredientsShow: false,
             request: false,
+            sendrequestShow: false,
+            sendrequestfoodtype: false,
             requestArray: [],
             ingredientsSelected: null,
             foodtypeArray: [],
@@ -817,6 +856,15 @@ export default {
             }
             return false;
         },
+        RequestShow(show, foodtype = false) {
+            this.sendrequestShow = show
+            this.sendrequestfoodtype = foodtype
+        },
+        requestadded(){
+            this.RequestShow(false)
+            this.getrequest()
+            this.popup.show = true
+        }
     }
 }
 </script>
@@ -836,5 +884,61 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.checkmark {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #4bb71b;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #4bb71b;
+    animation: fill 0.4s ease-in-out 0.4s forwards,
+        scale 0.3s ease-in-out 0.9s both;
+    position: relative;
+    top: 5px;
+    right: 5px;
+    margin: 0 auto;
+}
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: #4bb71b;
+    fill: #fff;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%,
+    100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #4bb71b;
+    }
 }
 </style>
