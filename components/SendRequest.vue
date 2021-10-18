@@ -233,7 +233,7 @@ export default {
                 } else {
                     this.validate.typename = true
                 }
-
+                this.validate.all = true
                 this.validate.from = this.validate.typename
             } else {
                 if (this.ingredientsreq.ingredientsname === '') {
