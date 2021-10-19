@@ -19,7 +19,8 @@
                         class="flex py-1 items-center"
                     >
                         <div
-                            class="xl:w-6/12 w-5/12 text-left xl:pl-8 pl-2 truncate"
+                            class="xl:w-6/12 w-5/12 text-left xl:pl-8 pl-2 truncate cursor-pointer"
+                            @click="$parent.ingredientsItemShow=true,$parent.ingredientsItem=i.ingredients"
                         >{{ i.ingredients.ingredientsname }}</div>
                         <div class="xl:w-2/12 w-3/12">{{ i.totalkcal }}</div>
                         <div class="xl:w-2/12 w-3/12 relative">

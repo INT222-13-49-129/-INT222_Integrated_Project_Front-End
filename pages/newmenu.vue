@@ -99,6 +99,16 @@
                 />
             </Modal>
         </div>
+        <div v-if="ingredientsItemShow">
+            <Modal classpop="flex justify-center items-center w-full h-full">
+                <IngredientsItem :ingredients="ingredientsItem">
+                    <i
+                        class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
+                        @click="ingredientsItemShow=false"
+                    >close</i>
+                </IngredientsItem>
+            </Modal>
+        </div>
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
             <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
@@ -594,6 +604,7 @@ import IngredientstypeSVG from '../components/IngredientstypeSVG.vue'
 import PageNumber from '../components/PageNumber.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
 import RequestItem from '../components/RequestItem.vue';
+import IngredientsItem from '../components/IngredientsItem.vue';
 import Modal from '../components/Modal.vue';
 import SendRequest from '../components/SendRequest.vue';
 
@@ -604,6 +615,7 @@ export default {
         PageNumber,
         FoodmenuItem,
         RequestItem,
+        IngredientsItem,
         Modal,
         SendRequest
     },
@@ -629,10 +641,12 @@ export default {
             isLoggedIn: this.$auth.loggedIn,
             foodmenuShow: false,
             ingredientsShow: false,
+            ingredientsItemShow: false,
             request: false,
             sendrequestShow: false,
             sendrequestfoodtype: false,
             requestArray: [],
+            ingredientsItem: null,
             ingredientsSelected: null,
             foodtypeArray: [],
             ingredientstypeArray: [],

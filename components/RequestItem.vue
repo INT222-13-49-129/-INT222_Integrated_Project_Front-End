@@ -9,7 +9,7 @@
             />
             <i v-else class="material-icons text-5xl text-brightsalmon">dinner_dining</i>
         </div>
-        <div class="flex-grow">
+        <div class="flex-grow" :class="{' cursor-pointer ': request.foodtypereq === null }" @click="request.foodtypereq === null ?$parent.ingredientsItemShow=true:'',$parent.ingredientsItem=request.ingredientsreq">
             <div
                 class="text-gray-700 truncate xl:text-xl text-lg"
             >{{ request.foodtypereq === null ? request.ingredientsreq.ingredientsname : request.foodtypereq.typename }}</div>
