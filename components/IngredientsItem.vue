@@ -6,7 +6,7 @@
             <div class="xl:text-2xl text-xl mt-2">{{ ingredients.ingredientsname }}</div>
         </div>
         <div
-            class="py-6 border-t-2 border-b-2 mx-6 my-4 flex flex-col xl:gap-y-6 gap-y-2 xl:px-8 px-6"
+            class="py-6 border-t-2 border-b-2 mx-6 my-4 flex flex-col xl:gap-y-6 gap-y-2 xl:px-8 px-2"
         >
             <div class="flex items-center flex-wrap">
                 <div class="xl:w-28 text-gray-700">ชื่อวัตถุดิบ</div>
@@ -36,12 +36,12 @@
                 </div>
                 <div class="text-lg">{{ ingredients.descriptionunit }}</div>
             </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-48 text-gray-700">
-                    จำนวนแคลอรี่ต่อ 1 หน่วย
-                    <span class="text-gray-500">&nbsp;:&nbsp;</span>
+            <div class="flex items-center flex-wrap">
+                <div class="text-gray-700">แคลอรี่ต่อ 1 หน่วย</div>
+                <span class="text-gray-500">&nbsp;:&nbsp;</span>
+                <div>
+                    <span class="text-lg">{{ ingredients.kcalpunit }} kcal.</span>
                 </div>
-                <div class="text-lg">{{ ingredients.kcalpunit }} kcal.</div>
             </div>
         </div>
         <div class="bg-gray-200 h-10 w-full mt-6"></div>
