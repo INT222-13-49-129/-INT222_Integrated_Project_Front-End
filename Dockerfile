@@ -13,4 +13,4 @@ WORKDIR /usr/share/nginx/html
 COPY --from=step01 /frontend/src/dist .
 EXPOSE 80
 
-CMD ["npm", "run", "start"]
+# CMD ["npm", "run", "start"]
