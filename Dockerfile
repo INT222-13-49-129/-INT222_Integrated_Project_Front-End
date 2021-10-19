@@ -4,13 +4,13 @@ WORKDIR /frontend/src
 COPY ./package.json /frontend/src/package.json
 RUN npm install
 COPY . /frontend/src
-RUN npm run build
+RUN npm run generate
 
 # ENV HOST 0.0.0.0   
-FROM nginx:stable-alpine as production-stage
-RUN mkdir /app
-COPY --from=step01 /app/dist /app
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM nginx:alpine as prod
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+WORKDIR /usr/share/nginx/html
+COPY --from=step01 /frontend/src/dist .
 EXPOSE 80
 
 CMD ["npm", "run", "start"]
