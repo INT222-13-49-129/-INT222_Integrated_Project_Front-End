@@ -8,7 +8,7 @@ RUN npm run generate
 
 # ENV HOST 0.0.0.0   
 FROM nginx:alpine as prod
-COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 WORKDIR /usr/share/nginx/html
 COPY --from=step01 /frontend/src/dist .
 EXPOSE 80
