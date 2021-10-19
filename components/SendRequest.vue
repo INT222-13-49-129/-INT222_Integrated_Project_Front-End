@@ -249,7 +249,7 @@ export default {
                 if (this.ingredientsreq.kcalpunit === '') {
                     this.validatetext.kcalpunit = 'กรุณาใส่แคลอรี่ต่อหน่วย'
                     this.validate.kcalpunit = false
-                } else if (this.ingredientsreq.kcalpunit < 0) {
+                } else if (this.ingredientsreq.kcalpunit <= 0) {
                     this.validatetext.kcalpunit = 'แคลอรี่ต้องมากกว่า 0'
                     this.validate.kcalpunit = false
                 } else {

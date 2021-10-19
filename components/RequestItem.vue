@@ -21,7 +21,8 @@
             class="xl:w-24 w-20 xl:text-base text-sm text-center py-1  rounded-xl" :class="request.status === 'WAIT'?'bg-gray-200 text-black': request.status === 'APPROVE'?'bg-green-400 text-white':'bg-red-500 text-white'"
         >{{request.status === 'WAIT'?'รออนุมัติ': request.status === 'APPROVE'?'อนุมัติแล้ว':'ไม่อนุมัติ'}}</div>
         <div class="flex items-center">
-            <i class="material-icons text-gray-300 cursor-pointer xl:text-3xl text-2xl">delete</i>
+            <i class="material-icons text-gray-300 cursor-pointer xl:text-3xl text-2xl"
+                @click="$parent.deleterequest(request)">delete</i>
         </div>
     </div>
 </template>

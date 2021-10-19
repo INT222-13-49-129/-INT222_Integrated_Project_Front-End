@@ -457,7 +457,7 @@ export default {
         this.validatetext.password = 'กรุณาใส่ Password'
         this.validate.password = false
       } else if (this.regis.password.length < 6) {
-        this.validatetext.password = 'Password ต้องยาวกว่า 6 ตัวอักษร'
+        this.validatetext.password = 'Password ต้องยาวไม่น้อยกว่า 6 ตัวอักษร'
         this.validate.password = false
       } else {
         this.validate.password = true
@@ -513,7 +513,7 @@ export default {
       if (this.regis.weight === '') {
         this.validatetext.weight = 'กรุณาใส่น้ำหนัก '
         this.validate.weight = false
-      } else if (this.regis.weight < 0) {
+      } else if (this.regis.weight <= 0) {
         this.validatetext.weight = 'ค่าต้องมากกว่า 0'
         this.validate.weight = false
       } else if (this.regis.weight >= 1000) {
@@ -526,7 +526,7 @@ export default {
       if (this.regis.height === '') {
         this.validatetext.height = 'กรุณาใส่ส่วนสูง '
         this.validate.height = false
-      } else if (this.regis.height < 0) {
+      } else if (this.regis.height <= 0) {
         this.validatetext.height = 'ค่าต้องมากกว่า 0'
         this.validate.height = false
       } else if (this.regis.height >= 1000) {

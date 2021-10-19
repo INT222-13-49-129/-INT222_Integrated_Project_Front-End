@@ -14,7 +14,7 @@
         </div>
         <div v-if="popup.show">
             <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-11/12 rounded-xl fixed">
-                <div class="my-6">
+                <div v-if="popup.checkmark" class="my-6">
                     <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
                         <circle class="checkmark__circle" cx="26" cy="26" r="24" fill="none" />
                         <path
@@ -24,7 +24,7 @@
                         />
                     </svg>
                 </div>
-                <div>
+                <div v-if="popup.request">
                     <div class="text-center xl:text-xl text-lg">
                         ส่งคำขอของคุณเรียบร้อยแล้ว
                         <br class="xl:hidden" />โปรดรอการตรวจสอบ
@@ -34,9 +34,53 @@
                     <div class="flex items-center justify-center mt-4 mb-6">
                         <div
                             class="px-3 py-1 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
-                            @click="popup.show = false"
+                            @click="clearpopup()"
                         >รับทราบ</div>
                     </div>
+                </div>
+                <div v-if="popup.foodmenu">
+                    <div class="xl:text-xl text-lg py-1">เพิ่มไปยังรายการอาหารของฉันสำเร็จ</div>
+                    <div
+                        class="py-5 px-2 mb-2 flex xl:flex-row flex-col-reverse items-center justify-center gap-x-6 gap-y-4"
+                    >
+                        <div
+                            class="xl:w-4/12 w-9/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+                            @click="clearfoodmenu()"
+                        >เพิ่มเมนูอีก</div>
+                        <nuxt-link
+                            to="/foodmenu"
+                            class="xl:w-4/12 w-9/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+                        >ไปยังรายการอาหาร</nuxt-link>
+                    </div>
+                </div>
+                <div v-if="popup.alert">
+                    <img src="../assets/img/alert.svg" class="my-6 mx-auto w-20" />
+                </div>
+                <div v-if="popup.deleterequest">
+                    <div class="xl:text-xl text-lg py-1">
+                        คำขอนี้ยังไม่ได้รับการตรวจสอบ
+                        <br />
+                        <span
+                            class="xl:text-xl text-base"
+                        >ท่านต้องการยืนยันที่จะลบคำขอนี้ ใช่หรือไม่?</span>
+                    </div>
+                    <div class="py-5 px-2 mb-2 flex items-center justify-center gap-x-6">
+                        <div
+                            class="xl:w-3/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+                            @click="clearpopup()"
+                        >ยกเลิก</div>
+                        <div
+                            class="xl:w-3/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+                            @click="deleterequest(deletereq, true)"
+                        >ลบ</div>
+                    </div>
+                </div>
+                <div v-if="popup.fail" class="flex flex-col items-center">
+                    <div class="text-2xl">ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่</div>
+                    <div
+                        class="px-3 py-1 mt-6 mb-4 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+                        @click="clearpopup()"
+                    >ตกลง</div>
                 </div>
             </Modal>
         </div>
@@ -104,7 +148,7 @@
                 <IngredientsItem :ingredients="ingredientsItem">
                     <i
                         class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
-                        @click="ingredientsItemShow=false"
+                        @click="ingredientsItemShow = false"
                     >close</i>
                 </IngredientsItem>
             </Modal>
@@ -331,6 +375,10 @@
                         >
                             <RequestItem :request="r" />
                         </div>
+                        <div
+                            v-if="requestArray.totalElements === 0"
+                            class="text-xl mt-6 text-center text-gray-500"
+                        >ยังไม่คำขอ</div>
                     </div>
                 </div>
                 <div
@@ -441,6 +489,10 @@
                             >
                                 <RequestItem :request="r" />
                             </div>
+                            <div
+                                v-if="requestArray.totalElements === 0"
+                                class="text-xl mt-6 text-center text-gray-500"
+                            >ยังไม่คำขอ</div>
                         </div>
                     </div>
                     <div
@@ -635,8 +687,14 @@ export default {
         return {
             img: require("../assets/img/chooseimg.svg"),
             file: null,
-            popup:{
-                show:false
+            popup: {
+                show: false,
+                checkmark: false,
+                request: false,
+                alert: false,
+                deleterequest: false,
+                fail: false,
+                foodmenu: false,
             },
             isLoggedIn: this.$auth.loggedIn,
             foodmenuShow: false,
@@ -645,6 +703,7 @@ export default {
             request: false,
             sendrequestShow: false,
             sendrequestfoodtype: false,
+            deletereq: null,
             requestArray: [],
             ingredientsItem: null,
             ingredientsSelected: null,
@@ -690,7 +749,9 @@ export default {
                 try {
                     const response = await UserApi.createFoodmenu(this.newfoodmenu, this.file)
                     if (response.data) {
-                        console.log(response.data);
+                        this.popup.show = true
+                        this.popup.checkmark = true
+                        this.popup.foodmenu = true
                     }
                 } catch (err) {
                     this.validate.from = false
@@ -714,6 +775,9 @@ export default {
                     if ([500, 400].includes(err.response?.status) || err.response === undefined) {
                         this.validatetext.all = 'ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่'
                         this.validate.all = false
+                        this.popup.show = true
+                        this.popup.alert = true
+                        this.popup.fail = true
                     }
                 }
             }
@@ -874,10 +938,39 @@ export default {
             this.sendrequestShow = show
             this.sendrequestfoodtype = foodtype
         },
-        requestadded(){
+        requestadded() {
             this.RequestShow(false)
             this.getrequest()
             this.popup.show = true
+            this.popup.checkmark = true
+            this.popup.request = true
+        },
+        async deleterequest(request, wait = false) {
+            if (request.status === 'WAIT' && !wait) {
+                this.deletereq = request
+                this.popup.show = true
+                this.popup.alert = true
+                this.popup.deleterequest = true
+                return
+            }
+
+            try {
+                const response = await UserApi.deleteRequest(request.requestid)
+                if (response.data) {
+                    this.getrequest()
+                    this.clearpopup()
+                }
+            } catch (err) {
+                this.popup.show = true
+                this.popup.alert = true
+                this.popup.fail = true
+            }
+        },
+        clearfoodmenu() {
+            Object.assign(this.$data, this.$options.data.apply(this))
+        },
+        clearpopup() {
+            Object.keys(this.popup).forEach(i => { this.popup[i] = false })
         }
     }
 }

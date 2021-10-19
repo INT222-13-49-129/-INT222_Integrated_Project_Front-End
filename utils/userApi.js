@@ -29,3 +29,8 @@ export function createRequest(newrequest) {
   const url = `${process.env.config.BASE_URL}user/request/add`
   return request('post', url, formData(newrequest,'newrequest'), true)
 }
+
+export function deleteRequest(id) {
+  const url = `${process.env.config.BASE_URL}user/request/delete/${id}`
+  return request('delete', url, {}, true)
+}
