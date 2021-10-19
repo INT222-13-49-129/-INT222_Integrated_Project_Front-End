@@ -9,8 +9,8 @@ services:
     networks:
        allnetwork:
           ipv4_address: 172.20.0.2
-    ports:
-      - "80:80"
+    # ports:
+    #   - "80:80"
 networks:
   default:
     external:
