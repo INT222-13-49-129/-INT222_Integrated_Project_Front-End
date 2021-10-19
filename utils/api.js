@@ -15,7 +15,7 @@ export function formData(data, name, file = null) {
     type: 'application/json'
   })
   const formData = new FormData()
-  if(file !== null){
+  if (file !== null) {
     formData.append('file', file)
   }
   formData.append(name, blob)
@@ -34,4 +34,15 @@ export async function request(method, url, data, auth = false) {
     headers
   })
   return response
+}
+
+export async function requestImg(url, auth = false) {
+  const headers = {}
+  if (auth) {
+    headers.Authorization = getToken()
+  }
+  const response = await axios.get(url, {
+    responseType: 'arraybuffer',headers
+  }, );
+  return `data:${response.headers['content-type'].toLowerCase()};base64,${Buffer.from(response.data, 'binary').toString('base64')}`
 }

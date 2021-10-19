@@ -1,10 +1,16 @@
 import {
-  request
+  request,
+  requestImg
 } from './api'
 
 export function foodtypes() {
   const url = `${process.env.config.BASE_URL}general/foodtype`
   return request('get', url, {})
+}
+
+export function foodmenuImg(id) {
+  const url = `${process.env.config.BASE_URL}general/foodmenu/img/${id}`
+  return requestImg(url)
 }
 
 export function foodmenusWithPage(pageNo=0,pageSize=18) {

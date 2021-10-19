@@ -1,4 +1,9 @@
-import {  request,formData } from './api'
+import {  request,formData,requestImg } from './api'
+
+export function foodmenuImg(id) {
+  const url = `${process.env.config.BASE_URL}user/foodmenu/img/${id}`
+  return requestImg(url,true)
+}
 
 export function foodmenusWithPage(pageNo = 0, pageSize = 18) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/page?pageNo=${pageNo}&pageSize=${pageSize}`

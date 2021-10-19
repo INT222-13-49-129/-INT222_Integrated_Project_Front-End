@@ -156,9 +156,7 @@
                 totalkcal: foodmenu.totalkcal
               }"
             >
-              <div class="xl:w-24 xl:h-24 w-12 h-12 items-center xl:mr-2 mr-1 flex flex-shrink-0">
-                <img class="object-cover h-full" src="../assets/img/food-index.png" />
-              </div>
+              <FoodmenuImg :id="foodmenu.foodmenuid" :general="showing === Show.General" class="xl:w-24 xl:h-24 w-12 h-12 items-center xl:mr-2 mr-1 flex flex-shrink-0" />
             </Item>
           </div>
         </div>
@@ -175,6 +173,7 @@
 import * as GeneralApi from '../utils/generalApi'
 import * as UserApi from '../utils/userApi'
 import Item from '../components/Item.vue';
+import FoodmenuImg from '../components/FoodmenuImg.vue';
 import PageNumber from '../components/PageNumber.vue';
 import 'animate.css'
 
@@ -184,7 +183,8 @@ const Show = Object.freeze({ General: 1, Myfoods: 2 });
 export default {
   components: {
     Item,
-    PageNumber
+    PageNumber,
+    FoodmenuImg
   },
   async asyncData() {
     const foodtypesresponse = await GeneralApi.foodtypes()

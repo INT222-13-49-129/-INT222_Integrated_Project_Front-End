@@ -198,7 +198,7 @@
                   type="date"
                   required
                   :max="currentDate()"
-                  class="rounded-md border-2 border-gray-100 text-gray-400 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="dd-mm-yyyy"
                   @change="validate.from ? '' : validateFrom()"
                 />
@@ -245,7 +245,7 @@
                   max="999.99"
                   step="any"
                   required
-                  class="rounded-md border-2 border-gray-100 text-gray-400 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
+                  class="rounded-md border-2 border-gray-100 w-full xl:h-10 h-8 font-thin xl:pl-5 pl-2 xl:mt-1"
                   placeholder="ส่วนสูง (ซม.)"
                   @keyup="validate.from ? '' : validateFrom()"
                 />
