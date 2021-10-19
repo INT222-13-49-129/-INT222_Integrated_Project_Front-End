@@ -4,7 +4,7 @@ const configs ={
         PORT: 5000
     },
     production: {
-        BASE_URL: 'http://13.76.27.34:3000/api/',
+        BASE_URL: 'http://13.76.27.34/backend/',
         PORT: 80
     },
 }
