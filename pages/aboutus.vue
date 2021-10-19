@@ -51,9 +51,9 @@
           <img class="w-11/12 my-auto mx-auto" src="../assets/img/member/bg/3.svg" />
         </div>
         <div class="w-3/12 mx-auto h-36 justify-between -mt-12 ">
-          <img class="w-32 mb-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out" src="../assets/img/member/chompoo.jpg" />
-          <img class="w-32 my-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out ml-16 " src="../assets/img/member/chompoo.jpg" />
-          <img class="w-32 my-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out" src="../assets/img/member/chompoo.jpg" />
+          <img class="w-32 mb-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out" src="../assets/img/member/kamin.png" />
+          <img class="w-32 my-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out ml-16 " src="../assets/img/member/new.png" />
+          <img class="w-32 my-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-outv" src="../assets/img/member/chompoo.jpg" />
         </div>
       </div>
       <div class="text-right xl:mx-32 text-xs mt-20">
