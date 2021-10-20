@@ -1,6 +1,6 @@
 <template>
-    <div v-lazy-container="{ selector: 'img' }">
-        <img class="object-cover h-full" :data-src="img" :data-loading="require('../assets/img/preload.jpg')" />
+    <div>
+        <img class="object-cover h-full" :class="{'animate-pulse': img===require('../assets/img/preload.jpg') }" :src="img" />
     </div>
 </template>
 <script>
@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            img: ''
+            img: require('../assets/img/preload.jpg')
         }
     },
     async created() {

@@ -109,9 +109,5 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
-
-  plugins: [
-    '~/plugins/vue-lazyload'
-  ]
+  build: {}
 }
