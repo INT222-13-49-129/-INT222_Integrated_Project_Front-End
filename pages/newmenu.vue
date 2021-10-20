@@ -512,7 +512,7 @@
                         >
                             <div class="w-11/12 py-2 my-auto mx-auto">
                                 <FoodmenuItem
-                                    :newfoodmenu="newfoodmenu"
+                                    :foodmenu="newfoodmenu" :edit="true"
                                     class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
                                 >
                                     <template #top>
@@ -543,7 +543,7 @@
                 <div class="xl:text-3xl text-lg">สรุปรายการ</div>
                 <div>
                     <FoodmenuItem
-                        :newfoodmenu="newfoodmenu"
+                        :foodmenu="newfoodmenu" :edit="true"
                         class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
                     >
                         <template v-if="isLoggedIn" #top>

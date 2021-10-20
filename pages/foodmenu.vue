@@ -58,11 +58,53 @@
         </div>
       </div>
     </div>
+    <div v-if="foodmenuShow">
+      <div
+        class="fixed font-light bg-opacity-20 bg-black flex justify-center items-center z-40 inset-0 overflow-y-auto overflow-x-auto"
+      >
+        <div class="w-full">
+          <div class="xl:w-224 w-11/12 py-2 my-auto mx-auto">
+            <FoodmenuItem :foodmenu="foodmenuSelected">
+              <template #top>
+                <div
+                  class="absolute flex items-center top-1 left-2 cursor-pointer"
+                  @click="foodmenuShow = false"
+                >
+                  <i class="material-icons xl:text-3xl text-2xl text-gray-400">close</i>
+                </div>
+                <div
+                  v-if="isLoggedIn && showing === Show.Myfoods"
+                  class="absolute xl:top-3 top-1 xl:right-4 right-2"
+                >
+                  <div class="flex items-center">
+                    <i
+                      class="material-icons xl:text-lg text-base text-brightsalmon"
+                    >{{ foodmenuSelected.foodmenustatus === 'PERSONAL' ? 'lock' : 'public' }}</i>
+                    <span
+                      class="ml-2 xl:text-base text-sm"
+                    >{{ foodmenuSelected.foodmenustatus === 'PERSONAL' ? 'ส่วนตัว' : 'สาธารณะ' }}</span>
+                  </div>
+                </div>
+              </template>
+              <template #header>
+                <div class="flex xl:flex-row flex-col">
+                  <FoodmenuImg
+                    :id="foodmenuSelected.foodmenuid"
+                    :general="showing === Show.General"
+                    class="w-48 h-36 items-center xl:ml-10 xl:mr-4 mx-auto xl:mt-2 mt-4 flex flex-shrink-0 filter drop-shadow-md"
+                  />
+                </div>
+              </template>
+            </FoodmenuItem>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="flex xl:flex-row flex-col w-full min-h-screen">
       <div
         class="xl:w-1/6 xl:bg-gray-200 mx-auto mt-2 xl:mt-0 flex items-center xl:items-start xl:flex-col flex-row xl:py-10 py-3 xl:pl-8 pl-4 pr-4 xl:text-2xl text-lg xl:gap-y-8 gap-x-8 xl:gap-x-0 xl:text-salmon text-gray-600"
       >
-        <div class="flex-shrink-0 xl:w-full" :class="{'xl:block hidden': !isLoggedIn}" >
+        <div class="flex-shrink-0 xl:w-full" :class="{ 'xl:block hidden': !isLoggedIn }">
           <div
             class="cursor-pointer"
             :class="{ 'underline xl:no-underline': showing === Show.General }"
@@ -119,7 +161,8 @@
         <div v-if="isLoggedIn" class="flex-shrink-0 xl:w-full">Favorites</div>
       </div>
       <div
-        class="text-xs text-right mr-4 -mt-3 xl:hidden text-gray-400" :class="{'-mt-5 text-sm': !isLoggedIn}" 
+        class="text-xs text-right mr-4 -mt-3 xl:hidden text-gray-400"
+        :class="{ '-mt-5 text-sm': !isLoggedIn }"
       >category: {{ foodtypeSelected ? foodtypeSelected.typename : 'ทั้งหมด' }}</div>
       <div class="xl:w-5/6 xl:p-10">
         <div
@@ -147,7 +190,8 @@
           <div
             v-for="foodmenu in foodmenusArray.content"
             :key="foodmenu.foodmenuid"
-            class="py-2 xl:py-0"
+            class="py-2 xl:py-0 cursor-pointer hover:bg-brightsalmon hover:bg-opacity-10"
+            @click="foodmenuSelected = foodmenu, foodmenuShow = true"
           >
             <Item
               :item="{
@@ -156,14 +200,27 @@
                 totalkcal: foodmenu.totalkcal
               }"
             >
-              <FoodmenuImg :id="foodmenu.foodmenuid" :general="showing === Show.General" class="xl:w-24 xl:h-24 w-12 h-12 items-center xl:mr-2 mr-1 flex flex-shrink-0" />
+              <FoodmenuImg
+                :id="foodmenu.foodmenuid"
+                :general="showing === Show.General"
+                class="xl:w-24 xl:h-24 w-12 h-12 items-center xl:mr-2 mr-1 flex flex-shrink-0"
+              />
             </Item>
           </div>
         </div>
-        <div v-if="foodmenusArray.totalElements > 0" class="xl:text-sm xl:mt-4 mt-2 text-xs px-3 py-2">
+        <div
+          v-if="foodmenusArray.totalElements > 0"
+          class="xl:text-sm xl:mt-4 mt-2 text-xs px-3 py-2"
+        >
           <i class="xl:text-base text-sm">หมายเหตุ</i>
-          <span v-if="isLoggedIn" class="text-gray-600">BMR (Basal Metabolic Rate) อัตราการเผาผลาญพลังงานขั้นพื้นฐานในแต่ละวัน : {{ dailyCalorie }} กิโลแคลอรี่</span>
-          <span v-else class="text-gray-600">ร้อยละของปริมาณสารอาหารที่แนะนำให้บริโภคต่อวันสำหรับคนไทยอายุตั้งแต่ 6 ปีขึ้นไป โดยคิดจากความต้องการพลังงานวันละ 2,000 กิโลแคลอรี่</span>
+          <span
+            v-if="isLoggedIn"
+            class="text-gray-600"
+          >BMR (Basal Metabolic Rate) อัตราการเผาผลาญพลังงานขั้นพื้นฐานในแต่ละวัน : {{ dailyCalorie }} กิโลแคลอรี่</span>
+          <span
+            v-else
+            class="text-gray-600"
+          >ร้อยละของปริมาณสารอาหารที่แนะนำให้บริโภคต่อวันสำหรับคนไทยอายุตั้งแต่ 6 ปีขึ้นไป โดยคิดจากความต้องการพลังงานวันละ 2,000 กิโลแคลอรี่</span>
         </div>
       </div>
     </div>
@@ -173,6 +230,7 @@
 import * as GeneralApi from '../utils/generalApi'
 import * as UserApi from '../utils/userApi'
 import Item from '../components/Item.vue';
+import FoodmenuItem from '../components/FoodmenuItem.vue';
 import FoodmenuImg from '../components/FoodmenuImg.vue';
 import PageNumber from '../components/PageNumber.vue';
 import 'animate.css'
@@ -183,8 +241,9 @@ const Show = Object.freeze({ General: 1, Myfoods: 2 });
 export default {
   components: {
     Item,
+    FoodmenuItem,
     PageNumber,
-    FoodmenuImg
+    FoodmenuImg,
   },
   async asyncData() {
     const foodtypesresponse = await GeneralApi.foodtypes()
@@ -205,6 +264,8 @@ export default {
       foodmenusArray: [],
       foodtypeSelected: null,
       popfilter: false,
+      foodmenuSelected: null,
+      foodmenuShow: false,
       searchInput: "",
       search: "",
       url: Url.foodmenusWithPage
@@ -219,9 +280,9 @@ export default {
       const age = today.getFullYear() - birthDate.getFullYear();
 
       let dailycal
-      if(user.gender === "M"){
+      if (user.gender === "M") {
         dailycal = 66 + (13.7 * user.weight) + (5 * user.height) - (6.8 * age)
-      }else if(user.gender === "F"){
+      } else if (user.gender === "F") {
         dailycal = 665 + (9.6 * user.weight) + (1.8 * user.height) - (4.7 * age)
       }
       this.dailyCalorie = parseInt(dailycal)
