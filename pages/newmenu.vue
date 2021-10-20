@@ -110,10 +110,10 @@
                     </div>
                     <div class="flex items-center justify-center xl:text-xl text-lg mt-4 mx-2">
                         <span class="flex-1 text-right xl:mr-4 mr-2">จำนวน</span>
-                        <i
+                        <button
                             class="material-icons text-brightsalmon cursor-pointer"
                             @click="ingredientsNum > 1 ? ingredientsNum-- : ''"
-                        >remove_circle_outline</i>
+                        >remove_circle_outline</button>
                         <input
                             id="ingredientsNum"
                             v-model="ingredientsNum"
@@ -122,10 +122,10 @@
                             step="1"
                             class="w-1/6 focus:outline-none text-center xl:text-2xl text-xl"
                         />
-                        <i
+                        <button
                             class="material-icons text-brightsalmon cursor-pointer"
                             @click="ingredientsNum++"
-                        >add_circle_outline</i>
+                        >add_circle_outline</button>
                         <span class="flex-1 text-left xl:ml-4 ml-2">{{ ingredientsSelected.unit }}</span>
                     </div>
                     <div
@@ -246,7 +246,7 @@
                     <div class="flex justify-between">
                         <div>วัตถุดิบ</div>
                         <div
-                            class="text-gray-500 cursor-pointer"
+                            class="text-gray-500 cursor-pointer underline"
                             :class="{ 'text-brightsalmon': '' === ingredientstype }"
                             @click="ingredientstypefilter('')"
                         >all</div>
@@ -352,7 +352,7 @@
                                 class="flex justify-center items-center w-9 h-9 bg-brightsalmon rounded-full mr-2 cursor-pointer hover:bg-salmon"
                                 @click="haveIngredients(ingredients) ? addingredients(ingredients, newfoodmenu.foodmenuHasIngredientsList[ingredientsIndex(ingredients)].totalunit + 1) : addingredients(ingredients)"
                             >
-                                <i class="material-icons text-white">add</i>
+                                <button class="material-icons text-white">add</button>
                             </div>
                         </div>
                         <div v-if="ingredientsArray.totalElements === 0" class="mx-6 mt-6">
@@ -378,7 +378,7 @@
                         <div
                             v-if="requestArray.totalElements === 0"
                             class="text-xl mt-6 text-center text-gray-500"
-                        >ยังไม่คำขอ</div>
+                        >ยังไม่มีคำขอ</div>
                     </div>
                 </div>
                 <div

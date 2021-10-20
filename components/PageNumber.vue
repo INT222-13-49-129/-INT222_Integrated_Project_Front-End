@@ -1,8 +1,8 @@
 <template>
     <div class="text-lg flex items-center">
-        <i class="material-icons" :class="page.first ? 'text-gray-300':'cursor-pointer'" @click="page.first?'':$parent.changPage(-1)">navigate_before</i>
+        <button class="material-icons" :class="page.first ? 'text-gray-300':'cursor-pointer'" @click="page.first?'':$parent.changPage(-1)">navigate_before</button>
         <span :class="classnum">{{ pageitem }}</span>
-        <i class="material-icons" :class="page.last ? 'text-gray-300':'cursor-pointer'" @click="page.last?'':$parent.changPage(1)">navigate_next</i>
+        <button class="material-icons" :class="page.last ? 'text-gray-300':'cursor-pointer'" @click="page.last?'':$parent.changPage(1)">navigate_next</button>
     </div>
 </template>
 <script>

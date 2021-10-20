@@ -24,15 +24,15 @@
                         >{{ i.ingredients.ingredientsname }}</div>
                         <div class="xl:w-2/12 w-3/12">{{ i.totalkcal }}</div>
                         <div class="xl:w-2/12 w-3/12 relative">
-                            <i
+                            <button
                                 class="material-icons text-gray-300 absolute xl:left-5 left-2 cursor-pointer xl:text-base text-sm"
                                 @click="i.totalunit !== 1 ? $parent.addingredients(i.ingredients, i.totalunit - 1) : ''"
-                            >remove_circle_outline</i>
+                            >remove_circle_outline</button>
                             <span>{{ i.totalunit }}</span>
-                            <i
+                            <button
                                 class="material-icons text-gray-300 absolute xl:right-5 right-2 cursor-pointer xl:text-base text-sm"
                                 @click="$parent.addingredients(i.ingredients, i.totalunit + 1)"
-                            >add_circle_outline</i>
+                            >add_circle_outline</button>
                         </div>
                         <div class="xl:w-2/12 w-1/12 text-left flex xl:justify-start justify-end">
                             <div class="truncate w-10/12 xl:block hidden">{{ i.ingredients.unit }}</div>
