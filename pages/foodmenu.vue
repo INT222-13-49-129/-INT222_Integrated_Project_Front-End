@@ -60,9 +60,9 @@
     </div>
     <div v-if="foodmenuShow">
       <div
-        class="fixed font-light bg-opacity-20 bg-black flex justify-center items-center z-40 inset-0 overflow-y-auto overflow-x-auto"
+        class="fixed font-light bg-opacity-20 bg-black flex z-40 inset-0 overflow-y-auto overflow-x-auto"
       >
-        <div class="w-full">
+        <div class="w-full my-auto mx-auto">
           <div class="xl:w-224 w-11/12 py-2 my-auto mx-auto">
             <FoodmenuItem :foodmenu="foodmenuSelected">
               <template #top>
@@ -73,7 +73,7 @@
                   <i class="material-icons xl:text-3xl text-2xl text-gray-400">close</i>
                 </div>
                 <div
-                  v-if="isLoggedIn && showing === Show.Myfoods"
+                  v-if="isLoggedIn && foodmenuSelected.userid === $auth.user.userid"
                   class="absolute xl:top-3 top-1 xl:right-4 right-2"
                 >
                   <div class="flex items-center">
@@ -87,19 +87,46 @@
                 </div>
               </template>
               <template #header>
-                <div class="flex xl:flex-row flex-col">
+                <div class="flex xl:flex-row flex-col items-center">
                   <FoodmenuImg
                     :id="foodmenuSelected.foodmenuid"
-                    :general="showing === Show.General"
-                    class="w-48 h-36 items-center xl:ml-10 xl:mr-4 mx-auto xl:mt-2 mt-4 flex flex-shrink-0 filter drop-shadow-md"
+                    :general="foodmenuSelected.foodmenustatus === 'PUBLISH'"
+                    class="w-48 h-36 items-center xl:ml-10 xl:mt-2 mt-4 flex flex-shrink-0 filter drop-shadow-md"
                   />
+                  <div
+                    class="w-full xl:ml-4 mt-4 xl:mt-2 xl:pt-2 pl-8 pr-8 xl:pr-6 xl:pl-0 xl:h-36 flex flex-col justify-between"
+                  >
+                    <div class="xl:text-base text-sm text-left">
+                      คำอธิบาย :
+                      <br />
+                      {{ foodmenuSelected.description }}
+                    </div>
+                    <div
+                      class="xl:text-lg text-base xl:text-right text-center mt-2"
+                    >แคลอรี่รวม {{ foodmenuSelected.totalkcal }} kcal.</div>
+                  </div>
                 </div>
+              </template>
+              <template #bottom>
+                <div
+                  class="py-1 text-gray-700 xl:text-lg text-base"
+                >ประเภท : {{ foodmenuSelected.foodtype.typename }}</div>
               </template>
             </FoodmenuItem>
           </div>
         </div>
       </div>
     </div>
+    <div v-if="ingredientsItemShow">
+            <Modal classpop="flex justify-center items-center w-full h-full">
+                <IngredientsItem :ingredients="ingredientsItem">
+                    <i
+                        class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
+                        @click="ingredientsItemShow = false"
+                    >close</i>
+                </IngredientsItem>
+            </Modal>
+        </div>
     <div class="flex xl:flex-row flex-col w-full min-h-screen">
       <div
         class="xl:w-1/6 xl:bg-gray-200 mx-auto mt-2 xl:mt-0 flex items-center xl:items-start xl:flex-col flex-row xl:py-10 py-3 xl:pl-8 pl-4 pr-4 xl:text-2xl text-lg xl:gap-y-8 gap-x-8 xl:gap-x-0 xl:text-salmon text-gray-600"
@@ -202,7 +229,7 @@
             >
               <FoodmenuImg
                 :id="foodmenu.foodmenuid"
-                :general="showing === Show.General"
+                :general="foodmenu.foodmenustatus === 'PUBLISH'"
                 class="xl:w-24 xl:h-24 w-12 h-12 items-center xl:mr-2 mr-1 flex flex-shrink-0"
               />
             </Item>
@@ -266,6 +293,8 @@ export default {
       popfilter: false,
       foodmenuSelected: null,
       foodmenuShow: false,
+      ingredientsItem: null,
+      ingredientsItemShow: false,
       searchInput: "",
       search: "",
       url: Url.foodmenusWithPage

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img class="object-cover h-full" :class="{'animate-pulse': img===require('../assets/img/preload.jpg') }" :src="img" />
+        <img class="object-cover min-w-full min-h-full h-full" :class="{'animate-pulse': img===require('../assets/img/preload.svg') }" :src="img" />
     </div>
 </template>
 <script>
@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            img: require('../assets/img/preload.jpg')
+            img: require('../assets/img/preload.svg')
         }
     },
     async created() {
