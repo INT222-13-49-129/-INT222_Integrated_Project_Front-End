@@ -5,6 +5,11 @@ export function foodmenuImg(id) {
   return requestImg(url,true)
 }
 
+export function foodmenu(id) {
+  const url = `${process.env.config.BASE_URL}user/foodmenu/${id}`
+  return request('get', url, {}, true)
+}
+
 export function foodmenusWithPage(pageNo = 0, pageSize = 18) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/page?pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {}, true)
@@ -23,6 +28,11 @@ export function foodmenusWithPageSearchFoodtype(searchData = "", foodtypeId = 0,
 export function createFoodmenu(newfoodmenu, file) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/add`
   return request('post', url, formData(newfoodmenu, 'newfoodmenu', file), true)
+}
+
+export function updateFoodmenu(updatefoodmenu, file) {
+  const url = `${process.env.config.BASE_URL}user/foodmenu/edit/${updatefoodmenu.foodmenuid}`
+  return request('put', url, formData(updatefoodmenu, 'updatefoodmenu', file), true)
 }
 
 export function deleteFoodmenu(id) {

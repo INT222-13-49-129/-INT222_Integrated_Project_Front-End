@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div v-if="popup.foodmenu">
-                    <div class="xl:text-xl text-lg py-1">เพิ่มไปยังรายการอาหารของฉันสำเร็จ</div>
+                    <div class="xl:text-xl text-lg py-1">{{edit?'แก้ไขรายการอาหารสำเร็จ':'เพิ่มไปยังรายการอาหารของฉันสำเร็จ'}}</div>
                     <div
                         class="py-5 px-2 mb-2 flex xl:flex-row flex-col-reverse items-center justify-center gap-x-6 gap-y-4"
                     >
@@ -156,7 +156,7 @@
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
             <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
-                    <div class="xl:text-2xl text-xl">คำนวณใหม่</div>
+                    <div class="xl:text-2xl text-xl">{{edit?'แก้ไขรายการอาหาร':'คำนวณใหม่'}}</div>
                     <div
                         class="text-gray-500 xl:text-base text-sm"
                     >ยอดรวม {{ newfoodmenu.totalkcal }} kcal.</div>
@@ -512,7 +512,8 @@
                         >
                             <div class="w-11/12 py-2 my-auto mx-auto">
                                 <FoodmenuItem
-                                    :foodmenu="newfoodmenu" :edit="true"
+                                    :foodmenu="newfoodmenu"
+                                    :edit="true"
                                     class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
                                 >
                                     <template #top>
@@ -543,7 +544,8 @@
                 <div class="xl:text-3xl text-lg">สรุปรายการ</div>
                 <div>
                     <FoodmenuItem
-                        :foodmenu="newfoodmenu" :edit="true"
+                        :foodmenu="newfoodmenu"
+                        :edit="true"
                         class="xl:mt-10 mt-4 xl:w-11/12 w-full mx-auto shadow-lg"
                     >
                         <template v-if="isLoggedIn" #top>
@@ -634,8 +636,8 @@
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                         @click="submitFrom()"
                     >
-                        เพิ่มในรายการอาหารของฉัน
-                        <i class="material-icons text-xl ml-3">playlist_add</i>
+                        {{edit?'ยืนยันการแก้ไขรายการอาหาร':'เพิ่มในรายการอาหารของฉัน'}}
+                        <i v-if="!edit" class="material-icons text-xl ml-3">playlist_add</i>
                     </div>
                     <div
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
@@ -685,6 +687,8 @@ export default {
     },
     data() {
         return {
+            edit: false,
+            editId: this.$route.query.edit,
             img: require("../assets/img/chooseimg.svg"),
             file: null,
             popup: {
@@ -742,12 +746,47 @@ export default {
             }
         }
     },
+    watch: {
+        '$route.query.edit': function editIdCheck() {
+            this.editId = this.$route.query.edit
+            if (this.editId === undefined) {
+                this.clearfoodmenu()
+            } else {
+                this.getFoodmenuEdit()
+            }
+        }
+    },
+    mounted() {
+        this.getFoodmenuEdit()
+    },
     methods: {
+        async getFoodmenuEdit() {
+            if (this.editId && this.isLoggedIn) {
+                try {
+                    const response = await UserApi.foodmenu(this.editId)
+                    if (response.data) {
+                        this.edit = true
+                        this.newfoodmenu = response.data
+                        const responseImg = await UserApi.foodmenuImg(this.editId)
+                        this.img = responseImg
+                    }
+                } catch (err) {
+                    this.$router.replace("/404/newmenu/" + this.editId)
+                }
+            } else {
+                this.$router.replace("/newmenu")
+            }
+        },
         async submitFrom() {
             this.validateFrom()
             if (this.validate.from) {
                 try {
-                    const response = await UserApi.createFoodmenu(this.newfoodmenu, this.file)
+                    let response
+                    if(this.edit){
+                        response = await UserApi.updateFoodmenu(this.newfoodmenu, this.file)
+                    }else{
+                        response = await UserApi.createFoodmenu(this.newfoodmenu, this.file)
+                    }
                     if (response.data) {
                         this.popup.show = true
                         this.popup.checkmark = true
@@ -793,7 +832,7 @@ export default {
                 this.validate.foodname = true
             }
 
-            if (this.file === null) {
+            if (this.file === null && !this.edit) {
                 this.validatetext.image = 'กรุณาใส่รูป'
                 this.validate.image = false
             } else {
@@ -967,6 +1006,7 @@ export default {
             }
         },
         clearfoodmenu() {
+            this.$router.replace("/newmenu")
             Object.assign(this.$data, this.$options.data.apply(this))
         },
         clearpopup() {
