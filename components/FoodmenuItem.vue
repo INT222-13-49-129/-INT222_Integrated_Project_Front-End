@@ -3,7 +3,7 @@
         <slot name="top"></slot>
         <div class="flex flex-col justify-center text-center py-6 xl:px-4">
             <div class="text-gray-600">สรุปรายการ</div>
-            <div class="text-xl">{{ foodmenu.foodname ? foodmenu.foodname : 'ชื่ออาหาร' }}</div>
+            <div class="text-xl px-20">{{ foodmenu.foodname ? foodmenu.foodname : 'ชื่ออาหาร' }}</div>
             <slot name="header"></slot>
             <div class="xl:mt-6 mt-4 text-gray-500 px-3 xl:text-base text-sm">
                 <div class="flex border-b-2 pb-2">

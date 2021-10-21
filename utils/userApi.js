@@ -25,6 +25,11 @@ export function createFoodmenu(newfoodmenu, file) {
   return request('post', url, formData(newfoodmenu, 'newfoodmenu', file), true)
 }
 
+export function deleteFoodmenu(id) {
+  const url = `${process.env.config.BASE_URL}user/foodmenu/delete/${id}`
+  return request('delete', url, {}, true)
+}
+
 export function requestsWithPage(pageNo = 0, pageSize = 10) {
   const url = `${process.env.config.BASE_URL}user/request/page?pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {}, true)

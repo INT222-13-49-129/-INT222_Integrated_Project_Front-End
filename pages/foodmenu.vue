@@ -74,7 +74,7 @@
                 </div>
                 <div
                   v-if="isLoggedIn && foodmenuSelected.userid === $auth.user.userid"
-                  class="absolute xl:top-3 top-1 xl:right-4 right-2"
+                  class="absolute xl:top-3 top-1 xl:right-4 right-2 flex flex-col items-end"
                 >
                   <div class="flex items-center">
                     <i
@@ -83,6 +83,19 @@
                     <span
                       class="ml-2 xl:text-base text-sm"
                     >{{ foodmenuSelected.foodmenustatus === 'PERSONAL' ? 'ส่วนตัว' : 'สาธารณะ' }}</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-center bg-gray-100 xl:w-20 w-16 xl:mb-2 mb-1 rounded-lg xl:gap-x-2 gap-x-1 cursor-pointer"
+                  >
+                    <i class="material-icons text-base text-gray-400">edit</i>
+                    <div class="text-gray-700 xl:text-base text-sm">edit</div>
+                  </div>
+                  <div
+                    class="flex items-center justify-center border-2 xl:w-20 w-16 rounded-lg xl:gap-x-1 gap-x-0.5 cursor-pointer"
+                    @click="popup.show = true, popup.delete = true"
+                  >
+                    <i class="material-icons text-base text-gray-400">delete</i>
+                    <div class="text-gray-700 xl:text-base text-sm">delete</div>
                   </div>
                 </div>
               </template>
@@ -118,15 +131,49 @@
       </div>
     </div>
     <div v-if="ingredientsItemShow">
-            <Modal classpop="flex justify-center items-center w-full h-full">
-                <IngredientsItem :ingredients="ingredientsItem">
-                    <i
-                        class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
-                        @click="ingredientsItemShow = false"
-                    >close</i>
-                </IngredientsItem>
-            </Modal>
+      <Modal classpop="flex justify-center items-center w-full h-full">
+        <IngredientsItem :ingredients="ingredientsItem">
+          <i
+            class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
+            @click="ingredientsItemShow = false"
+          >close</i>
+        </IngredientsItem>
+      </Modal>
+    </div>
+    <div v-if="popup.show">
+      <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-11/12 rounded-xl fixed">
+        <div v-if="popup.delete">
+          <img src="../assets/img/delete.svg" class="mb-6 mt-8 mx-auto w-20" />
         </div>
+        <div v-if="popup.delete">
+          <div class="xl:text-xl text-lg py-1 px-6">
+            ยืนยันที่จะลบรายการอาหาร
+            <br />
+            <span class="xl:text-2xl text-xl">"{{ foodmenuSelected.foodname }}"</span> ใช่หรือไม่?
+          </div>
+          <div class="py-5 px-2 mb-2 flex items-center justify-center gap-x-6">
+            <div
+              class="xl:w-3/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+              @click="clearpopup()"
+            >ยกเลิก</div>
+            <div
+              class="xl:w-3/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+              @click="deleteFoodmenu(foodmenuSelected.foodmenuid)"
+            >ลบ</div>
+          </div>
+        </div>
+        <div v-if="popup.fail">
+          <img src="../assets/img/alert.svg" class="my-6 mx-auto w-20" />
+        </div>
+        <div v-if="popup.fail" class="flex flex-col items-center">
+          <div class="text-2xl">ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่</div>
+          <div
+            class="px-3 py-1 mt-6 mb-4 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+            @click="clearpopup()"
+          >ตกลง</div>
+        </div>
+      </Modal>
+    </div>
     <div class="flex xl:flex-row flex-col w-full min-h-screen">
       <div
         class="xl:w-1/6 xl:bg-gray-200 mx-auto mt-2 xl:mt-0 flex items-center xl:items-start xl:flex-col flex-row xl:py-10 py-3 xl:pl-8 pl-4 pr-4 xl:text-2xl text-lg xl:gap-y-8 gap-x-8 xl:gap-x-0 xl:text-salmon text-gray-600"
@@ -284,6 +331,11 @@ export default {
   data() {
     return {
       Url, Show,
+      popup: {
+        show: false,
+        delete: false,
+        fail: false,
+      },
       isLoggedIn: this.$auth.loggedIn,
       showing: Show.General,
       dailyCalorie: 2000,
@@ -319,7 +371,6 @@ export default {
   },
   methods: {
     async changShow(show) {
-      if (show !== this.showing) {
         this.showing = show
         this.searchInput = ""
         this.foodtypeSelected = null
@@ -332,7 +383,6 @@ export default {
           const response = await UserApi.foodmenusWithPage()
           this.foodmenusArray = response.data
         }
-      }
     },
     async changPage(n) {
       const pagenumber = this.foodmenusArray.pageable.pageNumber + n
@@ -392,6 +442,24 @@ export default {
       this.foodmenusArray = response.data
       this.searchInput = decodeURIComponent(this.search)
       this.url = Url.foodmenusWithPageSearchFoodtype
+    },
+    async deleteFoodmenu(id) {
+      try {
+        const response = await UserApi.deleteFoodmenu(id)
+        if (response.data.success) {
+          this.clearpopup()
+          this.foodmenuSelected= null
+          this.foodmenuShow= false
+          this.changShow(this.showing)
+        }
+      } catch (err) {
+        this.clearpopup()
+        this.popup.show = true
+        this.popup.fail = true
+      }
+    },
+    clearpopup() {
+      Object.keys(this.popup).forEach(i => { this.popup[i] = false })
     }
   },
 }
