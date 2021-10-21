@@ -1,6 +1,6 @@
 <template>
     <div class="xl:w-336 w-11/12 pt-24 mx-auto xl:pt-16 bg-white shadow-lg">
-        <div
+        <div id="top"
             class="bgimge object-cover xl:w-full py-2 xl:h-28 mx-6 xl:mx-0 rounded-3xl xl:rounded-none"
         >
             <div class="flex xl:flex-row flex-col">
@@ -39,7 +39,9 @@
                     </div>
                 </div>
                 <div v-if="popup.foodmenu">
-                    <div class="xl:text-xl text-lg py-1">{{edit?'แก้ไขรายการอาหารสำเร็จ':'เพิ่มไปยังรายการอาหารของฉันสำเร็จ'}}</div>
+                    <div
+                        class="xl:text-xl text-lg py-1"
+                    >{{ edit ? 'แก้ไขรายการอาหารสำเร็จ' : 'เพิ่มไปยังรายการอาหารของฉันสำเร็จ' }}</div>
                     <div
                         class="py-5 px-2 mb-2 flex xl:flex-row flex-col-reverse items-center justify-center gap-x-6 gap-y-4"
                     >
@@ -156,7 +158,7 @@
         <div class="flex xl:flex-row flex-col w-full min-h-screen xl:py-6">
             <div class="xl:w-1/3 xl:border-r-4 flex flex-col xl:px-8 px-6 py-2 mt-2 xl:mt-0">
                 <div class="flex justify-between items-center">
-                    <div class="xl:text-2xl text-xl">{{edit?'แก้ไขรายการอาหาร':'คำนวณใหม่'}}</div>
+                    <div class="xl:text-2xl text-xl">{{ edit ? 'แก้ไขรายการอาหาร' : 'คำนวณใหม่' }}</div>
                     <div
                         class="text-gray-500 xl:text-base text-sm"
                     >ยอดรวม {{ newfoodmenu.totalkcal }} kcal.</div>
@@ -636,8 +638,11 @@
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                         @click="submitFrom()"
                     >
-                        {{edit?'ยืนยันการแก้ไขรายการอาหาร':'เพิ่มในรายการอาหารของฉัน'}}
-                        <i v-if="!edit" class="material-icons text-xl ml-3">playlist_add</i>
+                        {{ edit ? 'ยืนยันการแก้ไขรายการอาหาร' : 'เพิ่มในรายการอาหารของฉัน' }}
+                        <i
+                            v-if="!edit"
+                            class="material-icons text-xl ml-3"
+                        >playlist_add</i>
                     </div>
                     <div
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
@@ -782,9 +787,9 @@ export default {
             if (this.validate.from) {
                 try {
                     let response
-                    if(this.edit){
+                    if (this.edit) {
                         response = await UserApi.updateFoodmenu(this.newfoodmenu, this.file)
-                    }else{
+                    } else {
                         response = await UserApi.createFoodmenu(this.newfoodmenu, this.file)
                     }
                     if (response.data) {
@@ -820,6 +825,9 @@ export default {
                     }
                 }
             }
+            document.getElementById('top').scrollIntoView({
+                behavior: "smooth"
+            });
         },
         validateFrom() {
             if (this.newfoodmenu.foodname === '') {
