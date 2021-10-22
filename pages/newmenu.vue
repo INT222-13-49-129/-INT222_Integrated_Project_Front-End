@@ -494,7 +494,7 @@
                             <div
                                 v-if="requestArray.totalElements === 0"
                                 class="text-xl mt-6 text-center text-gray-500"
-                            >ยังไม่คำขอ</div>
+                            >ยังไม่มีคำขอ</div>
                         </div>
                     </div>
                     <div
