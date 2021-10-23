@@ -358,7 +358,7 @@
                             </div>
                         </div>
                         <div v-if="ingredientsArray.totalElements === 0" class="mx-6 mt-6">
-                            <div class="xl:text-2xl text-xl xl:my-2 my-3">No results found</div>
+                            <div class="xl:text-2xl  text-xl xl:my-2 my-3">No results found</div>
                             <div class="xl:text-lg text-base text-gray-600">
                                 <p>Here are some hints:</p>
                                 <ul class="list-disc ml-6 xl:text-base text-sm">
