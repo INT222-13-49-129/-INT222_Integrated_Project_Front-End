@@ -85,14 +85,14 @@
                     >{{ foodmenuSelected.foodmenustatus === 'PERSONAL' ? 'ส่วนตัว' : 'สาธารณะ' }}</span>
                   </div>
                   <div
-                    class="flex items-center justify-center bg-gray-100 xl:w-20 w-16 xl:mb-2 mb-1 rounded-lg xl:gap-x-2 gap-x-1 cursor-pointer"
+                    class="flex items-center justify-center border-2 hover:bg-gray-100 xl:w-20 w-16 xl:mb-2 mb-1 rounded-lg xl:gap-x-2 gap-x-1 cursor-pointer"
                     @click="$router.push(`/newmenu?edit=${foodmenuSelected.foodmenuid}`)"
                   >
                     <i class="material-icons text-base text-gray-400">edit</i>
                     <div class="text-gray-700 xl:text-base text-sm">edit</div>
                   </div>
                   <div
-                    class="flex items-center justify-center border-2 xl:w-20 w-16 rounded-lg xl:gap-x-1 gap-x-0.5 cursor-pointer"
+                    class="flex items-center justify-center border-2 hover:bg-gray-100 xl:w-20 w-16 rounded-lg xl:gap-x-1 gap-x-0.5 cursor-pointer"
                     @click="popup.show = true, popup.delete = true"
                   >
                     <i class="material-icons text-base text-gray-400">delete</i>
