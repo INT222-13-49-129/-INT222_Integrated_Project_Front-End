@@ -163,7 +163,7 @@
                         class="text-gray-500 xl:text-base text-sm"
                     >ยอดรวม {{ newfoodmenu.totalkcal }} kcal.</div>
                 </div>
-                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
+                <div class="xl:mt-4 mt-2 text-base">
                     <label for="foodname">ชื่ออาหาร</label>
                     <br />
                     <input
@@ -180,7 +180,7 @@
                         class="text-red-600 text-xs text-right mt-1"
                     >*{{ validatetext.foodname }}</div>
                 </div>
-                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
+                <div class="xl:mt-4 mt-2 text-base">
                     <label for="foodtype">ประเภทอาหาร</label>
                     <br />
                     <div class="flex">
@@ -211,7 +211,7 @@
                         class="text-red-600 text-xs text-right mt-1"
                     >*{{ validatetext.foodtype }}</div>
                 </div>
-                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
+                <div class="xl:mt-4 mt-2 text-base">
                     <label for="description">คำอธิบายอาหาร</label>
                     <br />
                     <textarea
@@ -228,7 +228,7 @@
                         class="text-red-600 text-xs text-right"
                     >*{{ validatetext.description }}</div>
                 </div>
-                <div v-if="isLoggedIn" class="xl:mt-2 mt-0 xl:text-lg text-base relative">
+                <div v-if="isLoggedIn" class="xl:mt-2 mt-0 text-base relative">
                     <label for="foodtype">ระดับการแชร์</label>
                     <br />
                     <select
@@ -244,7 +244,7 @@
                         class="material-icons absolute xl:top-7 top-6 mt-0.5 left-3 xl:text-lg text-base text-brightsalmon"
                     >{{ newfoodmenu.foodmenustatus === 'PERSONAL' ? 'lock' : 'public' }}</i>
                 </div>
-                <div class="xl:mt-4 mt-2 xl:text-lg text-base">
+                <div class="xl:mt-4 mt-2 text-base">
                     <div class="flex justify-between">
                         <div>วัตถุดิบ</div>
                         <div
