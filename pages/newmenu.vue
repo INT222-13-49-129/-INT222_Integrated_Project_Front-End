@@ -565,10 +565,12 @@
                         <template #header>
                             <div>
                                 <div class="flex items-center flex-col xl:flex-row">
-                                    <img
+                                    <div class="filter drop-shadow xl:ml-8 h-36 w-48  mt-4 xl:mt-0 items-center flex flex-shrink-0">
+                                        <img
                                         :src="img"
-                                        class="filter drop-shadow xl:ml-8 object-cover h-36 w-48 mt-4 xl:mt-0"
+                                        class="object-cover min-w-full min-h-full h-full"
                                     />
+                                    </div>
                                     <div
                                         class="mt-3 flex items-center justify-center w-11/12 xl:justify-start mx-2 xl:mx-0 xl:hidden"
                                     >
