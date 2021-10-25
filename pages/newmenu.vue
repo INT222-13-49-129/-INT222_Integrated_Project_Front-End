@@ -646,12 +646,12 @@
                             class="material-icons text-xl ml-3"
                         >playlist_add</i>
                     </div>
-                    <div
+                    <NuxtLink to="/user"
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                     >
                         แคลอรี่ที่เหมาะสมต่อวัน
                         <i class="material-icons text-xl ml-3">east</i>
-                    </div>
+                    </NuxtLink>
                 </div>
             </div>
         </div>
