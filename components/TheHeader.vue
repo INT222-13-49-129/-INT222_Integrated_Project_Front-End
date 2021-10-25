@@ -5,7 +5,7 @@
             class="flex bg-opacity-20 bg-black z-20 w-screen h-screen fixed top-0 left-0 xl:hidden"
         >
             <div class="relative h-full w-52 bg-brightsalmon animate__animated animate__slideInLeft">
-                <div class="absolute top-3 left-5">
+                <div class="absolute top-3 left-4">
                     <i
                         class="material-icons text-3xl text-white cursor-pointer"
                         @click="sidebar = false"

@@ -2,13 +2,74 @@
     <div>
         <div class="fixed top-0 xl:px-16 min-w-max w-full h-16 bg-white shadow-md xl:hidden block">
             <div class="flex pt-3 pb-2 px-4 text-base items-center text-salmon">
-                <i class="material-icons text-3xl mr-2">menu</i>
+                <i class="material-icons text-3xl mr-2" @click="sidebar = true">menu</i>
                 <NuxtLink to="/" class="flex mx-auto justify-center items-center -mt-1">
                     <img src="~assets/img/logo.svg" class="h-12" />
                     <div class="text-xl -mb-1">CFAN</div>
                 </NuxtLink>
                 <i class="material-icons text-3xl ml-1">date_range</i>
             </div>
+        </div>
+        <div
+            v-if="sidebar"
+            class="flex bg-opacity-20 bg-black z-20 w-screen h-screen fixed top-0 left-0 xl:hidden"
+        >
+            <div
+                class="relative h-full w-52 bg-brightsalmon animate__animated animate__slideInLeft"
+            >
+                <div class="absolute top-3 left-4">
+                    <i
+                        class="material-icons text-3xl text-white cursor-pointer"
+                        @click="sidebar = false"
+                    >close</i>
+                </div>
+                <div
+                    class="mt-14 ml-6 flex items-center text-white"
+                    :class="{ 'border-salmon border-r-2': $route.name === 'user' }"
+                    @click="sidebar = false, $router.push('/user')"
+                >
+                    <i class="material-icons -mt-1 text-3xl">person_outline</i>
+                    <NuxtLink to="/user" class="ml-3 text-lg">โปรไฟล์ของฉัน</NuxtLink>
+                </div>
+                <div
+                    class="mt-3 ml-6 flex items-center text-white"
+                    @click="sidebar = false, $router.push('/foodmenu')"
+                >
+                    <i class="material-icons -mt-1 text-3xl">search</i>
+                    <NuxtLink to="/foodmenu" class="ml-3 text-lg">ค้นหาอาหาร</NuxtLink>
+                </div>
+                <div
+                    class="mt-3 ml-6 flex items-center text-white"
+                    @click="sidebar = false, $router.push('/newmenu')"
+                >
+                    <i class="material-icons -mt-1 text-3xl">speed</i>
+                    <NuxtLink to="/newmenu" class="ml-3 text-lg">คำนวนแคล</NuxtLink>
+                </div>
+                <div
+                    class="mt-3 ml-6 flex items-center text-white"
+                    @click="sidebar = false, $router.push('/')"
+                >
+                    <i class="material-icons -mt-1 text-3xl">schedule</i>
+                    <NuxtLink to="/" class="ml-3 text-lg">บันทึกประจำวัน</NuxtLink>
+                </div>
+                <div
+                    class="mt-3 ml-6 flex items-center text-white"
+                    @click="sidebar = false, $router.push('/')"
+                >
+                    <i class="material-icons -mt-1 text-3xl">settings</i>
+                    <NuxtLink to="/" class="ml-3 text-lg">ตั้งค่า</NuxtLink>
+                </div>
+                <div class="flex justify-center items-center text-base text-white mt-4 ">
+                    <div
+                        class="flex items-center p-2 border-2 border-white rounded-xl cursor-pointer"
+                        @click="logout()"
+                    >
+                        <div>ออกจากระบบ</div>
+                        <i class="material-icons ml-3 text-xl">logout</i>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-grow h-full" @click="sidebar = false"></div>
         </div>
         <div class="w-64 h-full bg-white filter drop-shadow-all fixed xl:block hidden">
             <div class="pl-10 pt-14">
@@ -74,6 +135,11 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            sidebar: false
+        }
+    },
     methods: {
         logout() {
             this.$auth.logout()
