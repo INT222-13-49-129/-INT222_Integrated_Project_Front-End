@@ -646,7 +646,7 @@
                             class="material-icons text-xl ml-3"
                         >playlist_add</i>
                     </div>
-                    <NuxtLink to="/user"
+                    <NuxtLink to="/profile"
                         class="bg-salmon shadow-md px-5 py-2 rounded-full flex justify-center cursor-pointer"
                     >
                         แคลอรี่ที่เหมาะสมต่อวัน

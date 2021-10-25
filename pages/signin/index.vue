@@ -160,7 +160,7 @@ export default {
             data: formData(this.login, 'login')
           })
           if (response.data.success) {
-            this.$router.replace('/user')
+            this.$router.replace('/profile')
           }
         } catch (err) {
           this.validate.from = false

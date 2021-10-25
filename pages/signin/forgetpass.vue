@@ -232,7 +232,7 @@ export default {
                     if (response.data.success) {
                         this.$auth.setUser(response.data.user)
                         await this.$auth.setUserToken(response.data.token)
-                        this.$router.replace('/user')
+                        this.$router.replace('/profile')
                     }
                 } catch (err) {
                     this.loading = false

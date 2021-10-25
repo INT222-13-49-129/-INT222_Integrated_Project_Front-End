@@ -25,11 +25,11 @@
                 </div>
                 <div
                     class="mt-14 ml-6 flex items-center text-white"
-                    :class="{ 'border-salmon border-r-2': $route.name === 'user' }"
-                    @click="sidebar = false, $router.push('/user')"
+                    :class="{ 'border-salmon border-r-2': $route.name === 'profile' }"
+                    @click="sidebar = false, $router.push('/profile')"
                 >
                     <i class="material-icons -mt-1 text-3xl">person_outline</i>
-                    <NuxtLink to="/user" class="ml-3 text-lg">โปรไฟล์ของฉัน</NuxtLink>
+                    <NuxtLink to="/profile" class="ml-3 text-lg">โปรไฟล์ของฉัน</NuxtLink>
                 </div>
                 <div
                     class="mt-3 ml-6 flex items-center text-white"
@@ -83,16 +83,16 @@
                 <div class="flex flex-col text-base gap-y-4 text-gray-500">
                     <div
                         class="pr-8"
-                        :class="{ 'border-lightsalmon border-r-4': $route.name === 'user' }"
+                        :class="{ 'border-lightsalmon border-r-4': $route.name === 'profile' }"
                     >
                         <NuxtLink
-                            to="/user"
+                            to="/profile"
                             class="flex items-center p-2 hover:text-salmon"
-                            :class="{ 'bg-brightsalmon bg-opacity-90 text-black rounded-lg shadow-lg': $route.name === 'user' }"
+                            :class="{ 'bg-brightsalmon bg-opacity-90 text-black rounded-lg shadow-lg': $route.name === 'profile' }"
                         >
                             <i
                                 class="material-icons -mt-1 mr-3 text-2xl"
-                                :class="{ 'text-salmon': $route.name === 'user' }"
+                                :class="{ 'text-salmon': $route.name === 'profile' }"
                             >person_outline</i>
                             <div>โปรไฟล์ของฉัน</div>
                         </NuxtLink>

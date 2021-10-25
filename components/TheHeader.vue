@@ -66,7 +66,7 @@
                 class="flex-shrink-0 xl:block hidden hover:text-tomato hover:border-tomato border-b-2 border-opacity-0 hover:border-opacity-100"
             >ABOUT US</NuxtLink>
             <NuxtLink
-                to="/user"
+                to="/profile"
                 class="material-icons text-3xl -mt-1.5 hover:text-tomato"
             >person_outline</NuxtLink>
         </div>
