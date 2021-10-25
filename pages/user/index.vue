@@ -1,7 +1,23 @@
 <template>
-    <div class="mt-48 bg-gray-50">
-        <div>{{ user }}</div>
-        <button @click="logout()">logout</button>
+    <div class="mt-14 mx-auto w-288">
+        <div class="flex items-center gap-x-10">
+            <div class="w-1/2 flex justify-between flex-shrink-0">
+                <div class="text-salmon text-2xl">
+                    Welcome , {{ user.username }} !
+                    <span
+                        class="block text-gray-500 text-xl mt-4"
+                    >Always save on eating food.</span>
+                </div>
+                <div>
+                    <img src="~assets/img/userimg.svg">
+                </div>
+            </div>
+            <div class="flex gap-x-3">
+                <div v-for="i in 7" :key="i">
+                    <div class="w-16 h-24 border-2"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
