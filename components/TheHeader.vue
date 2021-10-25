@@ -38,7 +38,7 @@
             </div>
             <div class="flex-grow h-full" @click="sidebar = false"></div>
         </div>
-        <div class="flex pt-4 pb-2 px-4 font-normal text-base text-salmon items-center">
+        <div class="flex pt-3 pb-2 px-4 font-normal text-base text-salmon items-center">
             <i class="material-icons text-3xl mr-2 -mt-1 xl:hidden" @click="sidebar = true">menu</i>
             <NuxtLink to="/" class="flex mx-auto justify-center items-center -mt-1">
                 <img src="~assets/img/logo.svg" class="h-12" />
