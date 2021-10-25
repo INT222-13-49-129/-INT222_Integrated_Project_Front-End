@@ -5,7 +5,7 @@
                 <i class="material-icons text-3xl mr-2">menu</i>
                 <NuxtLink to="/" class="flex mx-auto justify-center items-center -mt-1">
                     <img src="~assets/img/logo.svg" class="h-12" />
-                    <div :class="isindex ? 'xl:mr-10' : 'xl:mr-4'" class="text-xl -mb-1">CFAN</div>
+                    <div class="text-xl -mb-1">CFAN</div>
                 </NuxtLink>
                 <i class="material-icons text-3xl ml-1">date_range</i>
             </div>
