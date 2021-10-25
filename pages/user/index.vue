@@ -9,12 +9,26 @@
                     >Always save on eating food.</span>
                 </div>
                 <div>
-                    <img src="~assets/img/userimg.svg">
+                    <img src="~assets/img/userimg.svg" />
                 </div>
             </div>
             <div class="flex gap-x-5 items-center">
                 <div v-for="i in 7" :key="i">
-                    <div class="w-16 h-24 border-2" :class="{'w-20 h-28': i===7 }"></div>
+                    <div
+                        class="w-16 h-24 border-2 rounded-md bg-white"
+                        :class="{ 'w-20 h-28 shadow-md': i === 7 }"
+                    ></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex mt-8 justify-between">
+            <div class="w-128 h-128 bg-white rounded-2xl filter drop-shadow-md"></div>
+            <div class="flex flex-col justify-between">
+                <div class="w-128 h-80 bg-white rounded-2xl filter drop-shadow-md"></div>
+                <div class="flex justify-between">
+                    <div class="w-40 h-40 bg-white rounded-2xl filter drop-shadow-md"></div>
+                    <div class="w-40 h-40 bg-white rounded-2xl filter drop-shadow-md"></div>
+                    <div class="w-40 h-40 bg-white rounded-2xl filter drop-shadow-md"></div>
                 </div>
             </div>
         </div>
