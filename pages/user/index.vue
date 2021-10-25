@@ -1,7 +1,7 @@
 <template>
-    <div class="mt-14 mx-auto w-288">
-        <div class="flex items-center gap-x-10">
-            <div class="w-1/2 flex justify-between flex-shrink-0">
+    <div class="mt-12 mx-auto w-272">
+        <div class="flex items-center justify-between">
+            <div class="w-5/12 flex justify-between flex-shrink-0">
                 <div class="text-salmon text-2xl">
                     Welcome , {{ user.username }} !
                     <span
@@ -12,9 +12,9 @@
                     <img src="~assets/img/userimg.svg">
                 </div>
             </div>
-            <div class="flex gap-x-3">
+            <div class="flex gap-x-5 items-center">
                 <div v-for="i in 7" :key="i">
-                    <div class="w-16 h-24 border-2"></div>
+                    <div class="w-16 h-24 border-2" :class="{'w-20 h-28': i===7 }"></div>
                 </div>
             </div>
         </div>
