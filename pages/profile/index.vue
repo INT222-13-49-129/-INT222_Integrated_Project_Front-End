@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div
-                    class="flex xl:gap-x-5 gap-x-3 overflow-x-scroll xl:overflow-visible xl:w-auto w-full items-center justify-center mt-4 xl:mt-0"
+                    class="flex xl:gap-x-5 gap-x-3 overflow-x-scroll xl:overflow-visible xl:w-auto w-full items-center justify-between mt-4 xl:mt-0"
                 >
                     <div v-for="i in 7" :key="i">
                         <div
