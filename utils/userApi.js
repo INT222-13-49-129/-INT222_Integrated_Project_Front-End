@@ -1,5 +1,15 @@
 import {  request,formData,requestImg } from './api'
 
+export function addImgProfile(file) {
+  const url = `${process.env.config.BASE_URL}user/addimgprofile`
+  return request('post', url, formData({}, '', file), true)
+}
+
+export function getImgProfile() {
+  const url = `${process.env.config.BASE_URL}user/imgprofile`
+  return requestImg(url,true)
+}
+
 export function foodmenuImg(id) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/img/${id}`
   return requestImg(url,true)

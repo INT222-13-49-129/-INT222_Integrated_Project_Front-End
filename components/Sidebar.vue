@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="fixed top-0 xl:px-16 min-w-max w-full h-16 bg-white shadow-md xl:hidden block">
+        <div class="fixed top-0 z-10 xl:px-16 min-w-max w-full h-16 bg-white shadow-md xl:hidden block">
             <div class="flex pt-3 pb-2 px-4 text-base items-center text-salmon">
                 <i class="material-icons text-3xl mr-2" @click="sidebar = true">menu</i>
                 <NuxtLink to="/" class="flex mx-auto justify-center items-center -mt-1">
