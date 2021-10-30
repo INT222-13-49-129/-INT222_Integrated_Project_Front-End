@@ -28,8 +28,10 @@
             </div>
             <div class="flex xl:mt-8 mt-6 justify-between xl:flex-row flex-col">
                 <div
-                    class="xl:w-128 w-full xl:h-128 h-80 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
-                ></div>
+                    class="xl:w-128 w-full xl:h-128 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex justify-center items-center"
+                >
+                <MealTime />
+                </div>
                 <div class="flex flex-col justify-between xl:mt-0 mt-6">
                     <div
                         class="xl:w-128 w-full xl:h-80 h-40 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
@@ -56,10 +58,12 @@
 </template>
 <script>
 import UserImg from '../../components/UserImg.vue';
+import MealTime from '../../components/MealTime.vue';
 
 export default {
     components: {
         UserImg,
+        MealTime
     },
     layout: 'user',
     middleware: ['auth'],
