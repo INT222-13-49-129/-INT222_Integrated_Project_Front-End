@@ -78,7 +78,7 @@
                                 <i class="material-icons xl:text-xl text-sm">edit</i>
                             </div>
                             <div class="xl:text-2xl text-xl">
-                                181.40
+                                {{ user.weight }}
                                 <span class="xl:text-lg text-sm text-gray-500">กก.</span>
                             </div>
                         </div>
@@ -86,9 +86,9 @@
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
                         >
                             <div class="text-gray-500">
-                                <div>BMI 31.8</div>
+                                <div>BMI {{BMI}}</div>
                             </div>
-                            <div class="xl:text-2xl text-lg">น้ำหนักเกิน</div>
+                            <div class="xl:text-2xl text-lg">{{BMItext}}</div>
                         </div>
                         <div
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
@@ -96,7 +96,7 @@
                             <div class="text-gray-500">
                                 <div>BMR</div>
                             </div>
-                            <div class="xl:text-2xl text-xl">1533</div>
+                            <div class="xl:text-2xl text-xl">{{BMR}}</div>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,10 @@
             ></div>
         </div>
         <div class="w-full xl:h-12 h-10 bg-salmon relative">
-            <img src="../../assets/img/barbell.svg" class="xl:h-16 h-10 absolute xl:-top-7 -top-5 left-2" />
+            <img
+                src="../../assets/img/barbell.svg"
+                class="xl:h-16 h-10 absolute xl:-top-7 -top-5 left-2"
+            />
         </div>
     </div>
 </template>
@@ -123,13 +126,47 @@ export default {
     middleware: ['auth'],
     data() {
         return {
-            user: this.$auth.user
+            user: this.$auth.user,
+            BMR: "",
+            BMI: "",
+            BMItext: ""
         }
+    },
+    mounted() {
+        this.calculateBMR();
+        this.calculateBMI();
     },
     methods: {
         logout() {
             this.$auth.logout()
             this.$router.replace('/')
+        },
+        calculateBMR() {
+            const today = new Date();
+            const birthDate = new Date(this.user.doB);
+            const age = today.getFullYear() - birthDate.getFullYear();
+
+            let dailycal
+            if (this.user.gender === "M") {
+                dailycal = 66 + (13.7 * this.user.weight) + (5 * this.user.height) - (6.8 * age)
+            } else if (this.user.gender === "F") {
+                dailycal = 665 + (9.6 * this.user.weight) + (1.8 * this.user.height) - (4.7 * age)
+            }
+            this.BMR = parseInt(dailycal)
+        },
+        calculateBMI(){
+            this.BMI = (this.user.weight / Math.pow(this.user.height/100,2)).toFixed(2)
+            if(this.BMI < 18.5){
+                this.BMItext = "ผอมไป"
+            }else if(this.BMI < 23){
+                this.BMItext = "สมส่วน"
+            }else if(this.BMI < 25){
+                this.BMItext = "น้ำหนักเกิน"
+            }else if(this.BMI < 30){
+                this.BMItext = "อ้วน"
+            }else{
+                this.BMItext = "อ้วนมาก"
+            }
         }
     },
 }
