@@ -30,30 +30,74 @@
                 <div
                     class="relative xl:w-128 w-full xl:h-128 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex flex-col justify-between items-center"
                 >
-                    <div class="xl:h-20 h-14 flex justify-center items-center xl:text-2xl text-xl">วันนี้</div>
+                    <div
+                        class="xl:h-20 h-14 flex justify-center items-center xl:text-2xl text-xl"
+                    >วันนี้</div>
                     <MealTime>
                         <div class="relative h-full flex justify-center items-center">
-                            <div class="absolute xl:top-10 top-7 xl:text-sm text-xs">แคลอรี่ที่ได้รับจากอาหาร</div>
+                            <div
+                                class="absolute xl:top-10 top-7 xl:text-sm text-xs"
+                            >แคลอรี่ที่ได้รับจากอาหาร</div>
                             <div class="xl:text-6xl text-4xl text-salmon">1187</div>
-                            <img src="../../assets/img/cat.svg" class="absolute xl:bottom-4 bottom-2 xl:h-16 h-11">
+                            <img
+                                src="../../assets/img/cat.svg"
+                                class="absolute xl:bottom-4 bottom-2 xl:h-16 h-11"
+                            />
                         </div>
                     </MealTime>
-                    <div class="xl:h-20 h-14 flex justify-center items-center xl:text-xl text-base">กดบันทึกรายการอาหารในวงแหวน</div>
+                    <div
+                        class="xl:h-20 h-14 flex justify-center items-center xl:text-xl text-base"
+                    >กดบันทึกรายการอาหารในวงแหวน</div>
                 </div>
                 <div class="flex flex-col justify-between xl:mt-0 mt-6">
                     <div
-                        class="xl:w-128 w-full xl:h-80 h-40 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
-                    ></div>
+                        class="xl:w-128 w-full xl:h-80 py-3 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex flex-col justify-between items-center"
+                    >
+                        <div
+                            class="xl:h-24 h-16 flex justify-center items-center xl:text-xl text-lg"
+                        >เหลือแคลอรี่ที่ทานได้</div>
+                        <div class="flex items-center justify-around w-8/12 xl:my-0 my-3">
+                            <i
+                                class="material-icons xl:text-3xl text-2xl text-brightsalmon"
+                            >lunch_dining</i>
+                            <div class="text-lightsalmon xl:text-5xl text-3xl">+1690</div>
+                            <div class="xl:text-xl text-base text-gray-500">kcal.</div>
+                        </div>
+                        <div class="xl:h-24 h-16 flex justify-center items-center">
+                            <div
+                                class="py-2 px-4 bg-salmon text-white rounded-full xl:text-base text-sm"
+                            >ดูรายการที่บันทึกวันนี้</div>
+                        </div>
+                    </div>
                     <div class="flex justify-between xl:mt-0 mt-6 gap-x-3">
                         <div
-                            class="xl:w-40 xl:flex-grow-0 flex-grow xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
-                        ></div>
+                            class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
+                        >
+                            <div class="flex items-center justify-between text-gray-500">
+                                <div>น้ำหนัก</div>
+                                <i class="material-icons xl:text-xl text-sm">edit</i>
+                            </div>
+                            <div class="xl:text-2xl text-xl">
+                                181.40
+                                <span class="xl:text-lg text-sm text-gray-500">กก.</span>
+                            </div>
+                        </div>
                         <div
-                            class="xl:w-40 xl:flex-grow-0 flex-grow xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
-                        ></div>
+                            class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
+                        >
+                            <div class="text-gray-500">
+                                <div>BMI 31.8</div>
+                            </div>
+                            <div class="xl:text-2xl text-lg">น้ำหนักเกิน</div>
+                        </div>
                         <div
-                            class="xl:w-40 xl:flex-grow-0 flex-grow xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
-                        ></div>
+                            class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
+                        >
+                            <div class="text-gray-500">
+                                <div>BMR</div>
+                            </div>
+                            <div class="xl:text-2xl text-xl">1533</div>
+                        </div>
                     </div>
                 </div>
             </div>
