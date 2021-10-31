@@ -28,9 +28,17 @@
             </div>
             <div class="flex xl:mt-8 mt-6 justify-between xl:flex-row flex-col">
                 <div
-                    class="xl:w-128 w-full xl:h-128 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex justify-center items-center"
+                    class="relative xl:w-128 w-full xl:h-128 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex flex-col justify-between items-center"
                 >
-                <MealTime />
+                    <div class="xl:h-20 h-14 flex justify-center items-center xl:text-2xl text-xl">วันนี้</div>
+                    <MealTime>
+                        <div class="relative h-full flex justify-center items-center">
+                            <div class="absolute xl:top-10 top-7 xl:text-sm text-xs">แคลอรี่ที่ได้รับจากอาหาร</div>
+                            <div class="xl:text-6xl text-4xl text-salmon">1187</div>
+                            <img src="../../assets/img/cat.svg" class="absolute xl:bottom-4 bottom-2 xl:h-16 h-11">
+                        </div>
+                    </MealTime>
+                    <div class="xl:h-20 h-14 flex justify-center items-center xl:text-xl text-base">กดบันทึกรายการอาหารในวงแหวน</div>
                 </div>
                 <div class="flex flex-col justify-between xl:mt-0 mt-6">
                     <div

@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col justify-center items-center gap-y-1">
-        <div class="flex justify-center items-center gap-x-1">
+    <div class="relative flex flex-col justify-center items-center gap-y-0.5">
+        <div class="flex justify-center items-center gap-x-0.5">
             <div class="flex justify-end">
                 <svg
                     width="70%"
@@ -182,7 +182,7 @@
                 </svg>
             </div>
         </div>
-        <div class="flex justify-center items-center gap-x-1">
+        <div class="flex justify-center items-center gap-x-0.5">
             <div class="flex justify-end">
                 <svg
                     width="70%"
@@ -335,6 +335,9 @@
                     </defs>
                 </svg>
             </div>
+        </div>
+        <div class="absolute xl:w-56 w-5/12 xl:h-56 h-3/5 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+            <slot></slot>
         </div>
     </div>
 </template>
