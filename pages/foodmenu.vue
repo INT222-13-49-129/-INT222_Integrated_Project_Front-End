@@ -312,6 +312,7 @@ import 'animate.css'
 
 const Url = Object.freeze({ foodmenusWithPage: 1, foodmenusWithPageSearch: 2, foodmenusWithPageSearchFoodtype: 3 });
 const Show = Object.freeze({ General: 1, Myfoods: 2 });
+const Meal = Object.freeze({ Lightmeal: "อาหารว่าง", Breakfast: "อาหารเช้า", Lunch: "อาหารเที่ยง", Dinner: "อาหารเย็น" });
 
 export default {
   components: {
@@ -331,7 +332,9 @@ export default {
   },
   data() {
     return {
-      Url, Show,
+      user : this.$auth.user,
+      Url, Show, Meal,
+      mealtime: this.$route.query.meal,
       popup: {
         show: false,
         delete: false,
@@ -355,35 +358,37 @@ export default {
   },
   mounted() {
     if (this.isLoggedIn) {
-      const user = this.$auth.user
-
-      const today = new Date();
-      const birthDate = new Date(user.doB);
-      const age = today.getFullYear() - birthDate.getFullYear();
-
-      let dailycal
-      if (user.gender === "M") {
-        dailycal = 66 + (13.7 * user.weight) + (5 * user.height) - (6.8 * age)
-      } else if (user.gender === "F") {
-        dailycal = 665 + (9.6 * user.weight) + (1.8 * user.height) - (4.7 * age)
-      }
-      this.dailyCalorie = parseInt(dailycal)
+      this.calculateDailycal()
+      console.log(this.Meal[this.mealtime]);
     }
   },
   methods: {
+    calculateDailycal() {
+      const today = new Date();
+      const birthDate = new Date(this.user.doB);
+      const age = today.getFullYear() - birthDate.getFullYear();
+
+      let dailycal
+      if (this.user.gender === "M") {
+        dailycal = 66 + (13.7 * this.user.weight) + (5 * this.user.height) - (6.8 * age)
+      } else if (this.user.gender === "F") {
+        dailycal = 665 + (9.6 * this.user.weight) + (1.8 * this.user.height) - (4.7 * age)
+      }
+      this.dailyCalorie = parseInt(dailycal)
+    },
     async changShow(show) {
-        this.showing = show
-        this.searchInput = ""
-        this.foodtypeSelected = null
-        this.popfilter = false
-        this.url = Url.foodmenusWithPage
-        if (show === Show.General) {
-          const response = await GeneralApi.foodmenusWithPage()
-          this.foodmenusArray = response.data
-        } else if (show === Show.Myfoods) {
-          const response = await UserApi.foodmenusWithPage()
-          this.foodmenusArray = response.data
-        }
+      this.showing = show
+      this.searchInput = ""
+      this.foodtypeSelected = null
+      this.popfilter = false
+      this.url = Url.foodmenusWithPage
+      if (show === Show.General) {
+        const response = await GeneralApi.foodmenusWithPage()
+        this.foodmenusArray = response.data
+      } else if (show === Show.Myfoods) {
+        const response = await UserApi.foodmenusWithPage()
+        this.foodmenusArray = response.data
+      }
     },
     async changPage(n) {
       const pagenumber = this.foodmenusArray.pageable.pageNumber + n
@@ -449,8 +454,8 @@ export default {
         const response = await UserApi.deleteFoodmenu(id)
         if (response.data.success) {
           this.clearpopup()
-          this.foodmenuSelected= null
-          this.foodmenuShow= false
+          this.foodmenuSelected = null
+          this.foodmenuShow = false
           this.changShow(this.showing)
         }
       } catch (err) {

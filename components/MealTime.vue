@@ -3,11 +3,13 @@
         <div class="flex justify-center items-center gap-x-0.5">
             <div class="flex justify-end">
                 <svg
+                    class="cursor-pointer"
                     width="70%"
                     height="70%"
                     viewBox="0 0 150 150"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    @click="mealRouterPush('Lightmeal')"
                 >
                     <g clip-path="url(#clip0_1081:203)">
                         <path
@@ -77,11 +79,13 @@
             </div>
             <div>
                 <svg
+                    class="cursor-pointer"
                     width="70%"
                     height="70%"
                     viewBox="0 0 150 150"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    @click="mealRouterPush('Breakfast')"
                 >
                     <g clip-path="url(#clip0_1081:356)">
                         <circle cy="151" r="150" fill="#FFD394" fill-opacity="0.35" />
@@ -148,11 +152,13 @@
         <div class="flex justify-center items-center gap-x-0.5">
             <div class="flex justify-end">
                 <svg
+                    class="cursor-pointer"
                     width="70%"
                     height="70%"
                     viewBox="0 0 150 150"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    @click="mealRouterPush('Dinner')"
                 >
                     <g clip-path="url(#clip0_1081:349)">
                         <path
@@ -222,11 +228,13 @@
             </div>
             <div>
                 <svg
+                    class="cursor-pointer"
                     width="70%"
                     height="70%"
                     viewBox="0 0 150 150"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    @click="mealRouterPush('Lunch')"
                 >
                     <g clip-path="url(#clip0_1081:363)">
                         <path
@@ -306,3 +314,12 @@
         </div>
     </div>
 </template>
+<script>
+    export default{
+        methods: {
+            mealRouterPush(time){
+                this.$router.push(({ path: 'foodmenu', query: { meal: time } }))
+            }
+        },
+    }
+</script>

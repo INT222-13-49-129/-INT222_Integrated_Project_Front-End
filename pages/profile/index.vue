@@ -34,7 +34,7 @@
                         class="xl:h-20 h-14 flex justify-center items-center xl:text-2xl text-xl"
                     >วันนี้</div>
                     <MealTime>
-                        <div class="relative h-full flex justify-center items-center">
+                        <div class="relative h-full flex justify-center items-center rounded-full">
                             <div
                                 class="absolute xl:top-10 top-7 xl:text-sm text-xs"
                             >แคลอรี่ที่ได้รับจากอาหาร</div>
