@@ -73,11 +73,11 @@
                         <div
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
                         >
-                            <div class="flex items-center justify-between text-gray-500">
+                            <div class="flex items-center justify-around text-gray-500">
                                 <div>น้ำหนัก</div>
                                 <i class="material-icons xl:text-xl text-sm">edit</i>
                             </div>
-                            <div class="xl:text-2xl text-xl">
+                            <div class="xl:text-2xl text-xl text-center">
                                 {{ user.weight }}
                                 <span class="xl:text-lg text-sm text-gray-500">กก.</span>
                             </div>
@@ -85,18 +85,18 @@
                         <div
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
                         >
-                            <div class="text-gray-500">
+                            <div class="text-gray-500 text-center">
                                 <div>BMI {{BMI}}</div>
                             </div>
-                            <div class="xl:text-2xl text-lg">{{BMItext}}</div>
+                            <div class="xl:text-2xl text-lg text-center">{{BMItext}}</div>
                         </div>
                         <div
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
                         >
-                            <div class="text-gray-500">
+                            <div class="text-gray-500 text-center">
                                 <div>BMR</div>
                             </div>
-                            <div class="xl:text-2xl text-xl">{{BMR}}</div>
+                            <div class="xl:text-2xl text-xl text-center">{{BMR}}</div>
                         </div>
                     </div>
                 </div>
