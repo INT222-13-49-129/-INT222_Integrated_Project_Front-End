@@ -105,7 +105,9 @@
                 class="xl:mt-8 mt-6 xl:mb-12 mb-8 w-full xl:h-128 h-40 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
             ></div>
         </div>
-        <div class="w-full xl:h-12 h-10 bg-salmon"></div>
+        <div class="w-full xl:h-12 h-10 bg-salmon relative">
+            <img src="../../assets/img/barbell.svg" class="xl:h-16 h-10 absolute xl:-top-7 -top-5 left-2" />
+        </div>
     </div>
 </template>
 <script>
