@@ -64,3 +64,8 @@ export function deleteRequest(id) {
   const url = `${process.env.config.BASE_URL}user/request/delete/${id}`
   return request('delete', url, {}, true)
 }
+
+export function mealDate(date) {
+  const url = `${process.env.config.BASE_URL}user/meal/date/${date}`
+  return request('get', url, {}, true)
+}
