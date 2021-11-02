@@ -1025,7 +1025,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .bgimge {
     background-image: url("../assets/img/bgfoodmenu.svg");
     background-position: center;
