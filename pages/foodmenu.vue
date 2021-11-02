@@ -299,16 +299,6 @@
         </div>
       </div>
     </div>
-    <div class="fixed xl:bottom-8 bottom-6 right-7 xl:ml-320 xl:right-auto">
-      <div
-        class="relative xl:w-16 w-12 xl:h-16 h-12 rounded-full bg-salmon -ml-6 shadow-lg flex justify-center items-center"
-      >
-        <i class="material-icons xl:text-4xl text-3xl text-white">format_list_bulleted</i>
-        <div
-          class="xl:h-8 h-6 xl:w-8 w-6 flex items-center justify-center absolute -top-2 xl:-right-3 -right-2 bg-white text-sm xl:text-base text-salmon rounded-full filter drop-shadow-all"
-        >55</div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
