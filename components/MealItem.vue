@@ -2,7 +2,7 @@
     <div class="xl:w-128 w-full bg-white rounded-lg relative">
         <slot></slot>
         <div class="pt-6 pb-4">
-            <div class="text-center xl:text-base text-sm">{{ meal.datemeal }}</div>
+            <div class="text-center xl:text-base text-sm">{{ dateMeal }}</div>
             <div class="text-center xl:text-2xl text-xl">{{ Meal[meal.mealtime] }}</div>
         </div>
         <div class="py-4 xl:px-8 px-4 border-b-2 border-t-2">
@@ -50,9 +50,11 @@
         <div class="py-4 px-4 flex items-center xl:justify-end justify-around gap-x-3">
             <div
                 class="xl:w-2/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+                @click="$parent.$parent.getMeal()"
             >คืนค่า</div>
             <div
                 class="xl:w-2/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+                @click="meal.mealHasFoodmenuList.length === 0?$parent.$parent.deleteMeal():$parent.$parent.addMeal()"
             >บันทึก</div>
         </div>
     </div>
@@ -72,6 +74,12 @@ export default {
     data() {
         return {
             Meal
+        }
+    },
+    computed: {
+        dateMeal(){
+            const date = this.meal.datemeal.split("-");
+            return   date[2] + "-" +  date[1] + "-" +  date[0]
         }
     }
 }

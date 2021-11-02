@@ -173,6 +173,27 @@
     </div>
     <div v-if="popup.show">
       <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-11/12 rounded-xl fixed">
+        <div v-if="popup.checkmark" class="my-6">
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="24" fill="none" />
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+          </svg>
+        </div>
+        <div v-if="popup.meal">
+          <div class="xl:text-xl text-lg py-1">บันทึกรายการมื้อ{{ Meal[meal.mealtime] }}สำเร็จ</div>
+          <div
+            class="py-5 px-2 mb-2 flex xl:flex-row flex-col-reverse items-center justify-center gap-x-6 gap-y-4"
+          >
+            <div
+              class="xl:w-4/12 w-9/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+              @click="clearpopup()"
+            >เพิ่มมื้ออาหารอีก</div>
+            <nuxt-link
+              to="/profile"
+              class="xl:w-4/12 w-9/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+            >ไปยังรายการที่บันทึก</nuxt-link>
+          </div>
+        </div>
         <div v-if="popup.delete">
           <img src="../assets/img/delete.svg" class="mb-6 mt-8 mx-auto w-20" />
         </div>
@@ -193,7 +214,7 @@
             >ลบ</div>
           </div>
         </div>
-        <div v-if="popup.fail">
+        <div v-if="popup.alert">
           <img src="../assets/img/alert.svg" class="my-6 mx-auto w-20" />
         </div>
         <div v-if="popup.fail" class="flex flex-col items-center">
@@ -202,6 +223,23 @@
             class="px-3 py-1 mt-6 mb-4 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
             @click="clearpopup()"
           >ตกลง</div>
+        </div>
+        <div v-if="popup.mealdelete">
+          <div class="xl:text-xl text-lg py-1 px-6">
+            ไม่มีเมนูในรายการมื้ออาหาร
+            <br>
+            หากเคยบันทึกไปแล้วมื้ออาหารจะถูกลบ
+          </div>
+          <div class="py-5 px-2 mb-2 flex items-center justify-center gap-x-6">
+            <div
+              class="xl:w-3/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+              @click="clearpopup()"
+            >ยกเลิก</div>
+            <div
+              class="xl:w-3/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+              @click="editmeal?deleteMeal(true):clearpopup()"
+            >ลบ</div>
+          </div>
         </div>
       </Modal>
     </div>
@@ -393,13 +431,18 @@ export default {
         mealHasFoodmenuList: [],
         totalkcal: 0
       },
+      savemeal: true,
+      editmeal: false,
       mealtime: this.$route.query.meal,
       mealdate: [],
       mealShow: false,
       popup: {
         show: false,
         delete: false,
+        alert: false,
         fail: false,
+        checkmark: false,
+        meal: false
       },
       isLoggedIn: this.$auth.loggedIn,
       showing: Show.General,
@@ -433,6 +476,49 @@ export default {
     }
   },
   methods: {
+    async addMeal() {
+      try {
+        let response
+        if (this.editmeal) {
+          response = await UserApi.updateMeal(this.meal, this.meal.mealid)
+        } else {
+          response = await UserApi.createMeal(this.meal)
+        }
+        if (response.data) {
+          this.popup.show = true
+          this.popup.checkmark = true
+          this.popup.meal = true
+          this.savemeal = true
+          this.mealShow = false
+        }
+      } catch (err) {
+        this.popup.show = true
+        this.popup.alert = true
+        this.popup.fail = true
+        this.mealShow = false
+      }
+    },
+    async deleteMeal(alert = false) {
+      if (!alert) {
+        this.popup.show = true
+        this.popup.alert = true
+        this.popup.mealdelete = true
+        this.mealShow = false
+        return
+      }
+      try {
+        const response = await UserApi.deleteMeal(this.meal.mealid)
+        if (response.data.success) {
+          this.clearpopup()
+          this.$router.push("/foodmenu")
+        }
+      } catch (err) {
+        this.popup.show = true
+        this.popup.alert = true
+        this.popup.fail = true
+        this.mealShow = false
+      }
+    },
     haveFoodmenu(foodmenu) {
       return this.meal.mealHasFoodmenuList.map(f => f.key.foodmenuFoodmenuid).includes(foodmenu.foodmenuid)
     },
@@ -464,6 +550,7 @@ export default {
     },
     calculatetotalkcal() {
       this.meal.totalkcal = this.meal.mealHasFoodmenuList.map(f => f.totalkcal).reduce((a, b) => a + b, 0)
+      this.savemeal = false
     },
     deleteMealFoodmenu(foodmenu) {
       this.meal.mealHasFoodmenuList = this.meal.mealHasFoodmenuList.filter(f => f.key.foodmenuFoodmenuid !== foodmenu.foodmenuid)
@@ -475,7 +562,7 @@ export default {
       const month = String(today.getMonth() + 1).padStart(2, '0')
       const date = String(today.getDate()).padStart(2, '0');
 
-      return date + "-" + month + "-" + year
+      return year + "-" + month + "-" + date
     },
     async getMeal() {
       if (this.mealtime && this.Meal[this.mealtime]) {
@@ -483,15 +570,64 @@ export default {
         const response = await UserApi.mealDate(date)
         this.mealdate = response.data
 
-        this.meal = {
-          mealtime: this.mealtime,
-          datemeal: this.getCurrentDate(),
-          mealHasFoodmenuList: [],
-          totalkcal: 0
+        const meal = this.mealdate.find(m => m.mealtime === this.mealtime)
+        if (meal) {
+          const temp = meal
+          temp.mealHasFoodmenuList = await this.getFoodmenuMeal(meal)
+          this.meal = temp
+          this.calculatetotalkcal()
+          if (meal.totalkcal === this.meal.totalkcal) {
+            this.savemeal = true
+          }
+          this.editmeal = true
+        } else {
+          this.meal = {
+            mealtime: this.mealtime,
+            datemeal: this.getCurrentDate(),
+            mealHasFoodmenuList: [],
+            totalkcal: 0
+          }
         }
-
       } else {
         this.$router.replace("/foodmenu")
+      }
+    },
+    async getFoodmenuMeal(meal) {
+      const foodmenuList = [];
+      for (let i = 0; i < meal.mealHasFoodmenuList.length; i++) {
+        const m = meal.mealHasFoodmenuList[i];
+        const f = await this.getFoodmenu(m.key.foodmenuFoodmenuid);
+        if (f) {
+          foodmenuList.push({ foodmenu: f, ...meal.mealHasFoodmenuList[i] })
+        }
+      }
+      return foodmenuList
+    },
+    async getFoodmenu(id, general = false) {
+      if (general) {
+        try {
+          const response = await GeneralApi.foodmenu(id)
+          if (response.data) {
+            return response.data
+          }
+        } catch (err) {
+          const status = err.response?.data?.status
+          if (status === 1001) {
+            return null
+          }
+        }
+      } else {
+        try {
+          const response = await UserApi.foodmenu(id)
+          if (response.data) {
+            return response.data
+          }
+        } catch (err) {
+          const status = err.response?.data?.status
+          if (status === 1001) {
+            return this.getFoodmenu(id, true)
+          }
+        }
       }
     },
     showFoodmenu(foodmenu) {
@@ -600,6 +736,7 @@ export default {
       } catch (err) {
         this.clearpopup()
         this.popup.show = true
+        this.popup.alert = true
         this.popup.fail = true
       }
     },

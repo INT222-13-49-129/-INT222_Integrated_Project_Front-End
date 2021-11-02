@@ -69,3 +69,18 @@ export function mealDate(date) {
   const url = `${process.env.config.BASE_URL}user/meal/date/${date}`
   return request('get', url, {}, true)
 }
+
+export function createMeal(newmeal) {
+  const url = `${process.env.config.BASE_URL}user/meal/add`
+  return request('post', url, formData(newmeal,'newmeal'), true)
+}
+
+export function updateMeal(updatemeal,id) {
+  const url = `${process.env.config.BASE_URL}user/meal/edit/${id}`
+  return request('put', url, formData(updatemeal,'updatemeal'), true)
+}
+
+export function deleteMeal(id) {
+  const url = `${process.env.config.BASE_URL}user/meal/delete/${id}`
+  return request('delete', url, {}, true)
+}

@@ -241,7 +241,7 @@
                         <option value="PUBLISH">&nbsp;&nbsp;สาธารณะ</option>
                     </select>
                     <i
-                        class="material-icons absolute xl:top-7 top-6 mt-0.5 left-3 xl:text-lg text-base text-brightsalmon"
+                        class="material-icons absolute inset-y-1/2 xl:-mt-0.5 left-3 xl:text-lg text-base text-brightsalmon"
                     >{{ newfoodmenu.foodmenustatus === 'PERSONAL' ? 'lock' : 'public' }}</i>
                 </div>
                 <div class="xl:mt-4 mt-2 text-base">

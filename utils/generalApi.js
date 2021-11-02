@@ -13,6 +13,11 @@ export function foodmenuImg(id) {
   return requestImg(url)
 }
 
+export function foodmenu(id) {
+  const url = `${process.env.config.BASE_URL}general/foodmenu/${id}`
+  return request('get', url, {})
+}
+
 export function foodmenusWithPage(pageNo=0,pageSize=18) {
   const url = `${process.env.config.BASE_URL}general/foodmenu/page?pageNo=${pageNo}&pageSize=${pageSize}`
   return request('get', url, {})
