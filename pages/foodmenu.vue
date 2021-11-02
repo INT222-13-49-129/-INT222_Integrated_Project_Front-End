@@ -5,7 +5,9 @@
     >
       <div class="flex xl:flex-row flex-col">
         <div class="text-white font-normal xl:pt-8 pt-4 xl:ml-32 flex-shrink-0">
-          <div class="xl:text-xl text-2xl xl:text-right text-center">ปริมาณแคลอรี่ในอาหาร</div>
+          <div
+            class="xl:text-3xl text-2xl xl:text-right text-center"
+          >{{ mealtime ? `บันทึกรายการ${Meal[meal.mealtime]}` : 'ปริมาณแคลอรี่ในอาหาร' }}</div>
           <div class="text-base xl:text-right text-center">หุ่นสวย ด้วยตัวเรา</div>
         </div>
         <div class="xl:w-1/4 xl:pr-20 flex-grow mx-6 xl:mx-0 my-4 xl:my-0">
@@ -63,7 +65,7 @@
         class="fixed font-light bg-opacity-20 bg-black flex z-40 inset-0 overflow-y-auto overflow-x-auto"
       >
         <div class="w-full my-auto mx-auto">
-          <div class="xl:w-224 w-11/12 py-2 my-auto mx-auto">
+          <div class="xl:w-224 w-11/12 py-4 my-auto mx-auto">
             <FoodmenuItem :foodmenu="foodmenuSelected">
               <template #top>
                 <div
@@ -121,6 +123,34 @@
                   </div>
                 </div>
               </template>
+              <template v-if="mealtime" #footer>
+                <div class="flex items-center justify-center xl:text-lg text-base mt-4 mx-2">
+                  <span class="flex-1 text-right xl:mr-4 mr-2">จำนวน</span>
+                  <button
+                    class="material-icons text-brightsalmon cursor-pointer"
+                    @click="foodmenuNum > 1 ? foodmenuNum-- : ''"
+                  >remove_circle_outline</button>
+                  <input
+                    id="ingredientsNum"
+                    v-model="foodmenuNum"
+                    type="number"
+                    min="1"
+                    step="1"
+                    class="w-1/6 focus:outline-none text-center xl:text-2xl text-xl"
+                  />
+                  <button
+                    class="material-icons text-brightsalmon cursor-pointer"
+                    @click="foodmenuNum++"
+                  >add_circle_outline</button>
+                  <span class="flex-1 text-left xl:ml-4 ml-2">ที่</span>
+                </div>
+                <div class="flex xl:justify-end justify-center -mb-3 pt-2 xl:pt-0 xl:mb-0 px-3">
+                  <div
+                    class="xl:text-base text-sm xl:w-20 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+                    @click="foodmenuNum > 0 ? (addFoodmenu(foodmenuSelected, foodmenuNum), foodmenuShow = false) : ''"
+                  >บันทึก</div>
+                </div>
+              </template>
               <template #bottom>
                 <div
                   class="py-1 text-gray-700 xl:text-lg text-base"
@@ -173,6 +203,16 @@
             @click="clearpopup()"
           >ตกลง</div>
         </div>
+      </Modal>
+    </div>
+    <div v-if="mealShow">
+      <Modal classpop="flex my-auto mx-auto py-4 xl:w-auto w-11/12">
+        <MealItem :meal="meal">
+          <i
+            class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
+            @click="mealShow = false"
+          >close</i>
+        </MealItem>
       </Modal>
     </div>
     <div class="flex xl:flex-row flex-col w-full min-h-screen">
@@ -266,7 +306,7 @@
             v-for="foodmenu in foodmenusArray.content"
             :key="foodmenu.foodmenuid"
             class="py-2 xl:py-0 cursor-pointer hover:bg-brightsalmon hover:bg-opacity-10"
-            @click="foodmenuSelected = foodmenu, foodmenuShow = true"
+            @click="showFoodmenu(foodmenu)"
           >
             <Item
               :item="{
@@ -299,12 +339,24 @@
         </div>
       </div>
     </div>
+    <div v-if="mealtime" class="fixed xl:bottom-8 bottom-6 right-7 xl:ml-320 xl:right-auto">
+      <div
+        class="relative xl:w-16 w-12 xl:h-16 h-12 rounded-full bg-salmon -ml-6 shadow-lg flex justify-center items-center cursor-pointer"
+        @click="mealShow = true"
+      >
+        <i class="material-icons xl:text-4xl text-3xl text-white">format_list_bulleted</i>
+        <div
+          class="xl:h-8 h-6 xl:w-8 w-6 flex items-center justify-center absolute -top-2 xl:-right-3 -right-2 bg-white text-sm xl:text-base text-salmon rounded-full filter drop-shadow-all"
+        >{{ meal.mealHasFoodmenuList.length }}</div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import * as GeneralApi from '../utils/generalApi'
 import * as UserApi from '../utils/userApi'
 import Item from '../components/Item.vue';
+import MealItem from '../components/MealItem.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
 import FoodmenuImg from '../components/FoodmenuImg.vue';
 import PageNumber from '../components/PageNumber.vue';
@@ -317,6 +369,7 @@ const Meal = Object.freeze({ Lightmeal: "อาหารว่าง", Breakfast
 export default {
   components: {
     Item,
+    MealItem,
     FoodmenuItem,
     PageNumber,
     FoodmenuImg,
@@ -334,9 +387,15 @@ export default {
     return {
       user: this.$auth.user,
       Url, Show, Meal,
+      meal: {
+        mealtime: "",
+        datemeal: "",
+        mealHasFoodmenuList: [],
+        totalkcal: 0
+      },
       mealtime: this.$route.query.meal,
       mealdate: [],
-      date: "",
+      mealShow: false,
       popup: {
         show: false,
         delete: false,
@@ -351,12 +410,21 @@ export default {
       popfilter: false,
       foodmenuSelected: null,
       foodmenuShow: false,
+      foodmenuNum: 1,
       ingredientsItem: null,
       ingredientsItemShow: false,
       searchInput: "",
       search: "",
       url: Url.foodmenusWithPage
     };
+  },
+  watch: {
+    '$route.query.meal': function mealtimeCheck() {
+      this.mealtime = this.$route.query.meal
+      if (this.mealtime) {
+        this.getMeal()
+      }
+    }
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -365,21 +433,73 @@ export default {
     }
   },
   methods: {
+    haveFoodmenu(foodmenu) {
+      return this.meal.mealHasFoodmenuList.map(f => f.key.foodmenuFoodmenuid).includes(foodmenu.foodmenuid)
+    },
+    foodmenuIndex(foodmenu) {
+      return this.meal.mealHasFoodmenuList.findIndex((f => f.key.foodmenuFoodmenuid === foodmenu.foodmenuid))
+    },
+    addFoodmenu(foodmenu, totaldish = 1) {
+      if (totaldish < 1) {
+        return
+      }
+      if (this.haveFoodmenu(foodmenu)) {
+        const index = this.foodmenuIndex(foodmenu)
+        this.meal.mealHasFoodmenuList[index].totaldish = totaldish
+        this.meal.mealHasFoodmenuList[index].totalkcal = totaldish * foodmenu.totalkcal
+      } else {
+        this.meal.mealHasFoodmenuList.push({
+          key: {
+            foodmenuFoodmenuid: foodmenu.foodmenuid
+          },
+          foodmenu,
+          totaldish,
+          totalkcal: totaldish * foodmenu.totalkcal
+        })
+      }
+      this.foodmenuSelected = null
+      this.foodmenuNum = 1
+      this.mealShow = true
+      this.calculatetotalkcal()
+    },
+    calculatetotalkcal() {
+      this.meal.totalkcal = this.meal.mealHasFoodmenuList.map(f => f.totalkcal).reduce((a, b) => a + b, 0)
+    },
+    deleteMealFoodmenu(foodmenu) {
+      this.meal.mealHasFoodmenuList = this.meal.mealHasFoodmenuList.filter(f => f.key.foodmenuFoodmenuid !== foodmenu.foodmenuid)
+      this.calculatetotalkcal()
+    },
     getCurrentDate() {
       const today = new Date();
       const year = today.getFullYear()
       const month = String(today.getMonth() + 1).padStart(2, '0')
       const date = String(today.getDate()).padStart(2, '0');
 
-      return year + "-" + month + "-" + date
+      return date + "-" + month + "-" + year
     },
     async getMeal() {
       if (this.mealtime && this.Meal[this.mealtime]) {
-        this.date = this.getCurrentDate()
-        const response = await UserApi.mealDate(this.date)
+        const date = this.getCurrentDate()
+        const response = await UserApi.mealDate(date)
         this.mealdate = response.data
+
+        this.meal = {
+          mealtime: this.mealtime,
+          datemeal: this.getCurrentDate(),
+          mealHasFoodmenuList: [],
+          totalkcal: 0
+        }
+
       } else {
         this.$router.replace("/foodmenu")
+      }
+    },
+    showFoodmenu(foodmenu) {
+      this.foodmenuSelected = foodmenu
+      this.foodmenuShow = true
+      if (this.haveFoodmenu(foodmenu) && this.mealtime) {
+        this.foodmenuNum = this.meal.mealHasFoodmenuList[this.foodmenuIndex(foodmenu)].totaldish
+        this.mealShow = false
       }
     },
     calculateDailycal() {

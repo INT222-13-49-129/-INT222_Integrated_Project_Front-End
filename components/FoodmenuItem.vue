@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white filter drop-shadow relative">
         <slot name="top"></slot>
-        <div class="flex flex-col justify-center text-center py-6 xl:px-4">
+        <div class="flex flex-col justify-center text-center pt-6 pb-4 xl:px-4">
             <div class="text-gray-600">สรุปรายการ</div>
             <div class="text-xl px-20">{{ foodmenu.foodname ? foodmenu.foodname : 'ชื่ออาหาร' }}</div>
             <slot name="header"></slot>
@@ -46,7 +46,9 @@
                     </div>
                 </div>
             </div>
-            <slot name="footer"></slot>
+            <div class="py-2">
+                <slot name="footer" ></slot>
+            </div>
         </div>
         <div class="w-full xl:py-5 py-3 bg-gray-100 flex justify-center items-center">
             <slot name="bottom"></slot>
