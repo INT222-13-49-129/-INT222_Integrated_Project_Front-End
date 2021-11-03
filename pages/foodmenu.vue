@@ -250,13 +250,13 @@
         <div v-if="popup.savemeal">
           <div class="xl:text-xl text-lg py-1 px-6">
             ยังไม่ได้บันทึกรายการมื้ออาหาร
-            <br />โปรดเลือกบันทึกเพื่อเก็บไว้หรือยกเลิกเพื่อคืนค่า
+            <br />โปรดเลือกบันทึกเพื่อเก็บไว้หรือคืนค่ามื้ออาหาร
           </div>
           <div class="py-5 px-2 mb-2 flex items-center justify-center gap-x-6">
             <div
               class="xl:w-3/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
               @click="changeMealTime(changeTime,true),clearpopup()"
-            >ยกเลิก</div>
+            >คืนค่า</div>
             <div
               class="xl:w-3/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
               @click="addMeal(true)"
@@ -606,7 +606,9 @@ export default {
           temp.mealHasFoodmenuList = await this.getFoodmenuMeal(meal)
           this.meal = temp
           this.calculatetotalkcal()
-          if (meal.totalkcal === this.meal.totalkcal) {
+          if (meal.totalkcal !== this.meal.totalkcal) {
+            this.savemeal = false
+          }else{
             this.savemeal = true
           }
           this.editmeal = true
