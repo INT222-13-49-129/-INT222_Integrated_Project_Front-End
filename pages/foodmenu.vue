@@ -603,10 +603,11 @@ export default {
         const meal = this.mealdate.find(m => m.mealtime === this.mealtime)
         if (meal) {
           const temp = meal
+          const temptotalkcal = meal.totalkcal
           temp.mealHasFoodmenuList = await this.getFoodmenuMeal(meal)
           this.meal = temp
           this.calculatetotalkcal()
-          if (meal.totalkcal !== this.meal.totalkcal) {
+          if (temptotalkcal !== this.meal.totalkcal) {
             this.savemeal = false
           }else{
             this.savemeal = true
@@ -630,6 +631,7 @@ export default {
       for (let i = 0; i < meal.mealHasFoodmenuList.length; i++) {
         const m = meal.mealHasFoodmenuList[i];
         const f = await this.getFoodmenu(m.key.foodmenuFoodmenuid);
+        meal.mealHasFoodmenuList[i].totalkcal = meal.mealHasFoodmenuList[i].totaldish * f.totalkcal
         if (f) {
           foodmenuList.push({ foodmenu: f, ...meal.mealHasFoodmenuList[i] })
         }
