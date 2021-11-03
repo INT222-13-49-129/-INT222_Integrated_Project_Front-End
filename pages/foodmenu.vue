@@ -193,7 +193,7 @@
           >
             <div
               class="xl:w-4/12 w-9/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
-              @click="clearpopup()"
+              @click="clearpopup(),getMeal()"
             >เพิ่มมื้ออาหารอีก</div>
             <nuxt-link
               to="/profile"
@@ -540,6 +540,7 @@ export default {
         const response = await UserApi.deleteMeal(this.meal.mealid)
         if (response.data.success) {
           this.clearpopup()
+          window.location.reload();
         }
       } catch (err) {
         this.popup.show = true
