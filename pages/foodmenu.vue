@@ -540,7 +540,6 @@ export default {
         const response = await UserApi.deleteMeal(this.meal.mealid)
         if (response.data.success) {
           this.clearpopup()
-          this.$router.push("/foodmenu")
         }
       } catch (err) {
         this.popup.show = true
