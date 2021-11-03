@@ -7,7 +7,7 @@
         <div class="text-white font-normal xl:pt-8 pt-4 xl:ml-32 flex-shrink-0">
           <div
             class="xl:text-3xl text-2xl xl:text-right text-center"
-          >{{ mealtime ? (Meal[meal.mealtime]?`บันทึกรายการ${Meal[meal.mealtime]}`:'') : 'ปริมาณแคลอรี่ในอาหาร' }}</div>
+          >{{ mealtime ? (Meal[meal.mealtime] ? `บันทึกรายการ${Meal[meal.mealtime]}` : '') : 'ปริมาณแคลอรี่ในอาหาร' }}</div>
           <div class="text-base xl:text-right text-center">หุ่นสวย ด้วยตัวเรา</div>
         </div>
         <div class="xl:w-1/4 xl:pr-20 flex-grow mx-6 xl:mx-0 my-4 xl:my-0">
@@ -172,7 +172,14 @@
       </Modal>
     </div>
     <div v-if="popup.show">
-      <Modal classpop="flex flex-col text-center bg-white xl:w-128 w-11/12 rounded-xl fixed">
+      <Modal
+        classpop="flex flex-col text-center bg-white xl:w-128 w-11/12 rounded-xl fixed relative"
+      >
+        <i
+          v-if="popup.close"
+          class="material-icons cursor-pointer xl:text-3xl text-2xl absolute xl:left-4 left-2 xl:top-2 top-1 text-gray-400"
+          @click="clearpopup()"
+        >close</i>
         <div v-if="popup.checkmark" class="my-6">
           <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
             <circle class="checkmark__circle" cx="26" cy="26" r="24" fill="none" />
@@ -227,8 +234,7 @@
         <div v-if="popup.mealdelete">
           <div class="xl:text-xl text-lg py-1 px-6">
             ไม่มีเมนูในรายการมื้ออาหาร
-            <br>
-            หากเคยบันทึกไปแล้วมื้ออาหารจะถูกลบ
+            <br />หากเคยบันทึกไปแล้วมื้ออาหารจะถูกลบ
           </div>
           <div class="py-5 px-2 mb-2 flex items-center justify-center gap-x-6">
             <div
@@ -237,8 +243,24 @@
             >ยกเลิก</div>
             <div
               class="xl:w-3/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
-              @click="editmeal?deleteMeal(true):clearpopup()"
-            >ลบ</div>
+              @click="editmeal ? deleteMeal(true) : clearpopup()"
+            >ตกลง</div>
+          </div>
+        </div>
+        <div v-if="popup.savemeal">
+          <div class="xl:text-xl text-lg py-1 px-6">
+            ยังไม่ได้บันทึกรายการมื้ออาหาร
+            <br />โปรดเลือกบันทึกเพื่อเก็บไว้หรือยกเลิกเพื่อคืนค่า
+          </div>
+          <div class="py-5 px-2 mb-2 flex items-center justify-center gap-x-6">
+            <div
+              class="xl:w-3/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
+              @click="changeMealTime(changeTime,true),clearpopup()"
+            >ยกเลิก</div>
+            <div
+              class="xl:w-3/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
+              @click="addMeal(true)"
+            >บันทึก</div>
           </div>
         </div>
       </Modal>
@@ -436,6 +458,7 @@ export default {
       mealtime: this.$route.query.meal,
       mealdate: [],
       mealShow: false,
+      changeTime: "",
       popup: {
         show: false,
         delete: false,
@@ -473,10 +496,12 @@ export default {
     if (this.isLoggedIn) {
       this.calculateDailycal()
       this.getMeal()
+    } else {
+      this.$router.replace("/foodmenu")
     }
   },
   methods: {
-    async addMeal() {
+    async addMeal(changetime=false) {
       try {
         let response
         if (this.editmeal) {
@@ -485,6 +510,11 @@ export default {
           response = await UserApi.createMeal(this.meal)
         }
         if (response.data) {
+          if(changetime){
+            this.changeMealTime(this.changeTime,true)
+            this.clearpopup()
+            return
+          }
           this.popup.show = true
           this.popup.meal = true
           this.popup.checkmark = true
@@ -581,6 +611,7 @@ export default {
           }
           this.editmeal = true
         } else {
+          this.savemeal = true
           this.meal = {
             mealtime: this.mealtime,
             datemeal: this.getCurrentDate(),
@@ -628,6 +659,18 @@ export default {
             return this.getFoodmenu(id, true)
           }
         }
+      }
+    },
+    changeMealTime(mealtime, saved = false) {
+      this.changeTime = mealtime
+      if (this.savemeal || saved) {
+        this.$router.push(({ path: 'foodmenu', query: { meal: this.changeTime } }))
+      } else {
+        this.popup.show = true
+        this.popup.alert = true
+        this.popup.savemeal = true
+        this.popup.close = true
+        this.mealShow = false
       }
     },
     showFoodmenu(foodmenu) {
@@ -753,60 +796,59 @@ export default {
   background-size: 700px auto;
 }
 
-
 .checkmark {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    display: block;
-    stroke-width: 3;
-    stroke: #4bb71b;
-    stroke-miterlimit: 10;
-    box-shadow: inset 0px 0px 0px #4bb71b;
-    animation: fill 0.4s ease-in-out 0.4s forwards,
-        scale 0.3s ease-in-out 0.9s both;
-    position: relative;
-    top: 5px;
-    right: 5px;
-    margin: 0 auto;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #4bb71b;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #4bb71b;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+  position: relative;
+  top: 5px;
+  right: 5px;
+  margin: 0 auto;
 }
 .checkmark__circle {
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-width: 3;
-    stroke-miterlimit: 10;
-    stroke: #4bb71b;
-    fill: #fff;
-    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #4bb71b;
+  fill: #fff;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
 
 .checkmark__check {
-    transform-origin: 50% 50%;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
 }
 
 @keyframes stroke {
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes scale {
-    0%,
-    100% {
-        transform: none;
-    }
+  0%,
+  100% {
+    transform: none;
+  }
 
-    50% {
-        transform: scale3d(1.1, 1.1, 1);
-    }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
 }
 
 @keyframes fill {
-    100% {
-        box-shadow: inset 0px 0px 0px 30px #4bb71b;
-    }
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #4bb71b;
+  }
 }
 </style>

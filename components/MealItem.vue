@@ -3,7 +3,27 @@
         <slot></slot>
         <div class="pt-6 pb-4">
             <div class="text-center xl:text-base text-sm">{{ dateMeal }}</div>
-            <div class="text-center xl:text-2xl text-xl">{{ Meal[meal.mealtime] }}</div>
+            <div
+                class="text-center xl:text-2xl text-xl flex items-center justify-center ml-6 relative"
+            >
+                {{ Meal[meal.mealtime] }}
+                <i
+                    class="material-icons cursor-pointer"
+                    @click="mealtime = !mealtime"
+                >{{ mealtime ? 'expand_less' : 'expand_more' }}</i>
+                <div
+                    v-if="mealtime"
+                    class="absolute bg-white ml-12 rounded-md top-8 xl:text-base text-sm text-left py-2 filter drop-shadow"
+                >
+                    <div
+                        v-for="(value, key) in Meal"
+                        :key="key"
+                        class="px-2 py-0.5 cursor-pointer"
+                        :class="{ 'bg-gray-300': meal.mealtime === key }"
+                        @click="meal.mealtime === key?'':$parent.$parent.changeMealTime(key),mealtime=false"
+                    >{{ value }}</div>
+                </div>
+            </div>
         </div>
         <div class="py-4 xl:px-8 px-4 border-b-2 border-t-2">
             <div class="flex justify-between">
@@ -54,7 +74,7 @@
             >คืนค่า</div>
             <div
                 class="xl:w-2/12 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
-                @click="meal.mealHasFoodmenuList.length === 0?$parent.$parent.deleteMeal():$parent.$parent.addMeal()"
+                @click="meal.mealHasFoodmenuList.length === 0 ? $parent.$parent.deleteMeal() : $parent.$parent.addMeal()"
             >บันทึก</div>
         </div>
     </div>
@@ -73,13 +93,14 @@ export default {
     },
     data() {
         return {
-            Meal
+            Meal,
+            mealtime: false
         }
     },
     computed: {
-        dateMeal(){
+        dateMeal() {
             const date = this.meal.datemeal.split("-");
-            return   date[2] + "-" +  date[1] + "-" +  date[0]
+            return date[2] + "-" + date[1] + "-" + date[0]
         }
     }
 }
