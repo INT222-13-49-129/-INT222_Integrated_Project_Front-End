@@ -615,6 +615,7 @@ export default {
           this.editmeal = true
         } else {
           this.savemeal = true
+          this.editmeal = false
           this.meal = {
             mealtime: this.mealtime,
             datemeal: this.getCurrentDate(),
