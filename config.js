@@ -5,7 +5,7 @@ const configs ={
     },
     production: {
         BASE_URL: 'https://cfan.ddns.net/backend/api/',
-        PORT: 8080
+        PORT: 80
     },
 }
 
