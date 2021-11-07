@@ -47,7 +47,7 @@
         class="mx-auto my-auto xl:w-224 w-11/12 h-auto pb-10 bg-white from-white to-gray-200 shadow-lg rounded-xl text-center"
       >
         <div>
-          <p class="xl:text-4xl text-2xl font-bold text-lightorange pt-10 pb-3">Create An Account</p>
+          <h1 class="xl:text-4xl text-2xl font-bold text-lightorange pt-10 pb-3">Create An Account</h1>
           <p class="xl:text-lg text-sm">
             Create an account to enjoy all the services
             <br />without any ads for free!

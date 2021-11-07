@@ -5,9 +5,9 @@
     >
       <div class="flex xl:flex-row flex-col">
         <div class="text-white font-normal xl:pt-8 pt-4 xl:ml-32 flex-shrink-0">
-          <div
+          <h1
             class="xl:text-3xl text-2xl xl:text-right text-center"
-          >{{ mealtime ? (Meal[meal.mealtime] ? `บันทึกรายการ${Meal[meal.mealtime]}` : '') : 'ปริมาณแคลอรี่ในอาหาร' }}</div>
+          >{{ mealtime ? (Meal[meal.mealtime] ? `บันทึกรายการ${Meal[meal.mealtime]}` : '') : 'ปริมาณแคลอรี่ในอาหาร' }}</h1>
           <div class="text-base xl:text-right text-center">หุ่นสวย ด้วยตัวเรา</div>
         </div>
         <div class="xl:w-1/4 xl:pr-20 flex-grow mx-6 xl:mx-0 my-4 xl:my-0">

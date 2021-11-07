@@ -2,8 +2,8 @@
   <div class="mx-auto xl:w-336 w-11/12 h-auto pb-10 bg-gradient-to-b  from-white to-gray-200 shadow-lg">
    <div class="flex xl:flex-row flex-col-reverse xl:px-32 justify-center">
      <div class="xl:w-5/12 w-11/12 flex flex-col justify-center mx-auto  xl:pl-14 xl:pr-0 px-6">
-        <div class="text-salmon xl:text-7xl text-5xl" >คำนวณ<br>
-          แคลอรี่</div>
+        <h1 class="text-salmon xl:text-7xl text-5xl" >คำนวณ<br>
+          แคลอรี่</h1>
         <div class="mt-4 text-gray-800">หากร่างกายได้รับแคลอรี่มากกว่าที่เผาผลาญออกไป ทำให้น้ำหนักของเราเพิ่มขึ้น <br> แต่ถ้าเราเผาผลาญพลังงานออกไปมากกว่าที่ร่างกายได้รับเข้ามา จะทำให้น้ำหนักของเราลดลง</div>
      </div>
      <div class="xl:w-7/12 w-full xl:pl-12">

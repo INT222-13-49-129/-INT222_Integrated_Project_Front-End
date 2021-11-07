@@ -16,13 +16,10 @@
                     </div>
                 </div>
                 <div
-                    class="flex xl:gap-x-5 gap-x-3 overflow-x-scroll xl:overflow-visible xl:w-auto w-full items-center justify-between mt-4 xl:mt-0"
+                    class="flex flex-row-reverse xl:gap-x-5 gap-x-3 overflow-x-scroll xl:overflow-visible xl:w-auto w-full items-center justify-between mt-4 xl:mt-0"
                 >
                     <div v-for="i in 7" :key="i">
-                        <div
-                            class="xl:w-16 w-14 xl:h-24 h-20 border-2 rounded-md bg-white"
-                            :class="{ 'xl:w-20 w-16 xl:h-28 h-24 shadow-md': i === 7 }"
-                        ></div>
+                        <MealCard :date="i" />
                     </div>
                 </div>
             </div>
@@ -33,12 +30,12 @@
                     <div
                         class="xl:h-20 h-14 flex justify-center items-center xl:text-2xl text-xl"
                     >วันนี้</div>
-                    <MealTime>
+                    <MealTime >
                         <div class="relative h-full flex justify-center items-center rounded-full">
                             <div
                                 class="absolute xl:top-10 top-7 xl:text-sm text-xs"
                             >แคลอรี่ที่ได้รับจากอาหาร</div>
-                            <div class="xl:text-6xl text-4xl text-salmon">1187</div>
+                            <div class="xl:text-6xl text-4xl text-salmon">{{sumkcaldate}}</div>
                             <img
                                 src="../../assets/img/cat.svg"
                                 class="absolute xl:bottom-4 bottom-2 xl:h-16 h-11"
@@ -60,7 +57,7 @@
                             <i
                                 class="material-icons xl:text-3xl text-2xl text-brightsalmon"
                             >lunch_dining</i>
-                            <div class="text-lightsalmon xl:text-5xl text-3xl">+1690</div>
+                            <div class="text-lightsalmon xl:text-5xl text-3xl"> <span v-if="BMR-sumkcaldate>0">+</span> {{BMR-sumkcaldate}}</div>
                             <div class="xl:text-xl text-base text-gray-500">kcal.</div>
                         </div>
                         <div class="xl:h-24 h-16 flex justify-center items-center">
@@ -86,9 +83,9 @@
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
                         >
                             <div class="text-gray-500 text-center">
-                                <div>BMI {{BMI}}</div>
+                                <div>BMI {{ BMI }}</div>
                             </div>
-                            <div class="xl:text-2xl text-lg text-center">{{BMItext}}</div>
+                            <div class="xl:text-2xl text-lg text-center">{{ BMItext }}</div>
                         </div>
                         <div
                             class="xl:w-40 xl:flex-none flex-1 xl:h-40 h-20 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow xl:px-6 px-2 xl:py-10 py-3 xl:text-xl text-sm flex flex-col justify-between"
@@ -96,7 +93,7 @@
                             <div class="text-gray-500 text-center">
                                 <div>BMR</div>
                             </div>
-                            <div class="xl:text-2xl text-xl text-center">{{BMR}}</div>
+                            <div class="xl:text-2xl text-xl text-center">{{ BMR }}</div>
                         </div>
                     </div>
                 </div>
@@ -114,13 +111,16 @@
     </div>
 </template>
 <script>
+import * as UserApi from '../../utils/userApi'
 import UserImg from '../../components/UserImg.vue';
 import MealTime from '../../components/MealTime.vue';
+import MealCard from '../../components/MealCard.vue';
 
 export default {
     components: {
         UserImg,
-        MealTime
+        MealTime,
+        MealCard
     },
     layout: 'user',
     middleware: ['auth'],
@@ -129,12 +129,19 @@ export default {
             user: this.$auth.user,
             BMR: "",
             BMI: "",
-            BMItext: ""
+            BMItext: "",
+            mealdate: []
+        }
+    },
+    computed: {
+        sumkcaldate(){
+            return this.mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
         }
     },
     mounted() {
         this.calculateBMR();
         this.calculateBMI();
+        this.getMeal()
     },
     methods: {
         logout() {
@@ -154,20 +161,33 @@ export default {
             }
             this.BMR = parseInt(dailycal)
         },
-        calculateBMI(){
-            this.BMI = (this.user.weight / Math.pow(this.user.height/100,2)).toFixed(2)
-            if(this.BMI < 18.5){
+        calculateBMI() {
+            this.BMI = (this.user.weight / Math.pow(this.user.height / 100, 2)).toFixed(2)
+            if (this.BMI < 18.5) {
                 this.BMItext = "ผอมไป"
-            }else if(this.BMI < 23){
+            } else if (this.BMI < 23) {
                 this.BMItext = "สมส่วน"
-            }else if(this.BMI < 25){
+            } else if (this.BMI < 25) {
                 this.BMItext = "น้ำหนักเกิน"
-            }else if(this.BMI < 30){
+            } else if (this.BMI < 30) {
                 this.BMItext = "อ้วน"
-            }else{
+            } else {
                 this.BMItext = "อ้วนมาก"
             }
-        }
-    },
+        },
+        async getMeal() {
+            const date = this.getCurrentDate()
+            const response = await UserApi.mealDate(date)
+            this.mealdate = response.data
+        },
+        getCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear()
+            const month = String(today.getMonth() + 1).padStart(2, '0')
+            const date = String(today.getDate()).padStart(2, '0');
+
+            return year + "-" + month + "-" + date
+        },
+    }
 }
 </script>

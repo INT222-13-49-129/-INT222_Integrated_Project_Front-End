@@ -5,9 +5,9 @@
         >
             <div class="flex xl:flex-row flex-col">
                 <div class="text-white font-normal xl:pt-8 pt-4 pb-4 xl:ml-32 flex-shrink-0">
-                    <div
+                    <h1
                         class="xl:text-3xl text-2xl xl:text-right text-center"
-                    >คำนวนแคลอรี่จานของคุณ</div>
+                    >คำนวนแคลอรี่จานของคุณ</h1>
                     <div class="text-base xl:text-right text-center">รังสรรค์ จานโปรด</div>
                 </div>
             </div>
