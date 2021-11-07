@@ -30,12 +30,12 @@
                     <div
                         class="xl:h-20 h-14 flex justify-center items-center xl:text-2xl text-xl"
                     >วันนี้</div>
-                    <MealTime >
+                    <MealTime>
                         <div class="relative h-full flex justify-center items-center rounded-full">
                             <div
                                 class="absolute xl:top-10 top-7 xl:text-sm text-xs"
                             >แคลอรี่ที่ได้รับจากอาหาร</div>
-                            <div class="xl:text-6xl text-4xl text-salmon">{{sumkcaldate}}</div>
+                            <div class="xl:text-6xl text-4xl text-salmon">{{ sumkcaldate }}</div>
                             <img
                                 src="../../assets/img/cat.svg"
                                 class="absolute xl:bottom-4 bottom-2 xl:h-16 h-11"
@@ -57,7 +57,10 @@
                             <i
                                 class="material-icons xl:text-3xl text-2xl text-brightsalmon"
                             >lunch_dining</i>
-                            <div class="text-lightsalmon xl:text-5xl text-3xl"> <span v-if="BMR-sumkcaldate>0">+</span> {{BMR-sumkcaldate}}</div>
+                            <div class="text-lightsalmon xl:text-5xl text-3xl">
+                                <span v-if="BMR - sumkcaldate > 0">+</span>
+                                {{ BMR - sumkcaldate }}
+                            </div>
                             <div class="xl:text-xl text-base text-gray-500">kcal.</div>
                         </div>
                         <div class="xl:h-24 h-16 flex justify-center items-center">
@@ -99,8 +102,17 @@
                 </div>
             </div>
             <div
-                class="xl:mt-8 mt-6 xl:mb-12 mb-8 w-full xl:h-128 h-40 bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow"
-            ></div>
+                class="xl:mt-8 mt-6 xl:mb-12 mb-8 w-full xl:h-128 h-auto bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex flex-col justify-center xl:py-0 py-4"
+            >
+                <div class="flex items-center xl:px-12 px-6 xl:mb-4 mb-2 justify-between">
+                    <div class="xl:text-2xl text-lg">ประวัติจำนวนแคลอรี่</div>
+                    <i class="material-icons xl:text-4xl text-2xl cursor-pointer">date_range</i>
+                </div>
+                <div class="w-11/12 mx-auto">
+                    <LineChart></LineChart>
+                </div>
+                
+            </div>
         </div>
         <div class="w-full xl:h-12 h-10 bg-salmon relative">
             <img
@@ -115,12 +127,14 @@ import * as UserApi from '../../utils/userApi'
 import UserImg from '../../components/UserImg.vue';
 import MealTime from '../../components/MealTime.vue';
 import MealCard from '../../components/MealCard.vue';
+import LineChart from '../../components/LineChart.vue';
 
 export default {
     components: {
         UserImg,
         MealTime,
-        MealCard
+        MealCard,
+        LineChart
     },
     layout: 'user',
     middleware: ['auth'],
@@ -134,7 +148,7 @@ export default {
         }
     },
     computed: {
-        sumkcaldate(){
+        sumkcaldate() {
             return this.mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
         }
     },
