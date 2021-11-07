@@ -11,6 +11,6 @@ ENV HOST 0.0.0.0
 # COPY default.conf /etc/nginx/conf.d/default.conf
 # WORKDIR /usr/share/nginx/html
 # COPY --from=step01 /frontend/src/dist .
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["npm", "run", "start"]
