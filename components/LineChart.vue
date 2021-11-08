@@ -12,6 +12,12 @@ export default {
     components: {
         LineChart
     },
+    props: {
+        rounds: {
+            type: Number,
+            default: 7,
+        },
+    },
     data() {
         return {
             chartData: null,
@@ -19,22 +25,34 @@ export default {
             mealData: []
         };
     },
-    async mounted() {
-        for (let i = 0; i < 7; i++) {
-            const selectedDate = new Date();
-            selectedDate.setDate(selectedDate.getDate() - i)
-
-            const mealdate = await this.getMeal(selectedDate)
-
-            let data = mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
-            data = Math.floor(Math.random() * 3000) + 1;
-            const labels = this.getDate(selectedDate,true)
-
-            this.mealData[i] = {labels,data}
+    watch: {
+        rounds:async function editRounds() {
+            await this.getData()
+            this.fillData();
         }
+    },
+    async mounted() {
+        await this.getData()
         this.fillData();
     },
     methods: {
+        async getData() {
+            this.mealData = []
+            for (let i = 0; i < this.rounds; i++) {
+                const selectedDate = new Date();
+                selectedDate.setDate(selectedDate.getDate() - i)
+
+                const mealdate = await this.getMeal(selectedDate)
+
+                // const data = mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
+                let data = mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
+                data = Math.floor(Math.random() * 3000) + 1;
+
+                const labels = this.getDate(selectedDate, true)
+
+                this.mealData[i] = { labels, data }
+            }
+        },
         fillData() {
             this.chartData = {
                 labels: this.mealData.map(m => m.labels).reverse(),

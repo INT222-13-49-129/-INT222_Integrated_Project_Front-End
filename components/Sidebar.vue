@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div class="fixed top-0 z-10 xl:px-16 min-w-max w-full h-16 bg-white shadow-md xl:hidden block">
+        <div
+            class="fixed top-0 z-10 xl:px-16 min-w-max w-full h-16 bg-white shadow-md xl:hidden block"
+        >
             <div class="flex pt-3 pb-2 px-4 text-base items-center text-salmon">
                 <i class="material-icons text-3xl mr-2" @click="sidebar = true">menu</i>
                 <NuxtLink to="/" class="flex mx-auto justify-center items-center -mt-1">
@@ -47,10 +49,11 @@
                 </div>
                 <div
                     class="mt-3 ml-6 flex items-center text-white"
-                    @click="sidebar = false, $router.push('/')"
+                    :class="{ 'border-salmon border-r-2': $route.name === 'profile-dailymeal' }"
+                    @click="sidebar = false, $router.push('/profile/dailymeal')"
                 >
                     <i class="material-icons -mt-1 text-3xl">schedule</i>
-                    <NuxtLink to="/" class="ml-3 text-lg">บันทึกประจำวัน</NuxtLink>
+                    <NuxtLink to="/profile/dailymeal" class="ml-3 text-lg">บันทึกประจำวัน</NuxtLink>
                 </div>
                 <div
                     class="mt-3 ml-6 flex items-center text-white"
@@ -59,7 +62,7 @@
                     <i class="material-icons -mt-1 text-3xl">settings</i>
                     <NuxtLink to="/" class="ml-3 text-lg">ตั้งค่า</NuxtLink>
                 </div>
-                <div class="flex justify-center items-center text-base text-white mt-4 ">
+                <div class="flex justify-center items-center text-base text-white mt-4">
                     <div
                         class="flex items-center p-2 border-2 border-white rounded-xl cursor-pointer"
                         @click="logout()"
@@ -111,10 +114,22 @@
                         <i class="material-icons -mt-1 mr-3 text-2xl">speed</i>
                         <div>คำนวนแคล</div>
                     </NuxtLink>
-                    <NuxtLink to="/" class="flex items-center p-2 cursor-pointer hover:text-salmon">
-                        <i class="material-icons -mt-1 mr-3 text-2xl">schedule</i>
-                        <div>บันทึกประจำวัน</div>
-                    </NuxtLink>
+                    <div
+                        class="pr-8"
+                        :class="{ 'border-lightsalmon border-r-4': $route.name === 'profile-dailymeal' }"
+                    >
+                        <NuxtLink
+                            to="/profile/dailymeal"
+                            class="flex items-center p-2 cursor-pointer hover:text-salmon"
+                            :class="{ 'bg-brightsalmon bg-opacity-90 text-black rounded-lg shadow-lg': $route.name === 'profile-dailymeal' }"
+                        >
+                            <i
+                                class="material-icons -mt-1 mr-3 text-2xl"
+                                :class="{ 'text-salmon': $route.name === 'profile-dailymeal' }"
+                            >schedule</i>
+                            <div>บันทึกประจำวัน</div>
+                        </NuxtLink>
+                    </div>
                     <NuxtLink to="/" class="flex items-center p-2 cursor-pointer hover:text-salmon">
                         <i class="material-icons -mt-1 mr-3 text-2xl">settings</i>
                         <div>ตั้งค่า</div>

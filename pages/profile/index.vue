@@ -65,7 +65,8 @@
                         </div>
                         <div class="xl:h-24 h-16 flex justify-center items-center">
                             <div
-                                class="py-2 px-4 bg-salmon text-white rounded-full xl:text-base text-sm"
+                                class="py-2 px-4 bg-salmon text-white rounded-full xl:text-base text-sm cursor-pointer"
+                                @click="$router.push('/profile/dailymeal')"
                             >ดูรายการที่บันทึกวันนี้</div>
                         </div>
                     </div>
@@ -102,14 +103,24 @@
                 </div>
             </div>
             <div
-                class="xl:mt-8 mt-6 xl:mb-12 mb-8 w-full xl:h-128 h-auto bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex flex-col justify-center xl:py-0 py-4"
+                class="xl:mt-8 mt-6 xl:mb-12 mb-8 w-full h-auto bg-white rounded-2xl filter xl:drop-shadow-md drop-shadow flex flex-col justify-center xl:py-10 py-4"
             >
-                <div class="flex items-center xl:px-12 px-6 xl:mb-4 mb-2 justify-between">
-                    <div class="xl:text-2xl text-lg">ประวัติจำนวนแคลอรี่</div>
-                    <i class="material-icons xl:text-4xl text-2xl cursor-pointer">date_range</i>
+                <div class="flex items-center xl:px-12 px-4 xl:mb-4 mb-2 justify-between">
+                    <div class="xl:text-2xl text-lg flex-shrink-0">ประวัติจำนวนแคลอรี่</div>
+                    <div class="flex items-center xl:gap-x-2 gap-x-0.5">
+                        <div class="xl:text-sm text-xs flex items-center bg-gray-100  rounded-full xl:p-1 p-0.5">
+                            <div class="rounded-full py-1 xl:px-3 px-2 cursor-pointer" :class="chartWeek?'bg-white shadow-sm':'bg-gray-100'"
+                            @click="chartWeek= true">Week</div>
+                            <div class="rounded-full py-1 xl:px-3 px-2 cursor-pointer" :class="!chartWeek?'bg-white shadow-sm':'bg-gray-100'"
+                            @click="chartWeek= false">Month</div>
+                        </div>
+                        <div class="relative xl:w-12 w-8 xl:h-12 h-8 bg-gray-100 flex justify-center items-center rounded-full  cursor-pointer">
+                            <i class="absolute material-icons xl:text-3xl text-lg">date_range</i>
+                        </div>
+                    </div>
                 </div>
                 <div class="w-11/12 mx-auto">
-                    <LineChart></LineChart>
+                    <LineChart :rounds="chartWeek?7:30" />
                 </div>
                 
             </div>
@@ -144,7 +155,8 @@ export default {
             BMR: "",
             BMI: "",
             BMItext: "",
-            mealdate: []
+            mealdate: [],
+            chartWeek: true
         }
     },
     computed: {
