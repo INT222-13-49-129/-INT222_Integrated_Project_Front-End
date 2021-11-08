@@ -1,7 +1,7 @@
 <template>
     <div class="w-full relative flex items-center justify-center">
-        <LineChart class="w-full xl:h-auto h-72" :class="{'opacity-40': chartData.datasets.length === 0}" :chart-data="chartData" />
-        <img v-if="chartData.datasets.length === 0" src="../assets/img/loading.svg" class="xl:h-32 h-20 absolute" />
+        <LineChart class="w-full xl:h-auto h-72" :class="{'opacity-40': chartData.labels.length === 0}" :chart-data="chartData" />
+        <img v-if="chartData.labels.length === 0" src="../assets/img/loading.svg" class="xl:h-32 h-20 absolute" />
     </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
     },
     data() {
         return {
-            chartData: null,
+            chartData: {labels:[],datasets:[]},
             gradient: null,
             mealData: []
         };
