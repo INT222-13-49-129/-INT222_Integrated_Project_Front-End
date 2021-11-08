@@ -37,6 +37,7 @@ export default {
     },
     methods: {
         async getData() {
+            this.chartData= {labels:[],datasets:[]}
             this.mealData = []
             for (let i = 0; i < this.rounds; i++) {
                 const selectedDate = new Date();
