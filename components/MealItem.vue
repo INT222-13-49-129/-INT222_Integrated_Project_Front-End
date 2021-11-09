@@ -4,10 +4,11 @@
         <div class="pt-6 pb-4">
             <div class="text-center xl:text-base text-sm">{{ dateMeal }}</div>
             <div
-                class="text-center xl:text-2xl text-xl flex items-center justify-center ml-6 relative"
+                class="text-center xl:text-2xl text-xl flex items-center justify-center relative"
+                :class="edit?'ml-6':''"
             >
                 {{ Meal[meal.mealtime] }}
-                <i
+                <i  v-if="edit"
                     class="material-icons cursor-pointer"
                     @click="mealtime = !mealtime"
                 >{{ mealtime ? 'expand_less' : 'expand_more' }}</i>
@@ -25,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="py-4 xl:px-8 px-4 border-b-2 border-t-2">
+        <div class="py-4 xl:px-8 px-4 border-t-2">
             <div class="flex justify-between">
                 <div>สรุปรายการ</div>
                 <div>รวม {{ meal.totalkcal }} kcal.</div>
@@ -35,6 +36,7 @@
                     v-for="f in meal.mealHasFoodmenuList"
                     :key="f.key.foodmenuFoodmenuid"
                     class="flex items-center xl:gap-x-2"
+                    @click="edit?'':($parent.$parent.foodmenuSelected = f.foodmenu, $parent.$parent.foodmenuShow = true)"
                 >
                     <Item
                         :item="{
@@ -50,11 +52,11 @@
                             class="xl:w-20 xl:h-20 w-10 h-10 items-center xl:mr-2 mr-1 flex flex-shrink-0"
                         />
                     </Item>
-                    <div
+                    <div v-if="edit"
                         class="bg-gray-300 text-white rounded-full px-3 py-0.5 cursor-pointer xl:block hidden"
                         @click="$parent.$parent.showFoodmenu(f.foodmenu)"
                     >แก้ไข</div>
-                    <div class="flex flex-col ml-2 xl:ml-0">
+                    <div v-if="edit" class="flex flex-col ml-2 xl:ml-0">
                         <i
                             class="material-icons text-gray-300 text-2xl cursor-pointer xl:hidden"
                             @click="$parent.$parent.showFoodmenu(f.foodmenu)"
@@ -67,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="py-4 px-4 flex items-center xl:justify-end justify-around gap-x-3">
+        <div v-if="edit" class="py-4 px-4 flex items-center xl:justify-end justify-around gap-x-3 border-t-2">
             <div
                 class="xl:w-2/12 w-4/12 py-0.5 border-2 rounded-lg text-center cursor-pointer"
                 @click="$parent.$parent.getMeal()"
@@ -89,6 +91,10 @@ export default {
             default() {
                 return null
             },
+        },
+        edit: {
+            type: Boolean,
+            default: true,
         },
     },
     data() {

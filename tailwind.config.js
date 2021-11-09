@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       dropShadow: {
         'all': '0 0 4px rgba(0, 0, 0, 0.15)',
+        'r': '10px 6px 4px rgba(0, 0, 0, 0.05)',
       },
       colors: {
         salmon: '#d9795f',
@@ -31,6 +32,12 @@ module.exports = {
         '336': '84rem',
         '352': '88rem',
         '368': '92rem',
+      },
+      scale: {
+        '100': '1',
+        '105': '1.05',
+        '110': '1.1',
+        '113': '1.13',
       },
       borderWidth: {
         DEFAULT: '1px',

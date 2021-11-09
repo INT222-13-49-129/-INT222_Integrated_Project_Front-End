@@ -196,7 +196,7 @@
               @click="clearpopup(),getMeal()"
             >เพิ่มมื้ออาหารอีก</div>
             <nuxt-link
-              to="/profile"
+              to="/profile/dailymeal"
               class="xl:w-4/12 w-9/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
             >ไปยังรายการที่บันทึก</nuxt-link>
           </div>
@@ -420,6 +420,7 @@ import MealItem from '../components/MealItem.vue';
 import FoodmenuItem from '../components/FoodmenuItem.vue';
 import FoodmenuImg from '../components/FoodmenuImg.vue';
 import PageNumber from '../components/PageNumber.vue';
+import Modal from '../components/Modal.vue';
 import 'animate.css'
 
 const Url = Object.freeze({ foodmenusWithPage: 1, foodmenusWithPageSearch: 2, foodmenusWithPageSearchFoodtype: 3 });
@@ -433,6 +434,7 @@ export default {
     FoodmenuItem,
     PageNumber,
     FoodmenuImg,
+    Modal
   },
   async asyncData() {
     const foodtypesresponse = await GeneralApi.foodtypes()

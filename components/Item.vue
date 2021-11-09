@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center">
         <slot></slot>
-        <div class="xl:w-56 w-10/12 flex-grow flex xl:flex-col flex-row items-center xl:items-start justify-between">
+        <div class="flex-grow flex xl:flex-col flex-row items-center xl:items-start justify-between" :class="classitem">
             <div class="xl:w-full w-8/12">
                 <div class="text-gray-700 truncate text-lg">{{ item.name }}</div>
                 <div class="text-gray-500 xl:text-sm text-xs my-1 truncate">{{ item.description }}</div>
@@ -22,6 +22,10 @@ export default {
                     totalkcal: ''
                 }
             },
+        },
+        classitem:{
+            type: String,
+            default: 'xl:w-56 w-10/12'
         }
     }
 }
