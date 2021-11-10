@@ -46,10 +46,7 @@ export default {
 
                 const mealdate = await this.getMeal(selectedDate)
 
-                // const data = mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
-                let data = mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
-                data = Math.floor(Math.random() * 3000) + 1;
-
+                const data = mealdate.map(m => m.totalkcal).reduce((a, b) => a + b, 0)
                 const labels = this.getDate(selectedDate, true)
 
                 this.mealData[i] = { labels, data }

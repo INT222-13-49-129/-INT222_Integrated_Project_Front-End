@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="bg-brightsalmon w-full h-32">
-            <div class="text-white font-normal xl:pt-8 pt-20 flex-shrink-0 xl:w-1/4">
-                <h1 class="xl:text-3xl text-2xl xl:text-right text-center">รายการอาหารวันนี้</h1>
+            <div class="text-white font-normal xl:pt-8 pt-20 flex-shrink-0 xl:w-max xl:pl-16">
+                <h1 class="xl:text-3xl text-2xl xl:text-right text-center">รายการอาหาร{{selectdate?`วันที่ ${dateMeal}`:'วันนี้'}}</h1>
                 <div class="text-base text-right xl:block hidden">หุ่นสวย ด้วยตัวเรา</div>
             </div>
         </div>
@@ -76,8 +76,13 @@
         </div>
         <div class="flex justify-center w-full xl:mt-6 mt-3 pb-3 gap-x-6">
             <div class="xl:w-96 w-11/12 flex flex-col gap-y-4 mt-1 pt-0.5 pb-1.5">
-                <div v-for="(value,key) in Meal" :key="key" @click="selectmeal = key,mealShow = true">
+                <div
+                    v-for="(value,key) in Meal"
+                    :key="key"
+                    @click="selectmeal = key, mealShow = true"
+                >
                     <MealTimeItem
+                        :editmeal="!selectdate"
                         :meal="{ key, value }"
                         :mealtime="mealtime[key]"
                         :selectmeal="key === selectmeal"
@@ -146,6 +151,8 @@ export default {
     data() {
         return {
             Meal,
+            date: '',
+            selectdate: this.$route.query.date,
             mealdate: [],
             selectmeal: 'Breakfast',
             mealtime: {
@@ -173,7 +180,14 @@ export default {
             mealShow: false
         }
     },
+    computed: {
+        dateMeal() {
+            const date = this.date.split("-");
+            return date[2] + "/" + date[1] + "/" + date[0]
+        }
+    },
     async mounted() {
+        this.date = this.getDate()
         await this.getMeal()
         for (const key in this.Meal) {
             if (Object.hasOwnProperty.call(this.Meal, key)) {
@@ -183,13 +197,55 @@ export default {
         }
     },
     methods: {
-        getCurrentDate() {
-            const today = new Date();
-            const year = today.getFullYear()
-            const month = String(today.getMonth() + 1).padStart(2, '0')
-            const date = String(today.getDate()).padStart(2, '0');
+        getDate() {
+            if (this.selectdate) {
+                if (this.isValidDate(this.selectdate) && +new Date(this.getCurrentDate()) > +new Date(this.selectdate)) {
+                    return this.getCurrentDate(false, this.selectdate)
+                } else {
+                    this.$router.push('/profile/dailymeal')
+                    this.selectdate = undefined
+                    return this.getCurrentDate()
+                }
+            } else {
+                return this.getCurrentDate()
+            }
+        },
+        getCurrentDate(current = true, selectdate) {
+            let day
+            if (current) {
+                day = new Date();
+            } else {
+                day = new Date(selectdate);
+            }
+            const year = day.getFullYear()
+            const month = String(day.getMonth() + 1).padStart(2, '0')
+            const date = String(day.getDate()).padStart(2, '0');
 
             return year + "-" + month + "-" + date
+        },
+        isValidDate(dateString) {
+            const regexdate = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[ 1-2][0-9]|3[0-1])$/;
+
+            if (!regexdate.test(dateString)) {
+                return false;
+            }
+
+            const parts = dateString.split("-");
+            const day = parseInt(parts[2], 10);
+            const month = parseInt(parts[1], 10);
+            const year = parseInt(parts[0], 10);
+
+            if (year < 1000 || year > 3000 || month === 0 || month > 12) {
+                return false;
+            }
+
+            const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)) {
+                monthLength[1] = 29;
+            }
+
+            return day > 0 && day <= monthLength[month - 1];
         },
         async getFoodmenuMeal(meal) {
             const foodmenuList = [];
@@ -230,8 +286,7 @@ export default {
             }
         },
         async getMeal() {
-            const date = this.getCurrentDate()
-            const response = await UserApi.mealDate(date)
+            const response = await UserApi.mealDate(this.date)
             this.mealdate = response.data
         },
         async getMealtime(mealtime) {
@@ -242,7 +297,7 @@ export default {
             } else {
                 return {
                     mealtime,
-                    datemeal: this.getCurrentDate(),
+                    datemeal: this.date,
                     mealHasFoodmenuList: [],
                     totalkcal: 0
                 }

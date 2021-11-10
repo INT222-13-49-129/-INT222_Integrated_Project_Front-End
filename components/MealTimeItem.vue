@@ -12,7 +12,7 @@
             </div>
             <div class="text-salmon ">{{ mealtime.totalkcal }} kcal.</div>
             <div>
-                <div
+                <div v-if="editmeal"
                     class="flex items-center justify-center border-2 hover:bg-gray-100 w-14 rounded-lg xl:gap-x-0.5 gap-x-1 cursor-pointer xl:mr-2 ml-2"
                     @click="$router.push(({ path: '/foodmenu', query: { meal: meal.key } }))"
                 >
@@ -52,6 +52,10 @@ export default {
         selectmeal: {
             type: Boolean,
             default: false,
+        },
+        editmeal: {
+            type: Boolean,
+            default: true,
         },
         mealtime: {
             type: Object,

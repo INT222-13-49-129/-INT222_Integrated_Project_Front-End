@@ -1,7 +1,8 @@
 <template>
     <div
-        class="xl:w-16 w-14 xl:h-24 h-20 rounded-md bg-white"
+        class="xl:w-16 w-14 xl:h-24 h-20 rounded-md bg-white cursor-pointer"
         :class="[{ 'xl:w-20 w-16 xl:h-28 h-24 shadow-md xl:p-1 p-0.5 text-white': date === 1 }, BMR - sumkcaldate >= 0 ? 'xl:border-4 border-3 border-green-400 border-opacity-95' : 'xl:border-4 border-3 border-red-400 border-opacity-95']"
+        @click="date === 1 ? $router.push('/profile/dailymeal') : $router.push(({ path: '/profile/dailymeal', query: { date: getDate() } }))"
     >
         <div class="flex flex-col justify-center items-center w-full h-full rounded-sm"
         :class="date !== 1? '' : BMR-sumkcaldate >= 0 ? 'border-opacity-95 bg-gradient-to-tr from-green-500 to-green-200':'border-opacity-95 bg-gradient-to-tr from-red-500 to-red-300'">
