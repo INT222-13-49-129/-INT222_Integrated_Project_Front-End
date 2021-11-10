@@ -10,10 +10,10 @@
                     class="text-sm text-gray-500"
                 >จำนวน {{ mealtime.mealHasFoodmenuList.length }} เมนู</div>
             </div>
-            <div class="text-salmon ">{{ mealtime.totalkcal }} kcal.</div>
+            <div class="text-salmon mr-2">{{ mealtime.totalkcal }} kcal.</div>
             <div>
                 <div v-if="editmeal"
-                    class="flex items-center justify-center border-2 hover:bg-gray-100 w-14 rounded-lg xl:gap-x-0.5 gap-x-1 cursor-pointer xl:mr-2 ml-2"
+                    class="flex items-center justify-center border-2 hover:bg-gray-100 w-14 rounded-lg xl:gap-x-0.5 gap-x-1 cursor-pointer xl:mr-2"
                     @click="$router.push(({ path: '/foodmenu', query: { meal: meal.key } }))"
                 >
                     <i class="material-icons text-sm text-gray-400">edit</i>
