@@ -58,6 +58,7 @@
                             v-model="ingredientsreq.unit"
                             type="text"
                             class="rounded-lg border-2 border-gray-200 w-full px-3"
+                            placeholder="เช่น ช้อนโต๊ะ, ชิ้น, กรัม"
                             @keyup="validate.from ? '' : validateFrom()"
                         />
                         <div
