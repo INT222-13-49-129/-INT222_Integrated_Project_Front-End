@@ -6,7 +6,7 @@
             :src="img"
         />
         <div
-            class="material-icons xl:h-7 w-6 xl:w-7 h-6 flex items-center justify-center absolute -bottom-1 -right-1 bg-gray-400 text-white xl:text-lg text-base rounded-full cursor-pointer"
+            :class="addclass"
             @click="add = true, user.image !== null ? addimg = img : addimg = require('../assets/img/userimg2.svg'), addname = 'ยังไม่ได้เลือกรูป'"
         >photo_camera</div>
         <div v-if="add">
@@ -59,6 +59,16 @@ export default {
     components: {
         Modal,
     },
+    props: {
+        addclass: {
+            type: String,
+            default: "material-icons xl:h-7 w-6 xl:w-7 h-6 flex items-center justify-center absolute -bottom-1 -right-1 bg-gray-400 text-white xl:text-lg text-base rounded-full cursor-pointer",
+        },
+        general: {
+            type: Boolean,
+            default: true
+        }
+    },
     data() {
         return {
             user: this.$auth.user,
@@ -87,7 +97,7 @@ export default {
                         const response = await UserApi.getImgProfile()
                         this.img = response
                         await this.$auth.fetchUser()
-                        this.user= this.$auth.user
+                        this.user = this.$auth.user
                         this.validate = false
                         this.add = false
                     }

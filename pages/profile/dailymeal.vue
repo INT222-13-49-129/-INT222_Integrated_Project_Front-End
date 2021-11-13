@@ -1,9 +1,14 @@
 <template>
     <div>
-        <div class="bg-brightsalmon w-full h-32">
-            <div class="text-white font-normal xl:pt-8 pt-20 flex-shrink-0 xl:w-max xl:pl-16">
-                <h1 class="xl:text-3xl text-2xl xl:text-right text-center">รายการอาหาร{{selectdate?`วันที่ ${dateMeal}`:'วันนี้'}}</h1>
-                <div class="text-base text-right xl:block hidden">หุ่นสวย ด้วยตัวเรา</div>
+        <div class="bgimgepro w-full h-32 flex items-center">
+            <div class="xl:w-11/12 mx-auto flex justify-between items-center xl:pt-0 pt-16">
+                <div class="text-white font-normal">
+                    <h1
+                        class="xl:text-3xl text-2xl xl:text-right text-center"
+                    >รายการอาหาร{{ selectdate ? `วันที่ ${dateMeal}` : 'วันนี้' }}</h1>
+                    <div class="text-base text-right xl:block hidden">หุ่นสวย ด้วยตัวเรา</div>
+                </div>
+                <i class="material-icons xl:block hidden text-white text-5xl ml-1 cursor-pointer">date_range</i>
             </div>
         </div>
         <div v-if="mealShow" class="xl:hidden">
@@ -306,3 +311,10 @@ export default {
     }
 }
 </script>
+<style>
+.bgimgepro {
+    background-image: url("../../assets/img/bgprofile.svg");
+    background-position: center;
+    background-size: 700px auto;
+}
+</style>
