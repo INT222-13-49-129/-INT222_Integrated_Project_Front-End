@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white xl:min-h-full xl:pb-0 pb-4">
+    <div class="bg-white min-h-full">
         <div class="bgimgepro xl:flex hidden w-full h-24 items-center">
             <div class="xl:w-10/12 mx-auto flex justify-between items-center xl:pt-0 pt-16">
                 <div class="text-white font-normal">
@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex xl:flex-row flex-col items-center justify-center xl:gap-x-20 gap-y-6 xl:mt-10 mt-16">
+        <div class="flex xl:flex-row flex-col items-center justify-center xl:gap-x-20 gap-y-6 xl:pt-10 xl:pb-0 pt-16 pb-6">
             <div class="xl:w-auto w-screen">
                 <div class="xl:h-80 h-40 xl:w-96 w-full bgproimg flex justify-center items-center">
                     <client-only>
