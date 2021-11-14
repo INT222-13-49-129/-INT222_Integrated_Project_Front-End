@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white min-h-full">
+    <div class="bg-white xl:min-h-full xl:pb-0 pb-4">
         <div class="bgimgepro xl:flex hidden w-full h-24 items-center">
             <div class="xl:w-10/12 mx-auto flex justify-between items-center xl:pt-0 pt-16">
                 <div class="text-white font-normal">
