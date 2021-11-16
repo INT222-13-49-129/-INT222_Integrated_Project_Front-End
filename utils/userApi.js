@@ -10,6 +10,11 @@ export function getImgProfile() {
   return requestImg(url,true)
 }
 
+export function updateUser(userupdate) {
+  const url = `${process.env.config.BASE_URL}user/update`
+  return request('put', url, formData(userupdate, 'userupdate'), true)
+}
+
 export function foodmenuImg(id) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/img/${id}`
   return requestImg(url,true)
