@@ -57,7 +57,7 @@
                 </div>
                 <div
                     class="mt-3 ml-6 flex items-center text-white"
-                    :class="{ 'border-salmon border-r-2': $route.name === 'profile-setting' }"
+                    :class="{ 'border-salmon border-r-2': $route.name.startsWith('profile-setting') }"
                     @click="sidebar = false, $router.push('/profile/setting')"
                 >
                     <i class="material-icons -mt-1 text-3xl">settings</i>
@@ -133,16 +133,16 @@
                     </div>
                     <div
                         class="pr-8"
-                        :class="{ 'border-lightsalmon border-r-4': $route.name === 'profile-setting' }"
+                        :class="{ 'border-lightsalmon border-r-4': $route.name.startsWith('profile-setting') }"
                     >
                         <NuxtLink
                             to="/profile/setting"
                             class="flex items-center p-2 cursor-pointer hover:text-salmon"
-                            :class="{ 'bg-brightsalmon bg-opacity-90 text-black rounded-lg shadow-lg': $route.name === 'profile-setting' }"
+                            :class="{ 'bg-brightsalmon bg-opacity-90 text-black rounded-lg shadow-lg': $route.name.startsWith('profile-setting') }"
                         >
                             <i
                                 class="material-icons -mt-1 mr-3 text-2xl"
-                                :class="{ 'text-salmon': $route.name === 'profile-setting' }"
+                                :class="{ 'text-salmon': $route.name.startsWith('profile-setting') }"
                             >settings</i>
                             <div>ตั้งค่า</div>
                         </NuxtLink>

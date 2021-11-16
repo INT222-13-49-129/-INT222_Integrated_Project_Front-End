@@ -59,9 +59,11 @@
                 </div>
                 <div class="flex justify-between xl:mt-6 mt-4 xl:mb-2 mb-1 items-center">
                     <div class="text-red-600 xl:text-base text-sm cursor-pointer">ลบบัญชี</div>
-                    <div
+                    <NuxtLink 
+                        to="/profile/setting/account"
                         class="py-1.5 px-3 bg-orange rounded text-white xl:text-sm text-xs cursor-pointer"
-                    >Edit Profile</div>
+
+                    >Edit Profile</NuxtLink>
                 </div>
             </div>
         </div>
