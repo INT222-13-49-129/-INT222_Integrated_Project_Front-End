@@ -1,17 +1,25 @@
 <template>
-  <div class="xl:w-full w-10/12 mx-auto xl:mx-0 xl:my-0 my-6 flex flex-col items-center xl:px-20">
+  <div
+    class="xl:w-full w-10/12 mx-auto xl:mx-0 xl:my-0 my-6 flex flex-col items-center xl:px-20"
+  >
     <client-only>
       <UserImg class="xl:h-28 xl:w-28 w-24 h-24" />
     </client-only>
     <div class="w-full xl:mt-6 mt-4">
       <form class="text-gray-500">
         <label for="username">Username</label>
-        <input id="username" required class="border-2 rounded-md h-10 w-full block mt-2 px-3" />
+        <input
+          id="username"
+          v-model="userupdate.username"
+          required
+          class="border-2 rounded-md h-10 w-full block mt-2 px-3"
+        />
         <div class="flex xl:flex-row flex-col gap-x-6 gap-y-2 xl:mt-4 mt-2">
           <div class="flex-1">
             <label for="firstname">Firstname</label>
             <input
               id="firstname"
+              v-model="userupdate.firstname"
               required
               class="border-2 rounded-md h-10 w-full block mt-2 px-3"
             />
@@ -20,6 +28,7 @@
             <label for="lastname">Lastname</label>
             <input
               id="lastname"
+              v-model="userupdate.lastname"
               required
               class="border-2 rounded-md h-10 w-full block mt-2 px-3"
             />
@@ -28,15 +37,16 @@
         <div class="flex xl:flex-row flex-col gap-x-6 gap-y-2 xl:mt-4 mt-2">
           <div class="flex-1">
             <label for="gender">Gender</label>
-            <select id="gender" class="border-2 rounded-md h-10 w-full block mt-2 px-3">
-              <option value="M">ชาย</option>
-              <option value="F">หญิง</option>
+            <select id="gender" v-model="userupdate.gender" class="border-2 rounded-md h-10 w-full block mt-2 px-3">
+              <option value="M">Male</option>
+              <option value="F">Female</option>
             </select>
           </div>
           <div class="flex-1">
             <label for="doB">Date of Birth</label>
             <input
               id="doB"
+              v-model="userupdate.doB" 
               type="date"
               required
               :max="currentDate()"
@@ -50,6 +60,7 @@
             <div class="flex items-center">
               <input
                 id="weight"
+                v-model="userupdate.weight" 
                 type="number"
                 min="0.01"
                 max="999.99"
@@ -65,6 +76,7 @@
             <div class="flex items-center">
               <input
                 id="height"
+                v-model="userupdate.height" 
                 type="number"
                 min="0.01"
                 max="999.99"
@@ -93,6 +105,21 @@ import UserImg from "../components/UserImg.vue";
 export default {
   components: {
     UserImg,
+  },
+  data() {
+    return {
+      user:this.$auth.user,
+      userupdate: {
+          userid:this.$auth.user.userid,
+          username:this.$auth.user.username,
+          firstname:this.$auth.user.firstname,
+          lastname:this.$auth.user.lastname,
+          doB:this.$auth.user.doB,
+          gender:this.$auth.user.gender,
+          weight:this.$auth.user.weight,
+          height:this.$auth.user.height
+      },
+    };
   },
   methods: {
     currentDate() {
