@@ -4,7 +4,7 @@ const configs ={
         PORT: 5000
     },
     production: {
-        BASE_URL: 'https://cfan.ddns.net/backend/api/',
+        BASE_URL: 'https://cfan.ddnsking.com/backend/api/',
         PORT: 80
     },
 }
