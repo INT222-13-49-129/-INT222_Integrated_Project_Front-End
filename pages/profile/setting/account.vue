@@ -2,12 +2,27 @@
   <div
     class="xl:w-272 w-full xl:min-h-0 min-h-full xl:my-4 xl:mx-auto bg-white xl:rounded-3xl xl:overflow-hidden"
   >
-    <div class="bgimgepro w-full h-24 flex items-center xl:px-10 px-4 xl:mt-0 mt-16">
-      <div>
+    <div
+      class="bgimgepro w-full xl:h-24 flex items-center xl:px-10 px-4 xl:mt-0 mt-16 xl:py-0 py-4"
+    >
+      <div class="w-full">
         <div class="xl:text-2xl text-xl text-gray-800">
           {{ user.username }}<span class="text-gray-500"> / </span>Edit Profile
         </div>
         <div class="text-gray-600 text-sm">Set up your CFAN presence.</div>
+        <div class="xl:hidden mt-2 flex justify-between">
+          <select
+            v-model="edit"
+            class="bg-white bg-opacity-50 rounded-md py-1 px-1 focus:outline-none text-sm items-center"
+          >
+            <option :value="Edit.Account">Account setting</option>
+            <option :value="Edit.Email">Change Email</option>
+            <option :value="Edit.Password">Change Password</option>
+          </select>
+          <div class="text-red-600 text-base cursor-pointer">
+            ลบบัญชี
+          </div>
+        </div>
       </div>
     </div>
     <div class="xl:flex w-full xl:px-10 xl:py-10">
