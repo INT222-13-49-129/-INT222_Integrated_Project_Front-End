@@ -20,6 +20,16 @@ export function updateUserPassword(userpsw) {
   return request('put', url, formData(userpsw, 'userpsw'), true)
 }
 
+export function updateUserEmail(useremail) {
+  const url = `${process.env.config.BASE_URL}user/update/email`
+  return request('put', url, formData(useremail, 'useremail'), true)
+}
+
+export function pinverify(emailpin) {
+  const url = `${process.env.config.BASE_URL}user/update/email/verify`
+  return request('post', url, formData(emailpin, 'emailpin'), true)
+}
+
 export function foodmenuImg(id) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/img/${id}`
   return requestImg(url,true)

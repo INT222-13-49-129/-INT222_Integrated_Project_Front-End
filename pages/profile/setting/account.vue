@@ -27,7 +27,7 @@
     </div>
     <div class="xl:flex w-full xl:px-10 xl:py-10">
       <div class="flex-shrink-0 w-1/5 text-lg text-gray-700 xl:block hidden">
-        <div class="text-2xl">Profile</div>
+        <div class="text-2xl cursor-pointer" @click="$router.push('/profile/setting')">Profile</div>
         <div class="flex flex-col gap-y-2 pt-3 text-gray-500">
           <div
             class="cursor-pointer"
