@@ -15,6 +15,11 @@ export function updateUser(userupdate) {
   return request('put', url, formData(userupdate, 'userupdate'), true)
 }
 
+export function updateUserPassword(userpsw) {
+  const url = `${process.env.config.BASE_URL}user/update/psw`
+  return request('put', url, formData(userpsw, 'userpsw'), true)
+}
+
 export function foodmenuImg(id) {
   const url = `${process.env.config.BASE_URL}user/foodmenu/img/${id}`
   return requestImg(url,true)

@@ -233,7 +233,7 @@ export default {
             this.validate.username = false
           }
           if ([500, 400].includes(err.response?.status) || err.response === undefined) {
-            this.validatetext.all = 'ลงทะเบียนไม่สำเร็จกรุณาลองใหม่'
+            this.validatetext.all = 'ส่งข้อมูลไม่สำเร็จกรุณาลองใหม่'
             this.validate.all = false
           }
         }
