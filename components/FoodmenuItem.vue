@@ -33,7 +33,7 @@
                             <button
                                 v-if="edit"
                                 class="material-icons text-gray-300 absolute xl:right-5 right-2 cursor-pointer xl:text-base text-sm"
-                                @click="$parent.addingredients(i.ingredients, i.totalunit + 1)"
+                                @click="i.totalunit < 1000 ? $parent.addingredients(i.ingredients, i.totalunit + 1) : ''"
                             >add_circle_outline</button>
                         </div>
                         <div class="text-left flex xl:justify-start  xl:w-2/12" :class="edit?'w-1/12 justify-end':'w-3/12'">

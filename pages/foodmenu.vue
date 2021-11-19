@@ -124,32 +124,37 @@
                 </div>
               </template>
               <template v-if="mealtime" #footer>
+              <form @submit.prevent="foodmenuNum > 0 ? (addFoodmenu(foodmenuSelected, foodmenuNum), foodmenuShow = false) : ''">
                 <div class="flex items-center justify-center xl:text-lg text-base mt-4 mx-2">
                   <span class="flex-1 text-right xl:mr-4 mr-2">จำนวน</span>
                   <button
+                    type="button"
                     class="material-icons text-brightsalmon cursor-pointer"
                     @click="foodmenuNum > 1 ? foodmenuNum-- : ''"
                   >remove_circle_outline</button>
                   <input
                     id="ingredientsNum"
-                    v-model="foodmenuNum"
+                    v-model.number="foodmenuNum"
                     type="number"
                     min="1"
+                    max="1000"
                     step="1"
                     class="w-1/6 focus:outline-none text-center xl:text-2xl text-xl"
                   />
                   <button
+                    type="button"
                     class="material-icons text-brightsalmon cursor-pointer"
-                    @click="foodmenuNum++"
+                    @click="foodmenuNum < 1000 ? foodmenuNum++ : ''"
                   >add_circle_outline</button>
                   <span class="flex-1 text-left xl:ml-4 ml-2">ที่</span>
                 </div>
                 <div class="flex xl:justify-end justify-center -mb-3 pt-2 xl:pt-0 xl:mb-0 px-3">
-                  <div
+                  <button
+                    type="submit"
                     class="xl:text-base text-sm xl:w-20 w-4/12 py-0.5 rounded-lg bg-orange border-2 border-orange text-white text-center cursor-pointer"
-                    @click="foodmenuNum > 0 ? (addFoodmenu(foodmenuSelected, foodmenuNum), foodmenuShow = false) : ''"
-                  >บันทึก</div>
-                </div>
+                  >บันทึก</button>
+                </div>              
+              </form>
               </template>
               <template #bottom>
                 <div

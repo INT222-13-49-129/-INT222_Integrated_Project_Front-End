@@ -103,7 +103,7 @@
                     />
                     <span>{{ ingredientsSelected.ingredientsname }}</span>
                 </div>
-                <div class="w-full bg-white py-8 flex flex-col justify-center text-center">
+                <form class="w-full bg-white py-8 flex flex-col justify-center text-center" @submit.prevent="ingredientsNum > 0 ? addingredients(ingredientsSelected, ingredientsNum) : ''">
                     <div class="xl:text-xl text-lg">
                         {{ ingredientsSelected.kcalpunit }} kcal. ต่อ
                         1 {{ ingredientsSelected.unit }}
@@ -113,28 +113,31 @@
                     <div class="flex items-center justify-center xl:text-xl text-lg mt-4 mx-2">
                         <span class="flex-1 text-right xl:mr-4 mr-2">จำนวน</span>
                         <button
+                            type="button"
                             class="material-icons text-brightsalmon cursor-pointer"
                             @click="ingredientsNum > 1 ? ingredientsNum-- : ''"
                         >remove_circle_outline</button>
                         <input
                             id="ingredientsNum"
-                            v-model="ingredientsNum"
+                            v-model.number="ingredientsNum"
                             type="number"
                             min="1"
+                            max="1000"
                             step="1"
                             class="w-1/6 focus:outline-none text-center xl:text-2xl text-xl"
                         />
                         <button
+                            type="button"
                             class="material-icons text-brightsalmon cursor-pointer"
-                            @click="ingredientsNum++"
+                            @click="ingredientsNum < 1000 ? ingredientsNum++ : ''"
                         >add_circle_outline</button>
                         <span class="flex-1 text-left xl:ml-4 ml-2">{{ ingredientsSelected.unit }}</span>
                     </div>
-                    <div
+                    <button
+                        type="submit"
                         class="rounded-2xl px-6 py-2 bg-green-300 mx-auto text-white mt-6 cursor-pointer xl:text-base text-sm hover:bg-green-400"
-                        @click="ingredientsNum > 0 ? addingredients(ingredientsSelected, ingredientsNum) : ''"
-                    >บันทึก</div>
-                </div>
+                    >บันทึก</button>
+                </form>
             </Modal>
         </div>
         <div v-if="sendrequestShow">
