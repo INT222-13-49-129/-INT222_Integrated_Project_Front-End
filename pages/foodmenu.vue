@@ -282,7 +282,7 @@
     </div>
     <div class="flex xl:flex-row flex-col w-full min-h-screen">
       <div
-        class="xl:w-1/6 xl:bg-gray-200 mx-auto mt-2 xl:mt-0 flex items-center xl:items-start xl:flex-col flex-row xl:py-10 py-3 xl:pl-8 pl-4 pr-4 xl:text-2xl text-lg xl:gap-y-8 gap-x-8 xl:gap-x-0 xl:text-salmon text-gray-600"
+        class="xl:w-1/6 xl:bg-gray-200 mx-auto mt-2 xl:mt-0 flex items-center xl:items-start xl:flex-col flex-row xl:py-10 py-3 xl:pl-8 pl-4 pr-4 xl:text-2xl text-lg xl:gap-y-8 gap-x-10 xl:gap-x-0 xl:text-salmon text-gray-600"
       >
         <div class="flex-shrink-0 xl:w-full" :class="{ 'xl:block hidden': !isLoggedIn }">
           <div
@@ -338,7 +338,6 @@
             </div>
           </div>
         </div>
-        <div v-if="isLoggedIn" class="flex-shrink-0 xl:w-full">Favorites</div>
       </div>
       <div
         class="text-xs text-right mr-4 -mt-3 xl:hidden text-gray-400"
@@ -428,8 +427,8 @@ import PageNumber from '../components/PageNumber.vue';
 import Modal from '../components/Modal.vue';
 import 'animate.css'
 
-const Url = Object.freeze({ foodmenusWithPage: 1, foodmenusWithPageSearch: 2, foodmenusWithPageSearchFoodtype: 3 });
-const Show = Object.freeze({ General: 1, Myfoods: 2 });
+const Url = Object.freeze({ foodmenusWithPage: "foodmenusWithPage", foodmenusWithPageSearch: "foodmenusWithPageSearch", foodmenusWithPageSearchFoodtype: "foodmenusWithPageSearchFoodtype" });
+const Show = Object.freeze({ General: "General", Myfoods: "Myfoods" });
 const Meal = Object.freeze({ Lightmeal: "อาหารว่าง", Breakfast: "อาหารเช้า", Lunch: "อาหารเที่ยง", Dinner: "อาหารเย็น" });
 
 export default {
