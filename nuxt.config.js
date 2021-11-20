@@ -15,7 +15,7 @@ export default {
   head: {
     title: 'CFAN INT222 Integrated Project',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'th'
     },
     meta: [{
         charset: 'utf-8'
@@ -32,6 +32,10 @@ export default {
       {
         name: 'format-detection',
         content: 'telephone=no'
+      },
+      {
+        name:"google-site-verification",
+        content:"_Kp3pscQS1D-WPLYyOdFzGV6U0POf3ULdQaAPMuAljU"
       }
     ],
     link: [{
