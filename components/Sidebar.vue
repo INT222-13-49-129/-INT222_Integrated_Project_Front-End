@@ -45,7 +45,7 @@
                     @click="sidebar = false, $router.push('/newmenu')"
                 >
                     <i class="material-icons -mt-1 text-3xl">speed</i>
-                    <NuxtLink to="/newmenu" class="ml-3 text-lg">คำนวนแคล</NuxtLink>
+                    <NuxtLink to="/newmenu" class="ml-3 text-lg">คำนวณแคล</NuxtLink>
                 </div>
                 <div
                     class="mt-3 ml-6 flex items-center text-white"
@@ -113,7 +113,7 @@
                         class="flex items-center p-2 cursor-pointer hover:text-salmon"
                     >
                         <i class="material-icons -mt-1 mr-3 text-2xl">speed</i>
-                        <div>คำนวนแคล</div>
+                        <div>คำนวณแคล</div>
                     </NuxtLink>
                     <div
                         class="pr-8"
