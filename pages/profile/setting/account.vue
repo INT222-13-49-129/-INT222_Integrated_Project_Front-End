@@ -8,19 +8,37 @@
       >
         <div class="w-full">
           <div class="xl:text-2xl text-xl text-gray-800">
-            {{ user.username }}<span class="text-gray-500"> / </span>Edit Profile
+            {{ user.username }}<span class="text-gray-500"> / </span> {{ edit === Edit.Delete?'Delete Account':'Edit Profile' }}
           </div>
           <div class="text-gray-600 text-sm">Set up your CFAN presence.</div>
           <div class="xl:hidden mt-2 flex justify-between">
             <select
               v-model="edit"
               class="bg-white bg-opacity-50 rounded-md py-1 px-1 focus:outline-none text-sm items-center"
+              @change="
+                $router.push({
+                  path: '/profile/setting/account',
+                  query: { mode: Object.keys(Edit).find((key) => Edit[key] === edit) },
+                })
+              "
             >
               <option :value="Edit.Account">Account setting</option>
               <option :value="Edit.Email">Change Email</option>
               <option :value="Edit.Password">Change Password</option>
+              <option :value="Edit.Delete">Delete Account</option>
             </select>
-            <div class="text-red-600 text-base cursor-pointer">ลบบัญชี</div>
+            <div
+              class="text-red-600 text-base cursor-pointer"
+              :class="{ underline: edit === Edit.Delete }"
+              @click="
+                $router.push({
+                  path: '/profile/setting/account',
+                  query: { mode: 'Delete' },
+                })
+              "
+            >
+              ลบบัญชี
+            </div>
           </div>
         </div>
       </div>
@@ -33,26 +51,50 @@
             <div
               class="cursor-pointer"
               :class="{ 'text-gray-800 pl-5 text-xl': edit === Edit.Account }"
-              @click="edit = Edit.Account"
+              @click="
+                $router.push({
+                  path: '/profile/setting/account',
+                  query: { mode: 'Account' },
+                })
+              "
             >
               Account setting
             </div>
             <div
               class="cursor-pointer"
               :class="{ 'text-gray-800 pl-5 text-xl': edit === Edit.Email }"
-              @click="edit = Edit.Email"
+              @click="
+                $router.push({
+                  path: '/profile/setting/account',
+                  query: { mode: 'Email' },
+                })
+              "
             >
               Change Email
             </div>
             <div
               class="cursor-pointer"
               :class="{ 'text-gray-800 pl-5 text-xl': edit === Edit.Password }"
-              @click="edit = Edit.Password"
+              @click="
+                $router.push({
+                  path: '/profile/setting/account',
+                  query: { mode: 'Password' },
+                })
+              "
             >
               Change Password
             </div>
           </div>
-          <div class="text-red-600 xl:text-base text-sm cursor-pointer mt-10">
+          <div
+            class="text-red-600 xl:text-base text-sm cursor-pointer mt-10"
+            :class="{ underline: edit === Edit.Delete }"
+            @click="
+              $router.push({
+                path: '/profile/setting/account',
+                query: { mode: 'Delete' },
+              })
+            "
+          >
             ลบบัญชี
           </div>
         </div>
@@ -67,11 +109,13 @@
 import EditAccount from "../../../components/EditAccount.vue";
 import EditEmail from "../../../components/EditEmail.vue";
 import EditPassword from "../../../components/EditPassword.vue";
+import DeleteAccount from "../../../components/DeleteAccount.vue";
 
 const Edit = Object.freeze({
   Account: "EditAccount",
   Email: "EditEmail",
   Password: "EditPassword",
+  Delete: "DeleteAccount",
 });
 
 export default {
@@ -79,6 +123,7 @@ export default {
     EditAccount,
     EditEmail,
     EditPassword,
+    DeleteAccount,
   },
   layout: "user",
   middleware: ["auth"],
@@ -86,8 +131,29 @@ export default {
     return {
       Edit,
       user: this.$auth.user,
-      edit: Edit.Account,
+      edit: "",
     };
+  },
+  watch: {
+    "$route.query.mode": function modeChange() {
+      this.changemode();
+    },
+  },
+  mounted() {
+    this.changemode();
+  },
+  methods: {
+    changemode() {
+      const mode = Edit[this.$route.query.mode];
+      if (mode) {
+        this.edit = mode;
+      } else {
+        this.$router.push({
+          path: "/profile/setting/account",
+          query: { mode: "Account" },
+        });
+      }
+    },
   },
 };
 </script>

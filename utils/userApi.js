@@ -25,6 +25,11 @@ export function updateUserEmail(useremail) {
   return request('put', url, formData(useremail, 'useremail'), true)
 }
 
+export function deleteUser(userdelete) {
+  const url = `${process.env.config.BASE_URL}user/delete`
+  return request('delete', url, formData(userdelete, 'userdelete'), true)
+}
+
 export function pinverify(emailpin) {
   const url = `${process.env.config.BASE_URL}user/update/email/verify`
   return request('post', url, formData(emailpin, 'emailpin'), true)
