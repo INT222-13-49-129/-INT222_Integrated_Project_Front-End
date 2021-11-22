@@ -63,6 +63,13 @@
                     <i class="material-icons -mt-1 text-3xl">settings</i>
                     <NuxtLink to="/profile/setting" class="ml-3 text-lg">ตั้งค่า</NuxtLink>
                 </div>
+                <div v-if="$auth.user.status === 'ADMIN'"
+                    class="mt-3 ml-6 flex items-center text-white"
+                    @click="sidebar = false, $router.push('/admin')"
+                >
+                    <i class="material-icons -mt-1 text-3xl">tune</i>
+                    <NuxtLink to="/admin" class="ml-3 text-lg">Admin</NuxtLink>
+                </div>
                 <div class="flex justify-center items-center text-base text-white mt-4">
                     <div
                         class="flex items-center p-2 border-2 border-white rounded-xl cursor-pointer"
@@ -145,6 +152,19 @@
                                 :class="{ 'text-salmon': $route.name.startsWith('profile-setting') }"
                             >settings</i>
                             <div>ตั้งค่า</div>
+                        </NuxtLink>
+                    </div>
+                    <div v-if="$auth.user.status === 'ADMIN'"
+                        class="pr-8"
+                    >
+                        <NuxtLink
+                            to="/admin"
+                            class="flex items-center p-2 cursor-pointer hover:text-salmon"
+                        >
+                            <i
+                                class="material-icons -mt-1 mr-3 text-2xl"
+                            >tune</i>
+                            <div>Admin</div>
                         </NuxtLink>
                     </div>
                 </div>
