@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Calendar v-if="calendar"></Calendar>
         <div class="xl:mt-12 mt-20 mx-auto xl:w-272 w-11/12">
             <div class="flex items-center justify-between xl:flex-row flex-col">
                 <div class="xl:w-5/12 w-full flex justify-between flex-shrink-0 items-center">
@@ -115,7 +116,7 @@
                             @click="chartWeek= false">Month</div>
                         </div>
                         <div class="relative xl:w-12 w-8 xl:h-12 h-8 bg-gray-100 flex justify-center items-center rounded-full  cursor-pointer">
-                            <i class="absolute material-icons xl:text-3xl text-lg">date_range</i>
+                            <i class="absolute material-icons xl:text-3xl text-lg" @click="setcalendar(true)">date_range</i>
                         </div>
                     </div>
                 </div>
@@ -139,13 +140,15 @@ import UserImg from '../../components/UserImg.vue';
 import MealTime from '../../components/MealTime.vue';
 import MealCard from '../../components/MealCard.vue';
 import LineChart from '../../components/LineChart.vue';
+import Calendar from '../../components/Calendar.vue';
 
 export default {
     components: {
         UserImg,
         MealTime,
         MealCard,
-        LineChart
+        LineChart,
+        Calendar
     },
     layout: 'user',
     middleware: ['auth'],
@@ -156,7 +159,8 @@ export default {
             BMI: "",
             BMItext: "",
             mealdate: [],
-            chartWeek: true
+            chartWeek: true,
+            calendar: false
         }
     },
     computed: {
@@ -170,6 +174,9 @@ export default {
         this.getMeal()
     },
     methods: {
+        setcalendar(c){
+            this.calendar = c
+        },
         logout() {
             this.$auth.logout()
             this.$router.replace('/')

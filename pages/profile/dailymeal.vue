@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Calendar v-if="calendar"></Calendar>
         <div class="bgimgepro w-full h-32 flex items-center">
             <div class="xl:w-11/12 mx-auto flex justify-between items-center xl:pt-0 pt-16">
                 <div class="text-white font-normal">
@@ -8,7 +9,7 @@
                     >รายการอาหาร{{ selectdate ? `วันที่ ${dateMeal}` : 'วันนี้' }}</h1>
                     <div class="text-base text-right xl:block hidden">หุ่นสวย ด้วยตัวเรา</div>
                 </div>
-                <i class="material-icons xl:block hidden text-white text-5xl ml-1 cursor-pointer">date_range</i>
+                <i class="material-icons xl:block hidden text-white text-5xl ml-1 cursor-pointer" @click="setcalendar(true)" >date_range</i>
             </div>
         </div>
         <div v-if="mealShow" class="xl:hidden">
@@ -139,6 +140,7 @@ import FoodmenuItem from '../../components/FoodmenuItem.vue';
 import FoodmenuImg from '../../components/FoodmenuImg.vue';
 import IngredientsItem from '../../components/IngredientsItem.vue';
 import Modal from '../../components/Modal.vue';
+import Calendar from '../../components/Calendar.vue';
 
 const Meal = Object.freeze({ Breakfast: "อาหารเช้า", Lunch: "อาหารเที่ยง", Dinner: "อาหารเย็น", Lightmeal: "อาหารว่าง" });
 
@@ -149,7 +151,8 @@ export default {
         FoodmenuItem,
         FoodmenuImg,
         IngredientsItem,
-        Modal
+        Modal,
+        Calendar
     },
     layout: 'user',
     middleware: ['auth'],
@@ -182,7 +185,8 @@ export default {
             foodmenuShow: false,
             ingredientsItem: null,
             ingredientsItemShow: false,
-            mealShow: false
+            mealShow: false,
+            calendar: false
         }
     },
     computed: {
@@ -190,6 +194,19 @@ export default {
             const date = this.date.split("-");
             return date[2] + "/" + date[1] + "/" + date[0]
         }
+    },
+    watch: {
+        "$route.query.date":async function dateChange() {
+            this.selectdate = this.$route.query.date
+            this.date = this.getDate()
+            await this.getMeal()
+            for (const key in this.Meal) {
+                if (Object.hasOwnProperty.call(this.Meal, key)) {
+                    const m = await this.getMealtime(key)
+                    this.mealtime[key] = m
+                }
+            }
+        },
     },
     async mounted() {
         this.date = this.getDate()
@@ -307,6 +324,9 @@ export default {
                     totalkcal: 0
                 }
             }
+        },
+        setcalendar(c){
+            this.calendar = c
         },
     }
 }

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Calendar v-if="calendar"></Calendar>
         <div
             class="fixed top-0 z-10 xl:px-16 min-w-max w-full h-16 bg-white shadow-md xl:hidden block"
         >
@@ -9,7 +10,7 @@
                     <img src="~assets/img/logo.svg" class="h-12" />
                     <div class="text-xl -mb-1">CFAN</div>
                 </NuxtLink>
-                <i class="material-icons text-3xl ml-1">date_range</i>
+                <i class="material-icons text-3xl ml-1" @click="setcalendar(true)">date_range</i>
             </div>
         </div>
         <div
@@ -182,17 +183,26 @@
     </div>
 </template>
 <script>
+import Calendar from '../components/Calendar.vue';
+
 export default {
+    components: {
+        Calendar
+    },
     data() {
         return {
-            sidebar: false
+            sidebar: false,
+            calendar: false
         }
     },
     methods: {
         logout() {
             this.$auth.logout()
             this.$router.replace('/')
-        }
+        },
+        setcalendar(c){
+            this.calendar = c
+        },
     },
 }
 </script>
