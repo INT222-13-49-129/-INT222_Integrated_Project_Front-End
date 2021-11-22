@@ -20,12 +20,12 @@
           </div>
         </div>
         <div class="xl:w-1/2">
-          <img class="w-11/12 mx-auto" src="../assets/img/member/bg/1.svg" />
+          <img class="xl:w-11/12 w-5/12 mx-auto" src="../assets/img/member/bg/1.svg" />
         </div>
       </div>
       <div class="flex xl:flex-row flex-col xl:mx-32 justify-center text-base xl:mt-28">
         <div class="xl:w-1/2 ">
-          <img class="w-11/12 mx-auto" src="../assets/img/member/bg/2.svg" />
+          <img class="xl:w-11/12 w-5/12 mx-auto" src="../assets/img/member/bg/2.svg" />
         </div>
         <div class="xl:w-1/2 w-11/12 mx-auto">
           <p class="text-3xl text-salmon xl:mt-40 mt-5 ">CFAN </p>
@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="flex xl:flex-row flex-col xl:mx-32 xl:mt-24 mt-5 mx-auto justify-center text-base text-gray-800 ">
+      <div class="flex xl:flex-row flex-col xl:mx-32 xl:mt-24 mt-16 mx-auto justify-center text-base text-gray-800 ">
         <div class="flex flex-row xl:w-9/12 w-11/12 m-auto">
           <div class="xl:w-6/12 w-9/12 mx-auto">
             <p class="text-3xl text-salmon ">MEMBER </p>
@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="text-right xl:mx-32 text-xs mt-20">
+      <div class="text-right xl:mx-32 mr-5 text-xs mt-20">
         <p>INT222 Information Technology Integrated Project II </p>
         <p>IT , SIT : King Mongkut’s University of Technology Thonburi</p>
         <p>2021</p>
