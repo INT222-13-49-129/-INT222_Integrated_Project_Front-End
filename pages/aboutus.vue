@@ -1,11 +1,9 @@
 <template>
   <div class="mx-auto xl:w-336 w-11/12 h-auto pb-10 bg-white shadow-lg">
     <div>
-
-
-      <div class="flex xl:flex-row xl:mx-32 justify-center text-base">
-        <div class="w-1/2">
-          <p class="text-3xl text-salmon mt-40 ">CFAN </p>
+      <div class="flex xl:flex-row flex-col xl:mx-32 justify-center text-base">
+        <div class="flex-col justify-center mx-auto xl:w-1/2 w-11/12">
+          <p class="text-3xl text-salmon xl:mt-40 ">CFAN </p>
           <p class="text-salmon mt-5">The system calculates calories from food ingredients <br> and assesses primary
             nutrition. </p>
           <p class="text-gray-800 mt-5 text-right">ระบบคำนวณแคลอรี่<br>จากส่วนผสมในอาหารและประเมินภาวะโภชนาการเบื่องต้น
@@ -21,16 +19,16 @@
             </div>
           </div>
         </div>
-        <div class="w-1/2">
-          <img class="w-11/12 mx-auto" src="../assets/img/member/bg/1.svg" />
+        <div class="xl:w-1/2">
+          <img class="xl:w-11/12 w-5/12 mx-auto" src="../assets/img/member/bg/1.svg" />
         </div>
       </div>
-      <div class="flex xl:flex-row xl:mx-32 justify-center text-base mt-28">
-        <div class="w-1/2">
-          <img class="w-11/12 mx-auto" src="../assets/img/member/bg/2.svg" />
+      <div class="flex xl:flex-row flex-col xl:mx-32 justify-center text-base xl:mt-28">
+        <div class="xl:w-1/2 ">
+          <img class="xl:w-11/12 w-5/12 mx-auto" src="../assets/img/member/bg/2.svg" />
         </div>
-        <div class="w-1/2">
-          <p class="text-3xl text-salmon mt-40 ">CFAN </p>
+        <div class="xl:w-1/2 w-11/12 mx-auto">
+          <p class="text-3xl text-salmon xl:mt-40 mt-5 ">CFAN </p>
           <p class="text-salmon mt-5">The system calculates calories from food ingredients <br> and assesses primary
             nutrition. </p>
           <div class="text-gray-800 mt-5 ">เป็นระบบเกี่ยวกับการจดบันทึกข้อมูลแคลอรี่จากการกินเฉพาะบุคคลในแต่ละวันซึ่ง
@@ -41,22 +39,32 @@
         </div>
       </div>
 
-      <div class="flex xl:flex-row xl:mx-32 justify-center text-base text-gray-800 mt-40">
-        <div class="w-5/12">
-          <p class="text-3xl text-salmon ">MEMBER </p>
-          <p class="text-3xl mt-10">นางสาว ปรียานุช บัวดำ<br> 62130500129</p>
-          <p class="mt-10">หน้าที่ :<br>ออกแบบ UXUI<br>เขียน Front-End<br></p>
+      <div class="flex xl:flex-row flex-col xl:mx-32 xl:mt-24 mt-16 mx-auto justify-center text-base text-gray-800 ">
+        <div class="flex flex-row xl:w-9/12 w-11/12 m-auto">
+          <div class="xl:w-6/12 w-9/12 mx-auto">
+            <p class="text-3xl text-salmon ">MEMBER </p>
+            <p class="text-3xl xl:mt-10 mt-5">นางสาว ปรียานุช บัวดำ<br> 62130500129</p>
+            <p class="xl:mt-10 mt-5">หน้าที่ :<br>ออกแบบ UXUI<br>เขียน Front-End<br></p>
+          </div>
+          <div class="xl:w-6/12 w-3/12 my-auto">
+            <img class="w-11/12 mx-auto" src="../assets/img/member/bg/3.svg" />
+          </div>
         </div>
-        <div class="w-4/12">
-          <img class="w-11/12 my-auto mx-auto" src="../assets/img/member/bg/3.svg" />
-        </div>
-        <div class="w-3/12 mx-auto h-36 justify-between -mt-12 ">
-          <img class="w-32 mb-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out" src="../assets/img/member/kamin.png" />
-          <img class="w-32 my-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out ml-16 " src="../assets/img/member/new.png" />
-          <img class="w-32 my-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-outv" src="../assets/img/member/chompoo.jpg" />
+        <div class="flex  ">
+          <div class="xl:w-full w-3/12 flex xl:flex-col flex-row ">
+            <img
+              class="xl:w-32 my-auto mx-5 xl:mb-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-out"
+              src="../assets/img/member/kamin.png" />
+            <img
+              class="xl:w-32 my-5 xl:ml-16 rounded-full  shadow-xl transform hover:scale-110 transition duration-300 ease-in-out"
+              src="../assets/img/member/new.png" />
+            <img
+              class="xl:w-32 my-auto mx-5 xl:mt-5 rounded-full shadow-xl transform hover:scale-110 transition duration-300 ease-in-outv"
+              src="../assets/img/member/chompoo.jpg" />
+          </div>
         </div>
       </div>
-      <div class="text-right xl:mx-32 text-xs mt-20">
+      <div class="text-right xl:mx-32 mr-5 text-xs mt-20">
         <p>INT222 Information Technology Integrated Project II </p>
         <p>IT , SIT : King Mongkut’s University of Technology Thonburi</p>
         <p>2021</p>
