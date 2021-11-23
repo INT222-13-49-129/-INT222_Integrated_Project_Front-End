@@ -24,35 +24,35 @@
       </div>
     </div>
     <div class="overflow-x-auto xl:w-auto w-screen">
-      <!-- <AdminAddFoodtype v-if="add" class="mb-4"></AdminAddFoodtype> -->
+      <AdminAddFoodtype v-if="add" class="mb-4"></AdminAddFoodtype>
       <div class="flex flex-col w-96 mx-8 border-4 divide-y-2">
         <div class="flex divide-x-4 border-b-2 text-center">
           <div class="w-1/6 py-1 flex-shrink-0">Id</div>
           <div class="flex-grow py-1">Category name</div>
           <div class="w-1/4 py-1 flex-shrink-0">Action</div>
         </div>
-        <div
+        <!-- <div
           v-for="foodtype in foodtypeArray
             .sort(compare)
             .filter((f) => f.typename.includes(search))"
           :key="foodtype.foodtypeid"
         >
-          <!-- <AdminFoodtype :foodtype="foodtype" /> -->
-        </div>
+          <AdminFoodtype :foodtype="foodtype" />
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 <script>
 import * as GeneralApi from "../../utils/generalApi";
-// import AdminFoodtype from "../../components/Admin/AdminFoodtype.vue";
-// import AdminAddFoodtype from "../../components/Admin/AdminAddFoodtype.vue";
+import AdminFoodtype from "../../components/Admin/AdminFoodtype.vue";
+import AdminAddFoodtype from "../../components/Admin/AdminAddFoodtype.vue";
 
 export default {
-//   component: {
-//     AdminFoodtype,
-//     AdminAddFoodtype,
-//   },
+  component: {
+    AdminFoodtype,
+    AdminAddFoodtype,
+  },
   layout: "admin",
   middleware: ["auth", "admin"],
   async asyncData() {
