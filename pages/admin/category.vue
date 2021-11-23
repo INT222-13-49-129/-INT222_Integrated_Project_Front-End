@@ -32,7 +32,7 @@
           <div class="w-1/4 py-1 flex-shrink-0">Action</div>
         </div>
         <div
-          v-for="foodtype in foodtypeArray.filter((f) => f.typename.includes(search))"
+          v-for="foodtype in foodtypeArray.sort((a, b) => { return a.foodtypeid - b.foodtypeid }).filter((f) => f.typename.includes(search))"
           :key="foodtype.foodtypeid"
         >
           <AdminFoodtype :foodtype="foodtype" />
@@ -65,17 +65,6 @@ export default {
       foodtypeArray: [],
       add: false
     };
-  },
-  methods: {
-    compare(a, b) {
-      if (a.foodtypeid < b.foodtypeid) {
-        return -1;
-      }
-      if (a.foodtypeid > b.foodtypeid) {
-        return 1;
-      }
-      return 0;
-    },
   },
 };
 </script>
