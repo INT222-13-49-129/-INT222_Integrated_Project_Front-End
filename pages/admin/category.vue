@@ -31,14 +31,12 @@
           <div class="flex-grow py-1">Category name</div>
           <div class="w-1/4 py-1 flex-shrink-0">Action</div>
         </div>
-        <!-- <div
-          v-for="foodtype in foodtypeArray
-            .sort(compare)
-            .filter((f) => f.typename.includes(search))"
+        <div
+          v-for="foodtype in foodtypeArray.sort(compare).filter((f) => f.typename.includes(search))"
           :key="foodtype.foodtypeid"
         >
           <AdminFoodtype :foodtype="foodtype" />
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
