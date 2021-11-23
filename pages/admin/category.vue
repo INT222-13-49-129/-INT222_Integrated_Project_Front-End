@@ -32,7 +32,7 @@
           <div class="w-1/4 py-1 flex-shrink-0">Action</div>
         </div>
         <div
-          v-for="foodtype in foodtypeArray.sort(compare).filter((f) => f.typename.includes(search))"
+          v-for="foodtype in foodtypeArray.filter((f) => f.typename.includes(search))"
           :key="foodtype.foodtypeid"
         >
           <AdminFoodtype :foodtype="foodtype" />
