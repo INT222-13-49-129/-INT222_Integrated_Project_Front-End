@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="py-6 pl-8 text-3xl border-b-2 xl:mt-0 mt-16 xl:text-left text-center">Manage Category</div>
-    <div class="flex items-center xl:justify-start justify-center px-8 py-6 ">
+    <div class="py-6 pl-8 text-3xl border-b-2 xl:mt-0 mt-16 xl:text-left text-center">
+      Manage Category
+    </div>
+    <div class="flex items-center xl:justify-start justify-center px-8 py-6">
       <div class="flex gap-x-4">
         <div class="relative text-gray-500 flex-grow flex">
           <div class="flex justify-start">
@@ -55,18 +57,16 @@ export default {
   },
   layout: "admin",
   middleware: ["auth", "admin"],
-  async asyncData() {
-    const foodtypesresponse = await GeneralApi.foodtypes();
-    const foodtypeArray = foodtypesresponse.data;
-
-    return { foodtypeArray };
-  },
   data() {
     return {
       search: "",
       foodtypeArray: [],
-      add: false
+      add: false,
     };
+  },
+  async mounted() {
+    const foodtypesresponse = await GeneralApi.foodtypes();
+    this.foodtypeArray = foodtypesresponse.data;
   },
   methods: {
     compare(a, b) {
