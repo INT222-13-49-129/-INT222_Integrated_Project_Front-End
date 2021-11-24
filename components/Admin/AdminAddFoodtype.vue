@@ -10,10 +10,10 @@
       <div class="flex-grow">
         <input
           v-model="newfoodtype.typename"
-          class="w-full focus:outline-none text-center py-1 bg-gray-50"
+          class="w-full focus:outline-none text-center py-1 bg-gray-100"
           @keyup="validate ? '' : validateFrom()"
         />
-        <div v-if="!validate" class="text-xs text-red-600 bg-gray-50 px-3 text-left">
+        <div v-if="!validate" class="text-xs text-red-600 bg-gray-100 px-3 text-left">
           *{{ validatetext }}
         </div>
       </div>

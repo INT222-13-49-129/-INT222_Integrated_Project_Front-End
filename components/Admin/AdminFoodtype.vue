@@ -8,10 +8,10 @@
       <div v-else>
         <input
           v-model="updatefoodtype.typename"
-          class="w-full focus:outline-none text-center py-1 bg-gray-50"
+          class="w-full focus:outline-none text-center py-1 bg-gray-100"
           @keyup="validate ? '' : validateFrom()"
         />
-        <div v-if="!validate" class="text-xs text-red-600 bg-gray-50 px-3">
+        <div v-if="!validate" class="text-xs text-red-600 bg-gray-100 px-3">
           *{{ validatetext }}
         </div>
       </div>

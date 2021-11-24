@@ -38,7 +38,7 @@ export function ingredientsType() {
   return request('get', url, {})
 }
 
-export function ingredientsWithPage(type="",searchData="",pageNo=0,pageSize=7) {
-  const url = `${process.env.config.BASE_URL}general/ingredients/page?type=${type}&searchData=${searchData}&pageNo=${pageNo}&pageSize=${pageSize}`
+export function ingredientsWithPage(type="",searchData="",pageNo=0,pageSize=7,direction="DESC") {
+  const url = `${process.env.config.BASE_URL}general/ingredients/page?type=${type}&searchData=${searchData}&pageNo=${pageNo}&pageSize=${pageSize}&direction=${direction}`
   return request('get', url, {})
 }
