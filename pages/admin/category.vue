@@ -32,7 +32,7 @@
           <div class="w-1/4 py-1 flex-shrink-0">Action</div>
         </div>
         <div
-          v-for="foodtype in foodtypeArray.sort((a, b) => { return a.foodtypeid - b.foodtypeid }).filter((f) => f.typename.includes(search))"
+          v-for="foodtype in foodtypeArray.filter((f) => f.typename.includes(search))"
           :key="foodtype.foodtypeid"
         >
           <AdminFoodtype :foodtype="foodtype" />
@@ -55,7 +55,7 @@ export default {
   middleware: ["auth", "admin"],
   async asyncData() {
     const foodtypesresponse = await GeneralApi.foodtypes();
-    const foodtypeArray = foodtypesresponse.data;
+    const foodtypeArray = foodtypesresponse.data.sort((a, b) => { return a.foodtypeid - b.foodtypeid });
 
     return { foodtypeArray };
   },
