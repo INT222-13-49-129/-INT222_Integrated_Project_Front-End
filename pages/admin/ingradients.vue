@@ -44,6 +44,7 @@
       </div>
     </div>
     <div class="overflow-x-auto xl:w-auto w-screen">
+    <AdminAddIngredients v-if="add" class="mb-4"></AdminAddIngredients>
       <div class="flex flex-col w-288 mx-8 border-4 divide-y-2">
         <div class="flex divide-x-4 border-b-2 text-center">
           <div class="w-1/12 py-1 flex-shrink-0">Id</div>
@@ -68,11 +69,13 @@
 import * as GeneralApi from "../../utils/generalApi";
 import PageNumber from "../../components/PageNumber.vue";
 import AdminIngredients from "../../components/Admin/AdminIngredients.vue";
+import AdminAddIngredients from "../../components/Admin/AdminAddIngredients.vue";
 
 export default {
   component: {
     PageNumber,
-    AdminIngredients
+    AdminIngredients,
+    AdminAddIngredients
   },
   layout: "admin",
   middleware: ["auth", "admin"],
