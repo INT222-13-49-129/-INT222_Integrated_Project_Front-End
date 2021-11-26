@@ -35,11 +35,11 @@
         <client-only>
           <AdminFoodmenuImg
             :id="foodmenu.foodmenuid"
-            class="w-60 h-60 py-1 items-center flex flex-shrink-0 mx-auto"
+            class="min-w-0 max-w-full h-60 p-1 items-center flex flex-shrink-0 mx-auto"
           ></AdminFoodmenuImg>
         </client-only>
       </div>
-      <div class="w-8/12 h-60 flex flex-col overflow-y-auto relative">
+      <div class="w-8/12 flex-shrink-0 h-60 flex flex-col overflow-y-auto relative">
         <div class="flex divide-x-4 text-center border-b-4 sticky top-0 bg-white">
           <div class="w-1/12 py-1 flex-shrink-0">Id</div>
           <div class="flex-grow py-1">Ingredients name</div>
@@ -51,7 +51,7 @@
         <div>
           <div
             v-for="i in foodmenu.foodmenuHasIngredientsList"
-            :key="i"
+            :key="i.key.ingredientsIngredientsid"
             class="flex divide-x-4 text-center border-b-2"
           >
             <div class="w-1/12 py-1 flex-shrink-0">

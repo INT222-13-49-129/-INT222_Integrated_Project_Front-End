@@ -118,6 +118,7 @@ export default {
     },
     async getfoodmenus(pagenumber = 0) {
       this.item = false
+      this.foodmenu = {}
       this.searchInput = decodeURIComponent(this.search);
       const response = await AdminApi.foodmenusWithPageSearchFoodtype(
         this.search,
