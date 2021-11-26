@@ -35,7 +35,7 @@
         <client-only>
           <AdminFoodmenuImg
             :id="foodmenu.foodmenuid"
-            class="min-w-0 max-w-full h-60 p-1 items-center flex flex-shrink-0 mx-auto"
+            class="h-60 p-1 items-center flex flex-shrink-0 mx-auto"
           ></AdminFoodmenuImg>
         </client-only>
       </div>

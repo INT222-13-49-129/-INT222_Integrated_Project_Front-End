@@ -1,7 +1,7 @@
 <template>
   <div>
     <img
-      class="object-cover min-w-full min-h-full h-full"
+      class="object-cover min-w-0 mx-auto min-h-full h-full"
       :class="{ 'animate-pulse': img === require('../../assets/img/preload.svg') }"
       :src="img"
     />
