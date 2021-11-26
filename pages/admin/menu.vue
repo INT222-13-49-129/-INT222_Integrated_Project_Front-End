@@ -35,8 +35,8 @@
           </option>
         </select>
       </div>
-      <div class="flex items-center gap-x-4 justify-between xl:w-auto w-full">
-        <PageNumber :page="foodmenusArray" classnum="text-base text-gray-500" />
+      <div class="flex items-center gap-x-4 xl:justify-between justify-center xl:w-auto w-full">
+        <PageNumber v-if="foodmenusArray.length !== 0" :page="foodmenusArray" classnum="text-base text-gray-500" />
       </div>
     </div>
     <div class="overflow-x-auto xl:w-auto w-screen">
@@ -83,10 +83,7 @@ export default {
     const foodtypesresponse = await GeneralApi.foodtypes();
     const foodtypeArray = foodtypesresponse.data;
 
-    const foodmenusresponse = await GeneralApi.foodmenusWithPage();
-    const foodmenusArray = foodmenusresponse.data;
-
-    return { foodtypeArray, foodmenusArray };
+    return { foodtypeArray };
   },
   data() {
     return {

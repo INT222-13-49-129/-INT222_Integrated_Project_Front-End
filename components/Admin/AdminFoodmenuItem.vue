@@ -11,7 +11,7 @@
       <div class="w-1/12 py-1">Action</div>
     </div>
     <div class="flex divide-x-4 text-center">
-      <div class="w-1/12 py-1 flex-shrink-0">{{ foodmenu.foodmenuid }}</div>
+      <div class="w-1/12 py-1 flex-shrink-0 px-2 text-right">{{ foodmenu.foodmenuid }}</div>
       <div class="flex-grow py-1">{{ foodmenu.foodname }}</div>
       <div class="w-1/6 py-1">{{ foodmenu.description }}</div>
       <div class="w-1/7 py-1">{{ foodmenu.totalkcal }}</div>
@@ -54,7 +54,7 @@
             :key="i.key.ingredientsIngredientsid"
             class="flex divide-x-4 text-center border-b-2"
           >
-            <div class="w-1/12 py-1 flex-shrink-0">
+            <div class="w-1/12 py-1 flex-shrink-0 px-2 text-right">
               {{ i.key.ingredientsIngredientsid }}
             </div>
             <div class="flex-grow py-1">{{ i.ingredients.ingredientsname }}</div>

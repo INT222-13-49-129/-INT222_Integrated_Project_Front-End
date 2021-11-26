@@ -39,3 +39,23 @@ export function foodmenuImg(id) {
   const url = `${process.env.config.BASE_URL}admin/foodmenu/img/${id}`
   return requestImg(url,true)
 }
+
+export function requestsWithPage(pageNo = 0, pageSize = 15) {
+  const url = `${process.env.config.BASE_URL}admin/request/page?pageNo=${pageNo}&pageSize=${pageSize}`
+  return request('get', url, {}, true)
+}
+
+export function requestStatus() {
+  const url = `${process.env.config.BASE_URL}admin/request/status`
+  return request('get', url, {}, true)
+}
+
+export function changestatusRequest(id,req) {
+  const url = `${process.env.config.BASE_URL}admin/request/changestatus/${id}`
+  return request('put', url, formData(req, 'request'), true)
+}
+
+export function deleteRequest(id) {
+  const url = `${process.env.config.BASE_URL}admin/request/delete/${id}`
+  return request('delete', url, {}, true)
+}

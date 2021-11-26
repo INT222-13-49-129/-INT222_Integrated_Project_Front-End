@@ -38,6 +38,14 @@
 import * as AdminApi from "../../utils/adminApi";
 
 export default {
+  props: {
+    foodtype: {
+      type: Object,
+      default() {
+        return null;
+      },
+    },
+  },
   data() {
     return {
       newfoodtype: {
@@ -47,6 +55,22 @@ export default {
       validatetext: "",
     };
   },
+  watch: {
+    foodtype: function ingredientschange() {
+      if (this.foodtype) {
+        this.newfoodtype = {
+          typename: this.foodtype.typename,
+        };
+      }
+    },
+  },
+  mounted() {
+    if (this.foodtype) {
+      this.newfoodtype = {
+        typename: this.foodtype.typename,
+      };
+    }
+  },
   methods: {
     async submitFrom() {
       this.validateFrom();
@@ -54,6 +78,11 @@ export default {
         try {
           const response = await AdminApi.createFoodtype(this.newfoodtype);
           if (response.data) {
+            if (this.foodtype) {
+              alert("เพิ่มประเภทอาหารสำเร็จ");
+              this.$parent.add = false
+              return
+            };
             location.reload();
           }
         } catch (err) {

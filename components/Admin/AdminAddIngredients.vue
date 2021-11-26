@@ -82,7 +82,7 @@
             v-model="newingredients.ingredientstype"
             class="w-full focus:outline-none text-center bg-gray-100 pl-3.5"
             @change="validate.from ? '' : validateFrom()"
-          > 
+          >
             <option :value="null" disabled selected></option>
             <option v-for="i in ingredientstypeArray" :key="i" :value="i">{{ i }}</option>
           </select>
@@ -116,6 +116,14 @@ import * as GeneralApi from "../../utils/generalApi";
 import * as AdminApi from "../../utils/adminApi";
 
 export default {
+  props: {
+    ingredients: {
+      type: Object,
+      default() {
+        return null;
+      },
+    },
+  },
   data() {
     return {
       ingredientstypeArray: [],
@@ -143,9 +151,32 @@ export default {
       },
     };
   },
+  watch: {
+    ingredients: function ingredientschange() {
+      if (this.ingredients) {
+        this.newingredients = {
+          ingredientsname: this.ingredients.ingredientsname,
+          kcalpunit: this.ingredients.kcalpunit,
+          unit: this.ingredients.unit,
+          descriptionunit: this.ingredients.descriptionunit,
+          ingredientstype: this.ingredients.ingredientstype,
+        };
+      }
+    },
+  },
   async mounted() {
     const ingredientstyperesponse = await GeneralApi.ingredientsType();
     this.ingredientstypeArray = ingredientstyperesponse.data;
+
+    if (this.ingredients) {
+      this.newingredients = {
+        ingredientsname: this.ingredients.ingredientsname,
+        kcalpunit: this.ingredients.kcalpunit,
+        unit: this.ingredients.unit,
+        descriptionunit: this.ingredients.descriptionunit,
+        ingredientstype: this.ingredients.ingredientstype,
+      };
+    }
   },
   methods: {
     async submitFrom() {
@@ -154,9 +185,15 @@ export default {
         try {
           const response = await AdminApi.createIngredients(this.newingredients);
           if (response.data) {
+            if (this.ingredients) {
+              alert("เพิ่มวัตถุดิบสำเร็จ");
+              this.$parent.add = false
+              return
+            };
             location.reload();
           }
         } catch (err) {
+          this.validate.from = false
           const status = err.response?.data?.status;
 
           if (status === 6002) {
