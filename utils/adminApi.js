@@ -1,4 +1,4 @@
-import { request,formData } from './api'
+import { request,formData,requestImg } from './api'
 
 export function createFoodtype(newfoodtype) {
   const url = `${process.env.config.BASE_URL}admin/foodtype/add`
@@ -28,4 +28,14 @@ export function updateIngredients(updateingredients, id) {
 export function deleteIngredients(id) {
   const url = `${process.env.config.BASE_URL}admin/ingredients/delete/${id}`
   return request('delete', url, {}, true)
+}
+
+export function foodmenusWithPageSearchFoodtype(searchData = "", foodtypeId = 0, pageNo = 0, pageSize = 15) {
+  const url = `${process.env.config.BASE_URL}admin/foodmenu/page/search/foodtype?searchData=${searchData}&foodtypeId=${foodtypeId}&pageNo=${pageNo}&pageSize=${pageSize}`
+  return request('get', url, {}, true)
+}
+
+export function foodmenuImg(id) {
+  const url = `${process.env.config.BASE_URL}admin/foodmenu/img/${id}`
+  return requestImg(url,true)
 }
