@@ -3,7 +3,7 @@
     <div class="w-1/7 py-1 flex-shrink-0 text-right px-2">
       {{ request.requestid }}
     </div>
-    <div class="flex-grow py-1">
+    <div class="flex-1 py-1">
       {{
         request.ingredientsreq
           ? request.ingredientsreq.ingredientsname
@@ -103,7 +103,7 @@ export default {
       try {
         if (
           confirm(`ต้องการลบคำขอ Id ${this.request.requestid} ใช่หรือไม่ ?
-การคำขอจะทำให้ผู้ใช้ไม่สามารถเห็นคำขอนี้ได้อีก`)
+การลบคำขอจะทำให้ผู้ใช้ไม่สามารถเห็นคำขอนี้ได้อีก`)
         ) {
           const response = await AdminApi.deleteRequest(this.request.requestid);
           if (response.data.success) {

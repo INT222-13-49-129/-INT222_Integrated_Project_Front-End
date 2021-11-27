@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-shrink-0 divide-x-4">
     <div class="w-1/6 py-1 flex-shrink-0 px-2 text-right">{{ foodtype.foodtypeid }}</div>
-    <div class="flex-grow">
+    <div class="flex-1">
       <div v-if="!edit" class="w-full py-1 px-3 text-center">
         {{ foodtype.typename }}
       </div>

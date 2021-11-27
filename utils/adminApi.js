@@ -59,3 +59,18 @@ export function deleteRequest(id) {
   const url = `${process.env.config.BASE_URL}admin/request/delete/${id}`
   return request('delete', url, {}, true)
 }
+
+export function usersWithPage(pageNo = 0, pageSize = 15) {
+  const url = `${process.env.config.BASE_URL}admin/user/page?pageNo=${pageNo}&pageSize=${pageSize}`
+  return request('get', url, {}, true)
+}
+
+export function changestatus(id) {
+  const url = `${process.env.config.BASE_URL}admin/user/${id}/changestatus`
+  return request('put', url, {}, true)
+}
+
+export function deleteUser(id) {
+  const url = `${process.env.config.BASE_URL}admin/user/${id}/delete`
+  return request('delete', url, {}, true)
+}

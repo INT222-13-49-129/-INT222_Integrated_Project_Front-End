@@ -2,7 +2,7 @@
   <div class="flex flex-col w-304 mx-4 border-4 divide-y-4">
     <div class="flex divide-x-4 text-center">
       <div class="w-1/12 py-1 flex-shrink-0">Id</div>
-      <div class="flex-grow py-1">Food menu name</div>
+      <div class="flex-1 py-1">Food menu name</div>
       <div class="w-1/6 py-1">Description</div>
       <div class="w-1/7 py-1">Total kcal.</div>
       <div class="w-1/6 py-1">Category</div>
@@ -12,7 +12,7 @@
     </div>
     <div class="flex divide-x-4 text-center">
       <div class="w-1/12 py-1 flex-shrink-0 px-2 text-right">{{ foodmenu.foodmenuid }}</div>
-      <div class="flex-grow py-1">{{ foodmenu.foodname }}</div>
+      <div class="flex-1 py-1">{{ foodmenu.foodname }}</div>
       <div class="w-1/6 py-1">{{ foodmenu.description }}</div>
       <div class="w-1/7 py-1">{{ foodmenu.totalkcal }}</div>
       <div class="w-1/6 py-1">{{ foodmenu.foodtype.typename }}</div>

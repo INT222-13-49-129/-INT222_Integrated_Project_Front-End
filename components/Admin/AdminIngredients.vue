@@ -3,7 +3,7 @@
     <div class="w-1/12 py-1 flex-shrink-0 text-right px-2">
       {{ ingredients.ingredientsid }}
     </div>
-    <div class="flex-grow">
+    <div class="flex-1">
       <div v-if="!edit" class="w-full px-3 text-center py-1">
         {{ ingredients.ingredientsname }}
       </div>
