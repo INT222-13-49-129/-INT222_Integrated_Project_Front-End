@@ -11,7 +11,7 @@
         class="flex gap-x-1 justify-center items-center px-3 h-9 rounded-xl border-2 border-red-600 text-red-700 cursor-pointer hover:bg-red-600 hover:text-white"
         @click="changestatus()"
       >
-        ออกจาการเป็น Admin
+        ออกจากการเป็น Admin
       </div>
     </div>
     <div class="flex flex-wrap justify-around gap-y-5">
