@@ -1,5 +1,10 @@
 import { request,formData,requestImg } from './api'
 
+export function allInformation() {
+  const url = `${process.env.config.BASE_URL}admin/all`
+  return request('get', url, {}, true)
+}
+
 export function createFoodtype(newfoodtype) {
   const url = `${process.env.config.BASE_URL}admin/foodtype/add`
   return request('post', url, formData(newfoodtype, 'newfoodtype'), true)
@@ -73,4 +78,9 @@ export function changestatus(id) {
 export function deleteUser(id) {
   const url = `${process.env.config.BASE_URL}admin/user/${id}/delete`
   return request('delete', url, {}, true)
+}
+
+export function adminChangestatus() {
+  const url = `${process.env.config.BASE_URL}admin/changestatus`
+  return request('put', url, {}, true)
 }
