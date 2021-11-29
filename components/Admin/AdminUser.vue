@@ -2,7 +2,7 @@
   <div class="flex divide-x-4 text-center">
     <div class="w-14 py-1 text-right px-2 flex-shrink-0">{{ user.userid }}</div>
     <div class="flex-1 py-1 overflow-hidden">{{ user.username }}</div>
-    <div class="w-52 py-1 overflow-hidden">{{ user.email }}</div>
+    <div class="w-52 py-1 overflow-hidden break-all">{{ user.email }}</div>
     <div class="w-36 py-1 overflow-hidden">{{ user.firstname }}</div>
     <div class="w-36 py-1 overflow-hidden">{{ user.lastname }}</div>
     <div class="w-16 py-1">{{ user.gender }}</div>

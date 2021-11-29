@@ -77,7 +77,7 @@
                         >
                             <div class="flex items-center justify-around text-gray-500">
                                 <div>น้ำหนัก</div>
-                                <i class="material-icons xl:text-xl text-sm">edit</i>
+                                <i class="material-icons xl:text-xl text-sm cursor-pointer" @click="$router.push('/profile/setting/account')">edit</i>
                             </div>
                             <div class="xl:text-2xl text-xl text-center">
                                 {{ user.weight }}

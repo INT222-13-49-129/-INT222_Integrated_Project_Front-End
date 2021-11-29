@@ -44,7 +44,7 @@
         <div class="flex flex-row xl:w-9/12 w-11/12 m-auto">
           <div class="xl:w-6/12 w-9/12 mx-auto">
             <p class="text-3xl text-salmon ">MEMBER </p>
-            <p class="text-3xl xl:mt-10 mt-5">{{member[now].name}}<br>{{member[now].id}}</p>
+            <p class="text-3xl xl:mt-10 mt-5">{{member[now].name.split(" ")[0]+' '+member[now].name.split(" ")[1]}} <br class="xl:hidden">{{member[now].name.split(" ")[2]}}<br>{{member[now].id}}</p>
             <p class="xl:mt-10 mt-5">หน้าที่ :
             <div v-for="p in member[now].position" :key="p" >
             {{p}}
