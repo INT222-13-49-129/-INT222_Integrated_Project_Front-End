@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="py-6 pl-8 text-3xl border-b-2 xl:mt-0 mt-16 xl:text-left text-center">
-      Addmin , {{ user.username }}
+      Admin , {{ user.username }}
     </div>
     <div
       class="flex xl:flex-row flex-col w-full items-center xl:justify-between justify-center px-8 py-6 gap-y-4"
