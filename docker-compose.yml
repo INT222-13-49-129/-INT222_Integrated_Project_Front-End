@@ -1,10 +1,7 @@
 version: "3"
 services:
   frontend:
-    build: .
-    image: frontend
-    build:
-       context: .
+    image: ghcr.io/int222-13-49-129/int222:dev
     container_name: frontend
     networks:
        allnetwork:
